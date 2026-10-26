@@ -1,79 +1,614 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09213f">
 <title>PRMLSD | APTRANSCO Porumamilla Sub Division</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#1e293b}
-header{background:#12365a;color:white;padding:25px 18px;text-align:center}
-header h1{margin:0;font-size:28px}
-header p{margin:9px 0 0;font-size:15px}
-nav{background:#0b2540;padding:12px;text-align:center}
-nav a{color:white;text-decoration:none;margin:7px 12px;display:inline-block;font-size:14px}
-main{max-width:1050px;margin:25px auto;padding:0 15px}
-.welcome{background:white;padding:22px;border-radius:12px;margin-bottom:20px}
-h2{color:#12365a}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 8px #0000000d}
-.card h3{margin-top:0;color:#12365a}
-.tag{display:inline-block;background:#dbeafe;color:#1d4ed8;padding:5px 9px;border-radius:5px;font-size:12px}
-.card p{line-height:1.5}
-.link{display:inline-block;background:#12365a;color:white;padding:10px 14px;border-radius:6px;text-decoration:none;margin-top:5px}
-.notice{background:#fff7d6;border-left:4px solid #eab308;padding:14px;margin-top:20px;line-height:1.5}
-footer{text-align:center;padding:22px;background:#0b2540;color:white;margin-top:30px;font-size:13px}
+:root {
+  --navy:#09213f;
+  --blue:#1769aa;
+  --cyan:#38bdf8;
+  --teal:#0d9488;
+  --background:#f1f5f9;
+  --text:#172b45;
+  --muted:#64748b;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--background);
+  color:var(--text);
+}
+header {
+  color:white;
+  background:linear-gradient(120deg,#07182e,#104778 65%,#087e8b);
+  padding:20px max(16px,calc((100% - 1200px)/2));
+}
+.header-inner {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  min-width:0;
+}
+.logo {
+  width:100px;
+  height:100px;
+  flex-shrink:0;
+  background:white;
+  border-radius:12px;
+  padding:3px;
+  overflow:hidden;
+  box-shadow:0 5px 20px #0003;
+}
+.logo img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.brand-text h1 {
+  font-size:clamp(22px,3vw,34px);
+  margin:0 0 8px;
+  letter-spacing:1px;
+}
+.subdivision {
+  font-size:14px;
+  letter-spacing:1.5px;
+  color:#dbeafe;
+  line-height:1.6;
+}
+.code-label {
+  display:inline-block;
+  margin-top:8px;
+  padding:5px 10px;
+  background:#164e63;
+  border:1px solid #67e8f9;
+  color:#cffafe;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:bold;
+}
+.clock {
+  text-align:center;
+  background:#ffffff12;
+  border:1px solid #ffffff40;
+  border-radius:13px;
+  padding:13px 18px;
+  min-width:175px;
+}
+.clock-label {
+  color:#a5f3fc;
+  font-size:11px;
+  letter-spacing:1px;
+}
+#time {
+  font-size:25px;
+  font-weight:bold;
+  margin:7px 0;
+  font-variant-numeric:tabular-nums;
+}
+#date {
+  font-size:12px;
+  color:#dbeafe;
+}
+nav {
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  background:#07182e;
+  box-shadow:0 3px 10px #0002;
+}
+nav a {
+  display:block;
+  padding:15px 18px;
+  color:#e2e8f0;
+  text-decoration:none;
+  font-size:14px;
+}
+nav a:hover {
+  background:#164e63;
+  color:#a5f3fc;
+}
+main {
+  max-width:1200px;
+  margin:auto;
+  padding:24px 18px;
+}
+.hero {
+  position:relative;
+  overflow:hidden;
+  padding:34px;
+  color:white;
+  border-radius:20px;
+  background:linear-gradient(115deg,#12365a,#1769aa 70%,#0d9488);
+  box-shadow:0 10px 28px #12365a20;
+}
+.hero:after {
+  content:"⚡";
+  position:absolute;
+  right:30px;
+  top:15px;
+  font-size:120px;
+  opacity:.10;
+}
+.eyebrow {
+  color:#a5f3fc;
+  font-size:12px;
+  letter-spacing:2px;
+  font-weight:bold;
+}
+.hero h2 {
+  font-size:clamp(27px,4vw,42px);
+  margin:15px 0 10px;
+}
+.hero p {
+  max-width:690px;
+  color:#e0f2fe;
+  line-height:1.8;
+  font-size:15px;
+}
+.button {
+  display:inline-block;
+  padding:11px 15px;
+  margin:8px 8px 0 0;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:bold;
+  background:#ffffff20;
+  border:1px solid #ffffff65;
+  color:white;
+}
+.button:hover { background:#ffffff35; }
+.section { margin-top:30px; }
+.section-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.section-heading h2 {
+  margin:0;
+  font-size:23px;
+  color:#12365a;
+}
+.section-heading span {
+  color:var(--muted);
+  font-size:12px;
+}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+}
+.stat {
+  background:white;
+  border-radius:13px;
+  padding:18px;
+  border:1px solid #e2e8f0;
+  border-top:4px solid var(--blue);
+  box-shadow:0 5px 16px #0f172a08;
+}
+.stat:nth-child(2) { border-top-color:var(--teal); }
+.stat:nth-child(3) { border-top-color:#d97706; }
+.stat:nth-child(4) { border-top-color:#7c3aed; }
+.stat strong {
+  display:block;
+  color:#12365a;
+  font-size:20px;
+  margin-bottom:7px;
+}
+.stat span { color:var(--muted); font-size:12px; }
+.cards {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.card {
+  background:white;
+  border:1px solid #e2e8f0;
+  border-radius:15px;
+  padding:21px;
+  box-shadow:0 5px 18px #0f172a08;
+  transition:transform .2s,box-shadow .2s;
+  animation:appear .55s ease both;
+}
+.card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 25px #0f172a14;
+}
+@keyframes appear {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.card-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.symbol {
+  width:47px;
+  height:47px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  font-size:25px;
+  font-weight:bold;
+}
+.blue { background:#dbeafe;color:#1d4ed8; }
+.green { background:#ccfbf1;color:#0f766e; }
+.orange { background:#ffedd5;color:#c2410c; }
+.purple { background:#ede9fe;color:#6d28d9; }
+.pink { background:#fce7f3;color:#be185d; }
+.sky { background:#e0f2fe;color:#0369a1; }
+.tag {
+  padding:6px 9px;
+  border-radius:6px;
+  background:#eff6ff;
+  color:#1d4ed8;
+  font-size:11px;
+  font-weight:bold;
+}
+.card h3 {
+  margin:16px 0 8px;
+  font-size:18px;
+  color:#12365a;
+}
+.card p {
+  color:#64748b;
+  font-size:13px;
+  line-height:1.7;
+  min-height:42px;
+}
+.card-link {
+  display:inline-block;
+  margin-top:7px;
+  color:#1769aa;
+  font-weight:bold;
+  font-size:13px;
+  text-decoration:none;
+}
+.card-link:hover { text-decoration:underline; }
+.flash-banner {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  overflow:hidden;
+  padding:14px 16px;
+  border-radius:12px;
+  color:#075985;
+  background:#e0f2fe;
+  border:1px solid #bae6fd;
+  font-size:13px;
+  line-height:1.6;
+}
+.flash-icon { font-size:22px; }
+.search {
+  width:100%;
+  max-width:430px;
+  padding:13px 15px;
+  border:1px solid #cbd5e1;
+  border-radius:9px;
+  background:white;
+  font-size:14px;
+  outline:none;
+}
+.search:focus { border-color:#1769aa; }
+.notice {
+  margin-top:18px;
+  padding:15px;
+  border-left:4px solid #d97706;
+  border-radius:8px;
+  background:#fff7ed;
+  color:#9a3412;
+  font-size:13px;
+  line-height:1.7;
+}
+footer {
+  margin-top:35px;
+  padding:25px 15px;
+  text-align:center;
+  color:#cbd5e1;
+  background:#07182e;
+  font-size:12px;
+  line-height:1.9;
+}
+footer strong { color:white; }
+.no-results {
+  display:none;
+  padding:20px;
+  background:white;
+  border-radius:10px;
+  color:#64748b;
+}
+@media(max-width:800px) {
+  .cards { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .header-inner { align-items:flex-start; }
+  .clock { min-width:150px; }
+}
+@media(max-width:540px) {
+  header { padding:17px 12px; }
+  .header-inner { flex-direction:column; }
+  .brand { gap:11px; }
+  .logo { width:76px;height:76px; }
+  .subdivision { font-size:11px;letter-spacing:.8px; }
+  .brand-text h1 { font-size:23px; }
+  .clock { width:100%;text-align:center; }
+  nav a { padding:12px 10px;font-size:12px; }
+  main { padding:16px 12px; }
+  .hero { padding:24px 19px; }
+  .hero:after { right:10px;font-size:80px; }
+  .cards { grid-template-columns:1fr; }
+  .stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .stat { padding:14px; }
+  .stat strong { font-size:17px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation:none!important;
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
+}
 </style>
 </head>
+
 <body>
 <header>
-<h1>APTRANSCO</h1>
-<p>PORUMAMILLA SUB DIVISION</p>
-<p>Substation Management Information System</p>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo">
+        <img src="./logo(2).jpg"
+             alt="APTRANSCO ISO 27001-2022 logo">
+      </div>
+      <div class="brand-text">
+        <h1>APTRANSCO</h1>
+        <div class="subdivision">PORUMAMILLA SUB DIVISION</div>
+        <div class="code-label">PRMLSD · SUBSTATION PORTAL</div>
+      </div>
+    </div>
+
+    <div class="clock">
+      <div class="clock-label">● LIVE TIME · INDIA</div>
+      <div id="time">--:--:--</div>
+      <div id="date">Loading date…</div>
+    </div>
+  </div>
 </header>
+
 <nav>
-<a href="#home">Home</a>
-<a href="#substations">Substations</a>
-<a href="#records">MIS & Records</a>
+  <a href="#home">Home</a>
+  <a href="#substations">Substations</a>
+  <a href="#quick">Quick Access</a>
+  <a href="#records">Records</a>
 </nav>
+
 <main>
-<section class="welcome" id="home">
-<h2>Welcome to PRMLSD</h2>
-<p>Digital information portal for the substations under Porumamilla Sub Division.</p>
-<p>This website will be developed to organize equipment particulars, maintenance records, testing details and tripping reports.</p>
-</section>
-<h2 id="substations">Our Substations</h2>
-<div class="grid">
-<div class="card">
-<span class="tag">220 kV</span>
-<h3>MKP — Porumamilla</h3>
-<p>220 kV Substation, Porumamilla</p>
-<a class="link" href="#records">View sections</a>
-</div>
-<div class="card">
-<span class="tag">132 kV</span>
-<h3>PML — Porumamilla</h3>
-<p>132 kV Substation, Porumamilla</p>
-<a class="link" href="#records">View sections</a>
-</div>
-<div class="card">
-<span class="tag">132 kV</span>
-<h3>KSP — Kalasapadu</h3>
-<p>132 kV Substation, Kalasapadu</p>
-<a class="link" href="#records">View sections</a>
-</div>
-</div>
-<h2 id="records">MIS & Records</h2>
-<div class="grid">
-<div class="card"><h3>Monthly MIS</h3><p>Monthly returns and substation operating particulars.</p></div>
-<div class="card"><h3>Equipment Register</h3><p>Equipment inventory, ratings and nameplate particulars.</p></div>
-<div class="card"><h3>Maintenance Records</h3><p>Preventive maintenance and equipment servicing details.</p></div>
-<div class="card"><h3>Testing Records</h3><p>Test reports and equipment condition records.</p></div>
-<div class="card"><h3>Tripping Reports</h3><p>Feeder trippings, protection operation and restoration details.</p></div>
-<div class="card"><h3>T&P Register</h3><p>Tools, plants and equipment records.</p></div>
-</div>
-<div class="notice"><strong>Development note:</strong> This is the initial website home page. Live MIS data, file uploads and staff login will be added separately after the home page is published.</div>
+  <section class="hero" id="home">
+    <div class="eyebrow">POWER · PROTECTION · PERFORMANCE</div>
+    <h2>Welcome to PRMLSD</h2>
+    <p>
+      A unified digital information portal for APTRANSCO Porumamilla
+      Sub Division. Access substation particulars, equipment registers,
+      maintenance records, test details and operational documentation.
+    </p>
+    <a class="button" href="#substations">Explore Substations ↓</a>
+    <a class="button" href="#quick">Quick Access →</a>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2>Subdivision Overview</h2>
+      <span>Three substations</span>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <strong>220 kV</strong>
+        <span>MKP · Porumamilla</span>
+      </div>
+      <div class="stat">
+        <strong>132 kV</strong>
+        <span>PML · Porumamilla</span>
+      </div>
+      <div class="stat">
+        <strong>132 kV</strong>
+        <span>KSP · Kalasapadu</span>
+      </div>
+      <div class="stat">
+        <strong id="today">Today</strong>
+        <span>Current date · IST</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="substations">
+    <div class="section-heading">
+      <h2>Our Substations</h2>
+      <span>Choose your substation</span>
+    </div>
+    <div class="cards">
+      <article class="card searchable">
+        <div class="card-top">
+          <div class="symbol blue">⚡</div>
+          <span class="tag">220 kV</span>
+        </div>
+        <h3>MKP — Porumamilla</h3>
+        <p>220 kV substation · Feeders, power transformers and equipment records.</p>
+        <a class="card-link" href="#records">Explore MKP →</a>
+      </article>
+
+      <article class="card searchable">
+        <div class="card-top">
+          <div class="symbol green">ϟ</div>
+          <span class="tag">132 kV</span>
+        </div>
+        <h3>PML — Porumamilla</h3>
+        <p>132 kV substation · PTRs, feeders, batteries and maintenance records.</p>
+        <a class="card-link" href="#records">Explore PML →</a>
+      </article>
+
+      <article class="card searchable">
+        <div class="card-top">
+          <div class="symbol orange">ϟ</div>
+          <span class="tag">132 kV</span>
+        </div>
+        <h3>KSP — Kalasapadu</h3>
+        <p>132 kV substation · Equipment particulars, testing and service history.</p>
+        <a class="card-link" href="#records">Explore KSP →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="quick">
+    <div class="section-heading">
+      <h2>Quick Access</h2>
+      <span>Frequently used sections</span>
+    </div>
+
+    <div class="cards">
+      <article class="card searchable">
+        <div class="card-top"><div class="symbol blue">▤</div></div>
+        <h3>Monthly MIS</h3>
+        <p>Monthly returns and substation operating particulars.</p>
+        <a class="card-link" href="#records">Open section →</a>
+      </article>
+
+      <article class="card searchable">
+        <div class="card-top"><div class="symbol green">⚙</div></div>
+        <h3>Equipment Register</h3>
+        <p>Equipment ratings, identification and inventory details.</p>
+        <a class="card-link" href="#records">Open section →</a>
+      </article>
+
+      <article class="card searchable">
+        <div class="card-top"><div class="symbol orange">🔧</div></div>
+        <h3>Maintenance</h3>
+        <p>Preventive maintenance and work history records.</p>
+        <a class="card-link" href="#records">Open section →</a>
+      </article>
+
+      <article class="card searchable">
+        <div class="card-top"><div class="symbol purple">◉</div></div>
+        <h3>Testing Records</h3>
+        <p>Equipment testing reports and condition details.</p>
+        <a class="card-link" href="#records">Open section →</a>
+      </article>
+
+      <article class="card searchable">
+        <div class="card-top"><div class="symbol pink">⚡</div></div>
+        <h3>Tripping Reports</h3>
+        <p>Faults, protection operations and restoration details.</p>
+        <a class="card-link" href="#records">Open section →</a>
+      </article>
+
+      <article class="card searchable">
+        <div class="card-top"><div class="symbol sky">▣</div></div>
+        <h3>T&P Register</h3>
+        <p>Tools, plants and related register particulars.</p>
+        <a class="card-link" href="#records">Open section →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="records">
+    <div class="section-heading">
+      <h2>Find a Section</h2>
+      <span>Search the home page</span>
+    </div>
+
+    <input id="search" class="search" type="search"
+           placeholder="Search MKP, maintenance, MIS, testing…"
+           aria-label="Search website sections">
+
+    <p id="no-results" class="no-results">No matching sections found.</p>
+
+    <div class="flash-banner" style="margin-top:16px">
+      <span class="flash-icon">ℹ️</span>
+      <span><strong>Portal information:</strong> The website home page is active. Individual record links and connected operational data will be added in later stages.</span>
+    </div>
+
+    <div class="notice">
+      <strong>Operational data notice:</strong>
+      Live clock and date are displayed using Indian Standard Time.
+      Electrical readings and equipment status are not connected to a live
+      source in this version.
+    </div>
+  </section>
 </main>
-<footer>APTRANSCO | Porumamilla Sub Division | PRMLSD</footer>
+
+<footer>
+  <strong>APTRANSCO · PRMLSD</strong><br>
+  Porumamilla Sub Division · Substation Information Portal<br>
+  Official logo displayed as supplied.
+</footer>
+
+<script>
+function updateClock() {
+  const now = new Date();
+
+  document.getElementById("time").textContent =
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone:"Asia/Kolkata",
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit",
+      hour12:false
+    }).format(now);
+
+  document.getElementById("date").textContent =
+    new Intl.DateTimeFormat("en-IN", {
+      timeZone:"Asia/Kolkata",
+      weekday:"short",
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }).format(now);
+
+  document.getElementById("today").textContent =
+    new Intl.DateTimeFormat("en-IN", {
+      timeZone:"Asia/Kolkata",
+      day:"2-digit",
+      month:"short"
+    }).format(now);
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+const search = document.getElementById("search");
+search.addEventListener("input", function () {
+  const query = this.value.trim().toLowerCase();
+  const cards = document.querySelectorAll(".searchable");
+  let visibleCount = 0;
+
+  cards.forEach(function(card) {
+    const match = card.textContent.toLowerCase().includes(query);
+    card.style.display = match ? "" : "none";
+    if (match) visibleCount++;
+  });
+
+  document.getElementById("no-results").style.display =
+    visibleCount === 0 ? "block" : "none";
+});
+</script>
 </body>
 </html>
