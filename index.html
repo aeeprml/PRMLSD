@@ -666,4 +666,143 @@ let rmiWorks=[];
 function renderRmi(){const total=rmiWorks.length,done=rmiWorks.filter(x=>x.p===100).length,pending=rmiWorks.filter(x=>x.p===0).length,progress=total-done-pending,avg=total?Math.round(rmiWorks.reduce((a,x)=>a+x.p,0)/total):0;document.getElementById('rmiOverall').textContent=avg+'%';document.getElementById('rmiOverallBar').style.width=avg+'%';document.getElementById('rmiTotal').textContent=total;document.getElementById('rmiDone').textContent=done;document.getElementById('rmiProgress').textContent=progress;document.getElementById('rmiPending').textContent=pending;const box=document.getElementById('rmiItems');box.innerHTML='';if(!total){box.innerHTML='<p class="doc">No RMI work items entered yet. Admin can add items when the work details are available.</p>';return}rmiWorks.forEach((x,i)=>{const row=document.createElement('div');row.className='rmi-row';row.innerHTML='<div class="rmi-row-top"><span></span><span>'+x.p+'%</span></div><div class="progress"><span style="width:'+x.p+'%"></span></div><small>'+(x.p===100?'Completed':x.p===0?'Pending':'In progress')+'</small>';row.querySelector('.rmi-row-top span').textContent=x.name;box.append(row)})}
 renderRmi();
 </script>
+<script>
+/* Consolidated data reconciliation, equipment editing and table alignment */
+(function(){
+ const $=id=>document.getElementById(id);
+ const seed=Array.isArray(eqSeedRecords)?eqSeedRecords:[];
+ // Merge missing source rows into browser data without overwriting any already-edited source row.
+ const byId=new Set(eqRecords.map(r=>r['Record ID']).filter(Boolean));
+ let restored=0;
+ seed.forEach(src=>{const id=src['Record ID'];if(id&&!byId.has(id)){eqRecords.push({...src});byId.add(id);restored++;}});
+ if(restored)eqPersist();
+ const stationNames={
+  '220/132 kV SS Porumamilla':'220/132 kV SS Porumamilla',
+  '132/33 kV SS Porumamilla':'132/33 kV SS Porumamilla',
+  '132/33 kV SS Kalasapadu':'132/33 kV SS Kalasapadu'
+ };
+ const norm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ const sourceRows=()=>eqRecords.map((r,i)=>({...r,_sourceIndex:i}));
+ function bayRows(st,bay){
+  const rows=sourceRows().filter(r=>r.Substation===st);
+  if(/Bus PT/i.test(bay)){
+   const v=(bay.match(/(220|132|33)\s*kV/i)||[])[1];
+   const n=(bay.match(/Bus PT-(\d)/i)||[])[1];
+   let group=rows.filter(r=>/Bus PT/i.test(r['Bay Name']||''));
+   if(v==='220') group=group.filter(r=>new RegExp('220\\s*kV\\s*Bus\\s*PT[- ]Bus\\s*'+(n||'\\d'),'i').test(r['Bay Name']||''));
+   else group=group.filter(r=>norm(r['Bay Name'])===norm(v+' kV Bus PT'));
+   const iso=group.find(r=>/isolator/i.test(r.Equipment||''));
+   const phases=['R','Y','B'].map(p=>group.find(r=>r.Phase===p&&/potential transformer|bus.*pt/i.test((r.Equipment||'')+' '+(r.Type||''))));
+   return [iso,...phases].filter(Boolean);
+  }
+  if(/Jammalamadugu-([12])/i.test(bay)){
+   const n=bay.match(/Jammalamadugu-([12])/i)[1];
+   return rows.filter(r=>norm(r['Bay Name']).includes('jammalamadugu'+n));
+  }
+  if(/Capacitor Bank-([12])/i.test(bay)){
+   const n=bay.match(/Capacitor Bank-([12])/i)[1];
+   return rows.filter(r=>norm(r['Bay Name'])===norm('Capacitor Bank-'+n));
+  }
+  if(/PTR/i.test(bay)){
+   const n=(bay.match(/PTR-?\s*([123])/i)||[])[1];
+   if(!n)return [];
+   // PTR-3 is intentionally left for manual entry as instructed.
+   if(st==='220/132 kV SS Porumamilla'&&n==='3')return [];
+   return rows.filter(r=>/PTR/i.test(r['Bay Name']||'')&&new RegExp('PTR-?\\s*'+n+'(?:\\D|$)','i').test(r['Bay Name']||''));
+  }
+  const target=norm(bay);
+  return rows.filter(r=>norm(r['Bay Name'])===target);
+ }
+ // Restore complete bay-specific data for the view, including capacitor-bank records.
+ eqBayRecords=function(st,bay,cat){return bayRows(st,bay).filter(r=>!(/C&R Panel|Relay|BCPU|Energy Meter/i.test((r.Equipment||'')+' '+(r.Type||''))));};
+ const equipmentForm=$('eqDynamicFields');
+ function setField(label,key,value=''){
+  const wrap=document.createElement('div');wrap.className='eq-field';
+  const lab=document.createElement('label');lab.textContent=label.toUpperCase();
+  const input=document.createElement('input');input.dataset.field=key;input.value=value??'';input.autocomplete='off';
+  wrap.append(lab,input);return wrap;
+ }
+ function showForm(on){equipmentForm.hidden=!on;const h=$('eqEntryHeading');if(h)h.hidden=!on;$('eqSave').hidden=!on;$('eqCancel').hidden=!on;}
+ let editRecordId=null;
+ function renderForm(r){
+  equipmentForm.innerHTML='';
+  const phase=document.createElement('div');phase.className='eq-field';phase.innerHTML='<label>PHASE</label><select id="eqPhase"><option value="R">R</option><option value="Y">Y</option><option value="B">B</option><option value="Common">Common</option></select>';equipmentForm.append(phase);
+  const phaseSelect=phase.querySelector('select');phaseSelect.value=r?.Phase||'Common';
+  [['Make','Make'],['Type','Type'],['Serial No.','Serial No.'],['MFY','MFY'],['D.O.C.','D.O.C.'],['Rating','Rating'],['Nameplate Details','Nameplate Details']].forEach(([l,k])=>equipmentForm.append(setField(l,k,r?.[k]||'')));
+  const sel=$('eqEquipment');if(r){if(!Array.from(sel.options).some(o=>o.value===r.Equipment)){const o=document.createElement('option');o.value=r.Equipment;o.textContent=r.Equipment;sel.append(o);}sel.value=r.Equipment;}
+ }
+ function render(){
+  if(!$('eqRows')||!eqNavStation||!eqNavBay)return;
+  const all=bayRows(eqNavStation,eqNavBay).filter(r=>!(/C&R Panel|Relay|BCPU|Energy Meter/i.test((r.Equipment||'')+' '+(r.Type||''))));
+  const q=($('eqSearch').value||'').toLowerCase(),ef=$('eqEquipmentFilter').value,pf=$('eqPhaseFilter').value;
+  const shown=all.filter(r=>(!q||Object.values(r).join(' ').toLowerCase().includes(q))&&(!ef||r.Equipment===ef)&&(!pf||r.Phase===pf));
+  $('eqBayRecordCount').textContent=all.length+' equipment records in this bay';$('eqShownLabel').textContent='Showing equipment for '+eqNavBay;
+  const filter=$('eqEquipmentFilter'),old=filter.value;filter.innerHTML='<option value="">All equipment</option>';[...new Set(all.map(r=>r.Equipment))].sort().forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;filter.append(o)});filter.value=old;
+  const body=$('eqRows');body.innerHTML='';
+  if(!shown.length){body.innerHTML='<tr><td colspan="11" class="eq-help">No equipment records are available in this bay.</td></tr>';return;}
+  shown.forEach((r,i)=>{
+   const tr=document.createElement('tr');
+   const vals=[i+1,`${r.Substation} / ${r['Bay Name']}`,r.Equipment,r.Phase,r.Make,r.Type,r['Serial No.'],r.MFY,r['D.O.C.'],[r.Rating,r['Nameplate Details']].filter(Boolean).join(' · ')];
+   vals.forEach(v=>{const td=document.createElement('td');td.textContent=v||'';tr.append(td)});
+   const action=document.createElement('td');action.className='eq-action-cell';
+   const edit=document.createElement('button');edit.type='button';edit.className='eq-smallbtn';edit.textContent='Edit';edit.onclick=()=>startEdit(r['Record ID']);
+   const del=document.createElement('button');del.type='button';del.className='eq-smallbtn del';del.textContent='Delete';del.onclick=()=>{if(confirm('Delete this equipment record?')){const ix=eqRecords.findIndex(x=>x['Record ID']===r['Record ID']);if(ix>=0){eqRecords.splice(ix,1);eqPersist();render();}}};
+   action.append(edit,del);tr.append(action);body.append(tr);
+  });
+ }
+ function startEdit(id){
+  const ix=eqRecords.findIndex(r=>r['Record ID']===id);if(ix<0){alert('The selected equipment record could not be found.');return;}
+  editRecordId=id;eqEditing=ix;const r=eqRecords[ix];
+  $('eqStation').value=eqNavStation;$('eqBayType').value=r['Bay Type']||eqNavCategory?.type||'';$('eqBayName').value=eqNavBay;eqOptions();renderForm(r);
+  $('eqSave').textContent='Update Equipment';showForm(true);equipmentForm.scrollIntoView({behavior:'smooth',block:'center'});
+ }
+ // Replace controls to remove previously stacked/conflicting event handlers.
+ function replace(id){const old=$(id),fresh=old.cloneNode(true);old.replaceWith(fresh);return fresh;}
+ const save=replace('eqSave');save.addEventListener('click',()=>{
+  const ix=editRecordId?eqRecords.findIndex(r=>r['Record ID']===editRecordId):-1;
+  if(editRecordId&&ix<0){alert('The selected equipment record no longer exists.');return;}
+  const name=$('eqEquipment').value;if(!name){alert('Select equipment.');return;}
+  const changes={Equipment:name,Phase:$('eqPhase').value};equipmentForm.querySelectorAll('[data-field]').forEach(el=>changes[el.dataset.field]=el.value.trim());
+  if(ix>=0){Object.assign(eqRecords[ix],changes);}else{const rec={Substation:eqNavStation,'Bay Type':$('eqBayType').value,'Bay Name':eqNavBay,...changes,'Record ID':'USR-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)};eqRecords.push(rec);}
+  editRecordId=null;eqEditing=-1;eqPersist();showForm(false);save.textContent='Save Equipment';render();
+ });
+ const add=replace('eqAddEquipment');add.addEventListener('click',()=>{editRecordId=null;eqEditing=-1;$('eqStation').value=eqNavStation;$('eqBayType').value=eqNavCategory?.type||$('eqBayType').value;$('eqBayName').value=eqNavBay;eqOptions();renderForm(null);$('eqSave').textContent='Save Equipment';showForm(true);});
+ const cancel=replace('eqCancel');cancel.addEventListener('click',()=>{editRecordId=null;eqEditing=-1;showForm(false);save.textContent='Save Equipment';});
+ $('eqSearch').addEventListener('input',render);$('eqPhaseFilter').addEventListener('change',render);$('eqEquipmentFilter').addEventListener('change',render);
+ // Ensure navigation and bay cards use the reconciled records.
+ const oldNav=eqNavShowBay;eqNavShowBay=function(bay){editRecordId=null;eqEditing=-1;oldNav(bay);showForm(false);render();const cp=$('eqCRPanelParticulars');if(cp)cp.hidden=/Bus PT/i.test(bay)||/Auxiliary Equipment|Station Transformer|Battery System|DG Set/i.test((eqNavCategory?.type||'')+' '+bay);};
+ eqRender=render;
+ // Reformat C&R Panel Particulars to match the user's sketch: rows with side-by-side entry columns.
+ const panel=$('eqCRPanelParticulars');
+ if(panel){
+  panel.innerHTML='<div class="eq-list-head"><strong>C&amp;R PANEL PARTICULARS</strong><div><button type="button" class="eq-btn secondary" id="eqCRView">View</button> <button type="button" class="eq-btn secondary" id="eqCREdit">Edit</button> <button type="button" class="eq-btn" id="eqCRSave">Save</button></div></div><div id="eqCRTable" class="eq-cr-sketch"></div>';
+  const groups=[
+   ['C&R Panel',['CRPanel1','CRPanel2']],
+   ['Relay 1',['Relay1','Relay1Type','Relay1Detail']],
+   ['Relay 2',['Relay2','Relay2Type','Relay2Detail']],
+   ['Relay 3',['Relay3','Relay3Type','Relay3Detail']],
+   ['Energy Meter',['EnergyMeter1','EnergyMeter2']],
+   ['Energy Meter Serial No.',['EnergyMeterSerial1','EnergyMeterSerial2']],
+   ['CT Ratio',['CTRatio']],['PT Ratio',['PTRatio']],['MF',['MF']]
+  ];
+  const labels={CRPanel1:'C&R Panel – 1',CRPanel2:'C&R Panel – 2',Relay1:'Select relay',Relay1Type:'Relay type',Relay1Detail:'Additional detail',Relay2:'Select relay',Relay2Type:'Relay type',Relay2Detail:'Additional detail',Relay3:'Select relay',Relay3Type:'Relay type',Relay3Detail:'Additional detail',EnergyMeter1:'Energy Meter – 1',EnergyMeter2:'Energy Meter – 2',EnergyMeterSerial1:'Serial No. – 1',EnergyMeterSerial2:'Serial No. – 2',CTRatio:'CT Ratio',PTRatio:'PT Ratio',MF:'MF'};
+  const relayOpts=['Main-I','Main-II','BCPU','Distance','OL & EL','Differential','HV BCPU','LV BCPU','Unbalance','OV/UV'];let mode='view';
+  function crKey(){return [eqNavStation,eqNavBay].join('||');}
+  function drawCR(){const host=$('eqCRTable');host.innerHTML='';const data=eqRelayConfigs[crKey()]||{};groups.forEach(([title,keys])=>{const row=document.createElement('div');row.className='eq-cr-sketch-row';const lab=document.createElement('strong');lab.textContent=title;row.append(lab);keys.forEach(k=>{const wrap=document.createElement('div');wrap.className='eq-cr-cell';let el;if(/^Relay[123]$/.test(k)){el=document.createElement('select');el.innerHTML='<option value="">Select relay</option>'+relayOpts.map(x=>'<option>'+x+'</option>').join('');}else{el=document.createElement('input');el.placeholder=labels[k]||'';}el.dataset.crkey=k;el.value=data[k]||'';el.disabled=mode!=='edit';wrap.append(el);row.append(wrap);});while(row.children.length<4){const blank=document.createElement('div');row.append(blank);}host.append(row);});}
+  $('eqCRView').onclick=()=>{mode='view';drawCR();};$('eqCREdit').onclick=()=>{mode='edit';drawCR();};$('eqCRSave').onclick=()=>{const d={...(eqRelayConfigs[crKey()]||{})};document.querySelectorAll('#eqCRTable [data-crkey]').forEach(el=>d[el.dataset.crkey]=el.value.trim());eqRelayConfigs[crKey()]=d;localStorage.setItem(eqRelayConfigKey,JSON.stringify(eqRelayConfigs));mode='view';drawCR();};
+  const css=document.createElement('style');css.textContent=`.eq-cr-sketch{display:grid;gap:8px;padding:12px}.eq-cr-sketch-row{display:grid;grid-template-columns:180px repeat(3,minmax(150px,1fr));gap:10px;align-items:center}.eq-cr-sketch-row strong{color:#244f75}.eq-cr-cell input,.eq-cr-cell select{width:100%;min-height:42px;border:1px solid #c8d9e8;border-radius:9px;padding:8px 12px;font:inherit}.eq-cr-cell input:disabled,.eq-cr-cell select:disabled{background:#f3f7fa}.eq-table{table-layout:fixed;width:100%}.eq-table th:last-child,.eq-table td:last-child{width:112px;text-align:center;white-space:nowrap}.eq-action-cell{display:flex;justify-content:center;align-items:center;gap:6px}.eq-table th{vertical-align:middle}.eq-table td{vertical-align:top}@media(max-width:900px){.eq-cr-sketch-row{grid-template-columns:140px repeat(2,minmax(120px,1fr))}}@media(max-width:600px){.eq-cr-sketch-row{grid-template-columns:1fr}.eq-cr-sketch-row strong{padding-top:8px}}`;
+  document.head.append(css);drawCR();const cp=$('eqCRPanelParticulars');if(cp)cp.hidden=/Bus PT/i.test(eqNavBay)||/Auxiliary Equipment|Station Transformer|Battery System|DG Set/i.test((eqNavCategory?.type||'')+' '+eqNavBay);
+ }
+ // Correct PTR labels and restore complete PML capacitor bank bays.
+ const ptrLabels={
+  '220/132 kV SS Porumamilla':['100 MVA PTR-1 – TBEA','100 MVA PTR-2 – BBL','160 MVA PTR-3 – BHEL'],
+  '132/33 kV SS Porumamilla':['PTR-1 – EMCO','PTR-2 – INDOTECH'],
+  '132/33 kV SS Kalasapadu':['PTR-1 – Andrew Yule','PTR-2 – T&R']
+ };
+ const oldGet=eqGetCategoryBays;eqGetCategoryBays=function(st,cat){const list=oldGet(st,cat);if(cat?.name==='Power Transformers')return ptrLabels[st]||list;return list;};
+ // Refresh current bay if page opens directly on an equipment bay.
+ if(eqNavStation&&eqNavBay){render();showForm(false);}
+})();
+
+</script>
 </body></html>
