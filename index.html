@@ -41,6 +41,8 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 @media(max-width:620px){.tophead{display:flex;flex-direction:column;gap:12px;padding:14px}.brand img{width:68px;height:68px}.brandcopy strong{font-size:18px}.tagline{border:0;border-top:1px solid #ffffff45;padding:12px 3px 0}.tagline p{font-size:12px}.clock{width:100%}nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}nav a{white-space:nowrap}.cards,.quickgrid,.rmi-grid{grid-template-columns:1fr}.quick{min-height:100px;padding:20px}.specs{grid-template-columns:1fr 1fr}main{padding:19px 4%}.section-head h2{font-size:19px}.slide img{height:260px}.works{padding:14px}}
 
 .eq-ageing-panel{margin:12px 0 18px;padding:14px;border:1px solid #dce8f1;border-radius:12px;background:#fff}.eq-ageing-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.eq-ageing-controls select{min-height:38px;border:1px solid #cbd9e4;border-radius:8px;padding:7px 10px;background:#fff;color:#17324d}.eq-ageing-panel .eq-table{min-width:760px}
+
+#eqEquipmentPicker{width:100%;min-height:42px;border:1px solid #c8d9e8;border-radius:9px;padding:8px 12px;background:#fff;color:#17324d;font:inherit}#eqOtherEquipmentWrap input{width:100%;min-height:42px;border:1px solid #c8d9e8;border-radius:9px;padding:8px 12px;font:inherit}
 </style>
 <style>
 /* Equipment register */
@@ -464,7 +466,17 @@ let eqRemovedBays={};try{eqRemovedBays=JSON.parse(localStorage.getItem(EQ_REMOVE
 const eqGetCategoryBaysBase=eqGetCategoryBays;
 eqGetCategoryBays=function(st,cat){const removed=eqRemovedBays[eqCategoryKey(st,cat)]||[];return eqGetCategoryBaysBase(st,cat).filter(b=>!removed.includes(b));};
 const eqOptionsBase=eqOptions;
-eqOptions=function(){eqOptionsBase();const sel=$('eqEquipment');if(sel&&!Array.from(sel.options).some(o=>o.value===eqExtraChoice)){let o=document.createElement('option');o.value=eqExtraChoice;o.textContent=eqExtraChoice;sel.append(o);}};
+eqOptions=function(){
+ eqOptionsBase();const sel=$('eqEquipment');if(!sel)return;
+ const bayType=$('eqBayType').value;
+ const electrical=/Feeder Bay|PTR Bay|Capacitor Bank|Bus Coupler/i.test(bayType);
+ const ptr=/PTR Bay/i.test(bayType);
+ const extras=[];
+ if(electrical){extras.push(['Current Transformer (CT)','1',['Common']],['Circuit Breaker (CB)','1',['Common']]);}
+ if(ptr){extras.push(['HV Bushing','1',['Common']],['LV Bushing','1',['Common']]);}
+ extras.forEach(([name,qty,phases])=>{if(!Array.from(sel.options).some(o=>o.value===name)){const o=document.createElement('option');o.value=name;o.textContent=name+' · '+qty+' No.';sel.append(o);}});
+ if(!Array.from(sel.options).some(o=>o.value===eqExtraChoice)){const o=document.createElement('option');o.value=eqExtraChoice;o.textContent='Others (enter equipment name)';sel.append(o);}
+};
 const eqRenderFieldsBase=eqRenderFields;
 eqRenderFields=function(){eqRenderFieldsBase();const wrap=document.createElement('div');wrap.className='eq-field';wrap.id='eqExtraNameWrap';wrap.hidden=$('eqEquipment').value!==eqExtraChoice;const label=document.createElement('label');label.textContent='ADDITIONAL EQUIPMENT NAME';const input=document.createElement('input');input.id='eqExtraName';input.placeholder='Enter equipment name';wrap.append(label,input);$('eqDynamicFields').prepend(wrap);};
 $('eqRemoveBay').addEventListener('click',()=>{if(!eqNavStation||!eqNavCategory)return;const list=eqGetCategoryBays(eqNavStation,eqNavCategory);const name=prompt('Enter the exact bay name to remove:\n'+list.join('\n'));if(name===null)return;const bay=list.find(x=>x.toLowerCase()===name.trim().toLowerCase());if(!bay){alert('Bay not found.');return;}if(!confirm('Remove '+bay+' and all its equipment records?'))return;const source=({'220/132 kV SS Porumamilla':'220/132 kV SS Porumamilla','132/33 kV SS Porumamilla':'132/33 kV SS Porumamilla','132/33 kV SS Kalasapadu':'132/33 kV SS Kalasapadu'})[eqNavStation]||eqNavStation;eqRecords=eqRecords.filter(r=>!(r.Substation===source&&r['Bay Name']===bay));eqPersist();const key=eqCategoryKey(eqNavStation,eqNavCategory);eqRemovedBays[key]=[...(eqRemovedBays[key]||[]),bay];localStorage.setItem(EQ_REMOVED_BAYS_KEY,JSON.stringify(eqRemovedBays));eqCustomBays[key]=(eqCustomBays[key]||[]).filter(x=>x!==bay);localStorage.setItem(EQ_CUSTOM_BAYS_KEY,JSON.stringify(eqCustomBays));delete eqRelayConfigs[[eqNavStation,bay].join('||')];localStorage.setItem(eqRelayConfigKey,JSON.stringify(eqRelayConfigs));eqNavShowCategory(eqNavCategory);});
@@ -745,10 +757,25 @@ renderRmi();
  let editRecordId=null;
  function renderForm(r){
   equipmentForm.innerHTML='';
+  const equipmentRow=document.createElement('div');equipmentRow.className='eq-field';
+  const equipmentLabel=document.createElement('label');equipmentLabel.textContent='EQUIPMENT NAME';equipmentLabel.htmlFor='eqEquipmentPicker';
+  const picker=document.createElement('select');picker.id='eqEquipmentPicker';
+  const sourceSelect=$('eqEquipment');
+  // Build the visible list from the selected bay's equipment template.
+  Array.from(sourceSelect.options).forEach(opt=>{const copy=document.createElement('option');copy.value=opt.value;copy.textContent=opt.value===eqExtraChoice?'Others (enter equipment name)':opt.textContent;picker.append(copy);});
+  let selected=r?.Equipment||picker.options[0]?.value||'';
+  if(selected&&!Array.from(picker.options).some(o=>o.value===selected)){const o=document.createElement('option');o.value=selected;o.textContent=selected;picker.insertBefore(o,picker.lastElementChild||null);}
+  picker.value=selected;
+  const otherWrap=document.createElement('div');otherWrap.className='eq-field';otherWrap.id='eqOtherEquipmentWrap';
+  const otherLabel=document.createElement('label');otherLabel.textContent='OTHER EQUIPMENT NAME';
+  const otherInput=document.createElement('input');otherInput.id='eqOtherEquipmentName';otherInput.placeholder='Enter equipment name not listed above';
+  otherWrap.append(otherLabel,otherInput);otherWrap.hidden=picker.value!==eqExtraChoice;
+  picker.addEventListener('change',()=>{sourceSelect.value=picker.value;otherWrap.hidden=picker.value!==eqExtraChoice;});
+  sourceSelect.value=selected;
+  equipmentRow.append(equipmentLabel,picker);equipmentForm.append(equipmentRow,otherWrap);
   const phase=document.createElement('div');phase.className='eq-field';phase.innerHTML='<label>PHASE</label><select id="eqPhase"><option value="R">R</option><option value="Y">Y</option><option value="B">B</option><option value="Common">Common</option></select>';equipmentForm.append(phase);
   const phaseSelect=phase.querySelector('select');phaseSelect.value=r?.Phase||'Common';
   [['Make','Make'],['Type','Type'],['Serial No.','Serial No.'],['MFY','MFY'],['D.O.C.','D.O.C.'],['Rating','Rating'],['Nameplate Details','Nameplate Details']].forEach(([l,k])=>equipmentForm.append(setField(l,k,r?.[k]||'')));
-  const sel=$('eqEquipment');if(r){if(!Array.from(sel.options).some(o=>o.value===r.Equipment)){const o=document.createElement('option');o.value=r.Equipment;o.textContent=r.Equipment;sel.append(o);}sel.value=r.Equipment;}
  }
  function render(){
   if(!$('eqRows')||!eqNavStation||!eqNavBay)return;
@@ -780,7 +807,9 @@ renderRmi();
  const save=replace('eqSave');save.addEventListener('click',()=>{
   const ix=editRecordId?eqRecords.findIndex(r=>r['Record ID']===editRecordId):-1;
   if(editRecordId&&ix<0){alert('The selected equipment record no longer exists.');return;}
-  const name=$('eqEquipment').value;if(!name){alert('Select equipment.');return;}
+  let name=$('eqEquipmentPicker')?.value||$('eqEquipment').value;
+  if(name===eqExtraChoice){name=$('eqOtherEquipmentName')?.value.trim()||'';if(!name){alert('Enter the name of the additional equipment.');$('eqOtherEquipmentName')?.focus();return;}}
+  if(!name){alert('Select equipment.');return;}
   const changes={Equipment:name,Phase:$('eqPhase').value};equipmentForm.querySelectorAll('[data-field]').forEach(el=>changes[el.dataset.field]=el.value.trim());
   if(ix>=0){Object.assign(eqRecords[ix],changes);}else{const rec={Substation:eqNavStation,'Bay Type':$('eqBayType').value,'Bay Name':eqNavBay,...changes,'Record ID':'USR-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)};eqRecords.push(rec);}
   editRecordId=null;eqEditing=-1;eqPersist();showForm(false);save.textContent='Save Equipment';render();
