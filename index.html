@@ -1,316 +1,115 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#09213f">
-<title>PRMLSD | APTRANSCO Porumamilla Sub Division</title>
-
+<meta name="theme-color" content="#082b4c">
+<title>APTRANSCO Porumamilla Sub Division Portal</title>
 <style>
-:root {
- --navy:#09213f;--blue:#1769aa;--teal:#0d9488;
- --bg:#f1f5f9;--text:#172b45;--muted:#64748b;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{
- color:white;background:linear-gradient(120deg,#07182e,#104778 65%,#087e8b);
- padding:20px max(16px,calc((100% - 1200px)/2))
-}
-.header-inner{display:flex;justify-content:space-between;align-items:center;gap:20px}
-.brand{display:flex;align-items:center;gap:16px}
-.logo{width:100px;height:100px;flex-shrink:0;background:white;border-radius:12px;padding:3px;overflow:hidden}
-.logo img{width:100%;height:100%;object-fit:contain}
-.brand-text h1{font-size:clamp(22px,3vw,34px);margin:0 0 8px}
-.subdivision{font-size:14px;letter-spacing:1.5px;color:#dbeafe;line-height:1.6}
-.code-label{display:inline-block;margin-top:8px;padding:5px 10px;background:#164e63;border:1px solid #67e8f9;color:#cffafe;border-radius:6px;font-size:12px;font-weight:bold}
-.clock{text-align:center;background:#ffffff12;border:1px solid #ffffff40;border-radius:13px;padding:13px 18px;min-width:175px}
-.clock-label{color:#a5f3fc;font-size:11px;letter-spacing:1px}
-#time{font-size:25px;font-weight:bold;margin:7px 0;font-variant-numeric:tabular-nums}
-#date{font-size:12px;color:#dbeafe}
-nav{position:sticky;top:0;z-index:10;display:flex;justify-content:center;flex-wrap:wrap;background:#07182e;box-shadow:0 3px 10px #0002}
-nav a{display:block;padding:15px 18px;color:#e2e8f0;text-decoration:none;font-size:14px}
-nav a:hover{background:#164e63;color:#a5f3fc}
-main{max-width:1200px;margin:auto;padding:24px 18px}
-.hero{padding:32px;color:white;border-radius:20px;background:linear-gradient(115deg,#12365a,#1769aa 70%,#0d9488);box-shadow:0 10px 28px #12365a20}
-.eyebrow{color:#a5f3fc;font-size:12px;letter-spacing:2px;font-weight:bold}
-.hero h2{font-size:clamp(27px,4vw,40px);margin:14px 0}
-.hero p{max-width:700px;color:#e0f2fe;line-height:1.8;font-size:15px}
-.button{display:inline-block;padding:11px 15px;margin:8px 8px 0 0;border-radius:8px;text-decoration:none;font-size:13px;font-weight:bold;background:#ffffff20;border:1px solid #ffffff65;color:white}
-.section{margin-top:30px}
-.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-.section-heading h2{margin:0;font-size:23px;color:#12365a}
-.section-heading span{color:var(--muted);font-size:12px}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
-.card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:21px;box-shadow:0 5px 18px #0f172a08;transition:transform .2s,box-shadow .2s;animation:appear .5s ease both}
-.card:hover{transform:translateY(-4px);box-shadow:0 12px 25px #0f172a14}
-@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.symbol{width:47px;height:47px;display:grid;place-items:center;border-radius:13px;font-size:25px;font-weight:bold}
-.blue{background:#dbeafe;color:#1d4ed8}
-.green{background:#ccfbf1;color:#0f766e}
-.orange{background:#ffedd5;color:#c2410c}
-.purple{background:#ede9fe;color:#6d28d9}
-.pink{background:#fce7f3;color:#be185d}
-.sky{background:#e0f2fe;color:#0369a1}
-.tag{padding:6px 9px;border-radius:6px;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:bold}
-.card h3{margin:16px 0 6px;font-size:19px;color:#12365a}
-.card-subtitle{font-size:13px;color:#64748b;margin:0 0 15px}
-.details{border-top:1px solid #e2e8f0;padding-top:10px}
-.detail{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #f1f5f9;font-size:13px;line-height:1.4}
-.detail span{color:#64748b}
-.detail strong{text-align:right;color:#12365a}
-.doc{display:inline-block;margin-top:12px;padding:7px 10px;background:#eff6ff;color:#1d4ed8;border-radius:7px;font-size:12px;font-weight:bold}
-.section-label{margin:14px 0 7px;color:#1769aa;font-size:11px;font-weight:bold;letter-spacing:1px}
-.quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.quick-card{background:white;border:1px solid #e2e8f0;border-radius:14px;padding:20px;transition:.2s}
-.quick-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px #0001}
-.quick-card h3{margin:12px 0 7px;color:#12365a;font-size:17px}
-.quick-card p{color:#64748b;font-size:13px;line-height:1.6}
-.quick-card a{color:#1769aa;font-size:13px;font-weight:bold;text-decoration:none}
-.search{width:100%;max-width:430px;padding:13px 15px;border:1px solid #cbd5e1;border-radius:9px;background:white;font-size:14px}
-.flash-banner{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;color:#075985;background:#e0f2fe;border:1px solid #bae6fd;font-size:13px;line-height:1.6}
-.notice{margin-top:18px;padding:15px;border-left:4px solid #d97706;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:13px;line-height:1.7}
-footer{margin-top:35px;padding:25px 15px;text-align:center;color:#cbd5e1;background:#07182e;font-size:12px;line-height:1.9}
-footer strong{color:white}
-@media(max-width:850px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:540px){
- header{padding:17px 12px}.header-inner{flex-direction:column;align-items:flex-start}
- .brand{gap:11px}.logo{width:76px;height:76px}
- .brand-text h1{font-size:23px}.subdivision{font-size:11px;letter-spacing:.8px}
- .clock{width:100%}nav a{padding:12px 10px;font-size:12px}
- main{padding:16px 12px}.hero{padding:24px 19px}
- .cards,.quick-grid{grid-template-columns:1fr}
-}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+:root{--navy:#082b4c;--blue:#0879bd;--cyan:#19b8c9;--ink:#18334b;--muted:#63788b;--paper:#f3f7fb;--white:#fff;--line:#dce7f0;--shadow:0 12px 30px rgba(10,45,75,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.tophead{background:linear-gradient(110deg,#062846,#07547a 58%,#087d91);color:white;padding:13px 3.2%;display:grid;grid-template-columns:minmax(265px,1.05fr) 2fr minmax(190px,.8fr);gap:20px;align-items:center;min-height:124px}
+.brand{display:flex;align-items:center;gap:13px;min-width:0}.brand img{width:82px;height:82px;object-fit:contain;background:#fff;border-radius:10px;padding:4px}.brandcopy strong{display:block;font-size:21px;letter-spacing:1px}.brandcopy span{display:block;font-size:14px;font-weight:700;margin-top:5px;letter-spacing:.5px}.brandcopy small{display:inline-block;margin-top:7px;border:1px solid #55d5df;border-radius:20px;padding:4px 9px;color:#bafaff;font-size:10px;letter-spacing:1px}
+.tagline{text-align:center;border-left:1px solid #ffffff50;border-right:1px solid #ffffff50;padding:5px 24px}.tagline h1{font-size:clamp(17px,2vw,25px);margin:0 0 8px;color:#5ce3eb;letter-spacing:1.3px}.tagline p{font-size:13px;line-height:1.5;margin:0;color:#f0f8fc}.clock{text-align:center;border:1px solid #ffffff55;border-radius:12px;padding:11px 14px;background:#ffffff10}.clock small{display:block;color:#a8f2f3;font-size:10px;letter-spacing:1.3px;font-weight:bold}.clock strong{display:block;font-size:29px;letter-spacing:1px;margin:5px 0}.clock span{font-size:12px;color:#e1f2f8}
+nav{background:#06233e;display:flex;justify-content:center;gap:5px;flex-wrap:wrap;padding:10px 2%}nav a{color:#eaf6fc;text-decoration:none;font-size:12px;font-weight:bold;padding:9px 13px;border-radius:20px}nav a:hover{background:#0b6c91}
+.notification-strip{display:flex;align-items:center;gap:14px;background:#e7f5fb;border-bottom:1px solid #c9e3ef;padding:9px 3.2%;overflow:hidden}
+.notification-label{flex:none;background:#0879bd;color:#fff;border-radius:5px;padding:6px 10px;font-size:10px;font-weight:bold;letter-spacing:1px}
+.notification-window{overflow:hidden;white-space:nowrap;flex:1}
+.notification-track{display:inline-flex;align-items:center;gap:22px;min-width:max-content;animation:notificationScroll 32s linear infinite;color:#174767;font-size:12px;font-weight:600}
+.notification-track span:nth-child(even){color:#0b9bb0}
+.notification-window:hover .notification-track{animation-play-state:paused}
+@keyframes notificationScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28px;scroll-margin-top:20px}.section-head{display:flex;align-items:center;gap:12px;margin:0 0 15px}.section-head .bar{width:6px;height:31px;border-radius:8px;background:linear-gradient(#10b7c9,#0879bd)}.section-head h2{font-size:22px;margin:0;color:var(--navy);letter-spacing:.4px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.station{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:19px;position:relative;overflow:hidden}.station:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(#0b8bc5,#19bdc7)}.station-title{display:flex;align-items:center;gap:12px;margin-bottom:13px}.bolt{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;background:#e6f7fc;color:#0879bd;font-size:27px;flex:none}.station h3{font-size:17px;margin:0;color:#123b5d}.doc{font-size:12px;color:#63788b;margin-top:5px}.specs{display:grid;grid-template-columns:1fr 1fr;gap:9px}.spec{background:#f3f8fc;border-radius:9px;padding:10px}.spec small{display:block;color:#6a8092;font-size:10px;text-transform:uppercase;letter-spacing:.5px}.spec strong{display:block;margin-top:5px;color:#123b5d;font-size:14px}.spec.wide{grid-column:1/-1}
+.quickgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.quick{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px;box-shadow:0 5px 15px #0b365010;transition:.18s}.quick:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#9bd9e6}.quick .qicon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:21px;color:white;background:linear-gradient(135deg,#0879bd,#18b8c9)}.quick strong{font-size:14px}.quick small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.works{background:linear-gradient(120deg,#062b4d,#075e83 65%,#087f8d);border-radius:19px;padding:19px;color:white;box-shadow:var(--shadow)}.works .section-head h2{color:white}.works .section-head .bar{background:#ffcf4b}.works .section-head p{color:#cceaf1}.slider{position:relative;border-radius:13px;overflow:hidden;background:#061c30;min-height:260px}.slide{display:none;position:relative}.slide.active{display:block;animation:fade .55s ease}.slide img{display:block;width:100%;height:clamp(260px,42vw,480px);object-fit:contain;background:#071d31}.slide-caption{position:absolute;left:0;right:0;bottom:0;padding:17px 20px;background:linear-gradient(transparent,rgba(0,17,35,.92));font-weight:bold;font-size:clamp(15px,2vw,21px);letter-spacing:.4px;color:#fff;text-shadow:0 2px 4px #000}.slide-controls{display:flex;align-items:center;justify-content:space-between;padding:11px 3px 0;color:#d9f5f7;font-size:12px}.dots{display:flex;gap:7px}.dot{width:8px;height:8px;border-radius:20px;background:#ffffff60;border:0;padding:0}.dot.active{width:22px;background:#ffd45a}.admin-tools{margin-top:13px;padding:13px;background:#ffffff12;border:1px dashed #ffffff70;border-radius:11px;display:none}.admin-tools.show{display:block}.admin-tools label{font-size:12px;color:#fff}.admin-tools input{display:block;margin-top:8px;max-width:100%}.admin-note{font-size:11px;color:#c9e8ed;margin:8px 0 0}
+.rmi-grid{display:grid;grid-template-columns:1.05fr 2fr;gap:16px}.rmi-summary,.rmi-list{background:white;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:var(--shadow)}.rmi-percent{font-size:45px;font-weight:bold;color:#0879bd}.progress{height:12px;border-radius:20px;background:#e8eff5;overflow:hidden;margin:10px 0}.progress span{height:100%;display:block;background:linear-gradient(90deg,#0c8ac2,#22c4ad);border-radius:20px}.rmi-counts{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.rmi-counts b{color:var(--ink)}.rmi-row{padding:11px 0;border-bottom:1px solid #edf2f6}.rmi-row:last-child{border:0}.rmi-row-top{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:bold}.rmi-row small{color:var(--muted)}.rmi-row .progress{height:8px;margin:7px 0}
+.placeholder{background:#fff;border:1px dashed #b9cbd9;border-radius:14px;padding:22px;color:#60788b;font-size:13px}.placeholder strong{color:#174767}
+.admin-login{border:1px solid #ffffff70;background:#ffffff12;color:white;border-radius:20px;padding:7px 12px;font-size:11px;cursor:pointer;margin-top:7px}.footer{background:#061f38;color:#eaf6fc;text-align:center;padding:24px 12px}.footer strong{display:block;font-size:15px;letter-spacing:.3px}.footer p{margin:8px 0 0;color:#b9d4e3;font-size:12px}.footer small{display:block;color:#87aabe;margin-top:12px;font-size:10px}
+@keyframes fade{from{opacity:.55;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:900px){.tophead{grid-template-columns:1fr 1.5fr;}.clock{grid-column:1/-1;justify-self:center;width:min(100%,260px)}.tagline{border-right:0}.cards{grid-template-columns:1fr 1fr}.quickgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.tophead{display:flex;flex-direction:column;gap:12px;padding:14px}.brand img{width:68px;height:68px}.brandcopy strong{font-size:18px}.tagline{border:0;border-top:1px solid #ffffff45;padding:12px 3px 0}.tagline p{font-size:12px}.clock{width:100%}nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}nav a{white-space:nowrap}.cards,.quickgrid,.rmi-grid{grid-template-columns:1fr}.specs{grid-template-columns:1fr 1fr}main{padding:19px 4%}.section-head h2{font-size:19px}.slide img{height:260px}.works{padding:14px}}
 </style>
 </head>
-
 <body>
-<header>
- <div class="header-inner">
-  <div class="brand">
-   <div class="logo">
-    <img src="./logo(2).jpg" alt="APTRANSCO ISO 27001-2022 logo">
-   </div>
-   <div class="brand-text">
-    <h1>APTRANSCO</h1>
-    <div class="subdivision">PORUMAMILLA SUB DIVISION</div>
-    <div class="code-label">PRMLSD · SUBSTATION PORTAL</div>
-   </div>
-  </div>
-  <div class="clock">
-   <div class="clock-label">● LIVE TIME · INDIA</div>
-   <div id="time">--:--:--</div>
-   <div id="date">Loading date...</div>
-  </div>
- </div>
+<header class="tophead" id="home">
+ <div class="brand"><img src="logo(2).jpg" alt="APTRANSCO tower logo including ISO 27001-2022"><div class="brandcopy"><strong>APTRANSCO</strong><span>PORUMAMILLA SUB DIVISION</span><small>PRMLSD · SUBSTATION PORTAL</small></div></div>
+ <div class="tagline"><h1>POWER · PROTECTION · PERFORMANCE</h1><p>A unified digital information portal for APTRANSCO Porumamilla Sub Division. Access substation particulars, equipment registers, maintenance, testing and operational records.</p></div>
+ <div class="clock"><small>● LIVE TIME · INDIA</small><strong id="time">--:--:--</strong><span id="date">Loading date…</span></div>
 </header>
-
-<nav>
- <a href="#home">Home</a>
- <a href="#substations">Substations</a>
- <a href="#quick">Quick Access</a>
- <a href="#records">Records</a>
-</nav>
-
+<nav aria-label="Portal navigation"><a href="#substations">Substations</a><a href="#important-works">Ongoing Works</a><a href="#rmi-tracker">RMI Tracker</a><a href="#contacts">Contacts</a></nav>
+<div class="notification-strip" aria-label="Portal notifications">
+ <span class="notification-label">NOTIFICATIONS</span>
+ <div class="notification-window"><div class="notification-track"><span>Strictly adhere to all safety precautions while carrying out maintenance activities</span><span>•</span><span>Ensure all MIS returns are updated on or before the 26th of every month</span><span>•</span><span>Ensure SSHMI data is entered daily without fail</span><span>•</span><span>Strictly adhere to all safety precautions while carrying out maintenance activities</span><span>•</span><span>Ensure all MIS returns are updated on or before the 26th of every month</span><span>•</span><span>Ensure SSHMI data is entered daily without fail</span><span>•</span></div></div>
+</div>
 <main>
-<section class="hero" id="home">
- <div class="eyebrow">POWER · PROTECTION · PERFORMANCE</div>
- <h2>Welcome to PRMLSD</h2>
- <p>A unified digital information portal for APTRANSCO Porumamilla Sub Division. Access substation particulars, equipment registers, maintenance, testing and operational records.</p>
- <a class="button" href="#substations">Explore Substations ↓</a>
- <a class="button" href="#quick">Quick Access →</a>
-</section>
-
 <section class="section" id="substations">
- <div class="section-heading">
-  <h2>Our Substations</h2>
-  <span>Three substations under Porumamilla Sub Division</span>
- </div>
-
+ <div class="section-head"><span class="bar"></span><div><h2>OUR SUBSTATIONS</h2><p>Porumamilla Sub Division · APTRANSCO</p></div></div>
  <div class="cards">
-
-  <!-- MKP -->
-  <article class="card searchable">
-   <div class="card-top">
-    <div class="symbol blue">⚡</div>
-    <span class="tag">220 / 132 kV</span>
-   </div>
-   <h3>MKP — Porumamilla</h3>
-   <p class="card-subtitle">220/132 kV Substation, Porumamilla</p>
-   <div class="doc">D.O.C. : 31-03-2017</div>
-   <div class="section-label">FEEDER PARTICULARS</div>
-   <div class="details">
-    <div class="detail"><span>220 kV Feeders</span><strong>04 Nos.</strong></div>
-    <div class="detail"><span>132 kV Feeders</span><strong>10 Nos.</strong></div>
-   </div>
-   <div class="section-label">POWER TRANSFORMERS</div>
-   <div class="details">
-    <div class="detail"><span>PTR Capacity</span><strong>2 × 100 MVA</strong></div>
-    <div class="detail"><span>Additional PTR</span><strong>1 × 160 MVA</strong></div>
-   </div>
-   <div class="section-label">TOTAL TRANSFORMERS</div>
-   <div class="detail"><span>PTRs</span><strong>03 Nos.</strong></div>
-  </article>
-
-  <!-- PML -->
-  <article class="card searchable">
-   <div class="card-top">
-    <div class="symbol green">ϟ</div>
-    <span class="tag">132 / 33 kV</span>
-   </div>
-   <h3>PML — Porumamilla</h3>
-   <p class="card-subtitle">132/33 kV Substation, Porumamilla</p>
-   <div class="section-label">FEEDER PARTICULARS</div>
-   <div class="details">
-    <div class="detail"><span>132 kV Feeders</span><strong>02 Nos.</strong></div>
-    <div class="detail"><span>33 kV Feeders</span><strong>06 Nos.</strong></div>
-   </div>
-   <div class="section-label">POWER TRANSFORMERS</div>
-   <div class="details">
-    <div class="detail"><span>PTR Capacity</span><strong>2 × 31.5 MVA</strong></div>
-    <div class="detail"><span>Total PTRs</span><strong>02 Nos.</strong></div>
-   </div>
-   <div class="section-label">CAPACITOR BANKS</div>
-   <div class="details">
-    <div class="detail"><span>Rating</span><strong>7.2 MVAR</strong></div>
-    <div class="detail"><span>Quantity</span><strong>02 Nos.</strong></div>
-   </div>
-  </article>
-
-  <!-- KSP -->
-  <article class="card searchable">
-   <div class="card-top">
-    <div class="symbol orange">ϟ</div>
-    <span class="tag">132 kV</span>
-   </div>
-   <h3>KSP — Kalasapadu</h3>
-   <p class="card-subtitle">132 kV Substation, Kalasapadu</p>
-   <div class="section-label">FEEDER PARTICULARS</div>
-   <div class="details">
-    <div class="detail"><span>132 kV Feeders</span><strong>02 Nos.</strong></div>
-    <div class="detail"><span>33 kV Feeders</span><strong>03 Nos.</strong></div>
-   </div>
-   <div class="section-label">POWER TRANSFORMERS</div>
-   <div class="details">
-    <div class="detail"><span>PTR-1</span><strong>10/16 MVA</strong></div>
-    <div class="detail"><span>PTR-2</span><strong>31.5 MVA</strong></div>
-    <div class="detail"><span>Total PTRs</span><strong>02 Nos.</strong></div>
-   </div>
-   <div class="section-label">CAPACITOR BANK</div>
-   <div class="details">
-    <div class="detail"><span>Quantity</span><strong>01 No.</strong></div>
-   </div>
-  </article>
-
+  <article class="station"><div class="station-title"><span class="bolt">ϟ</span><div><h3>220/132 kV SS Porumamilla</h3><div class="doc">D.O.C.: 31-03-2017</div></div></div><div class="specs"><div class="spec"><small>220 kV Feeders</small><strong>04 Nos.</strong></div><div class="spec"><small>132 kV Feeders</small><strong>10 Nos.</strong></div><div class="spec wide"><small>PTR Capacity</small><strong>2 × 100 + 1 × 160 MVA</strong></div></div></article>
+  <article class="station"><div class="station-title"><span class="bolt">ϟ</span><div><h3>132/33 kV SS Porumamilla</h3><div class="doc">D.O.C.: 22-10-2005</div></div></div><div class="specs"><div class="spec"><small>132 kV Feeders</small><strong>02 Nos.</strong></div><div class="spec"><small>33 kV Feeders</small><strong>06 Nos.</strong></div><div class="spec"><small>PTR Capacity</small><strong>2 × 31.5 MVA</strong></div><div class="spec"><small>Capacitor Bank</small><strong>2 × 7.2 MVAR</strong></div></div></article>
+  <article class="station"><div class="station-title"><span class="bolt">ϟ</span><div><h3>132/33 kV SS Kalasapadu</h3><div class="doc">D.O.C.: 15-07-2019</div></div></div><div class="specs"><div class="spec"><small>132 kV Feeders</small><strong>02 Nos.</strong></div><div class="spec"><small>33 kV Feeders</small><strong>03 Nos.</strong></div><div class="spec"><small>PTR-1</small><strong>10/16 MVA</strong></div><div class="spec"><small>PTR-2</small><strong>31.5 MVA</strong></div><div class="spec wide"><small>Capacitor Bank</small><strong>1 × 7.2 MVAR</strong></div></div></article>
  </div>
 </section>
-
-<section class="section" id="quick">
- <div class="section-heading">
-  <h2>Quick Access</h2>
-  <span>Subdivision records and information</span>
- </div>
- <div class="quick-grid">
-  <article class="quick-card searchable">
-   <div class="symbol blue">▤</div>
-   <h3>Monthly MIS</h3>
-   <p>Monthly returns and substation operating particulars.</p>
-   <a href="#records">View section →</a>
-  </article>
-  <article class="quick-card searchable">
-   <div class="symbol green">⚙</div>
-   <h3>Equipment Register</h3>
-   <p>Equipment ratings, identification and inventory.</p>
-   <a href="#records">View section →</a>
-  </article>
-  <article class="quick-card searchable">
-   <div class="symbol orange">🔧</div>
-   <h3>Maintenance</h3>
-   <p>Preventive maintenance and work history.</p>
-   <a href="#records">View section →</a>
-  </article>
-  <article class="quick-card searchable">
-   <div class="symbol purple">◉</div>
-   <h3>Testing Records</h3>
-   <p>Equipment testing reports and condition details.</p>
-   <a href="#records">View section →</a>
-  </article>
-  <article class="quick-card searchable">
-   <div class="symbol pink">⚡</div>
-   <h3>Tripping Reports</h3>
-   <p>Faults, protection operations and restoration.</p>
-   <a href="#records">View section →</a>
-  </article>
-  <article class="quick-card searchable">
-   <div class="symbol sky">▣</div>
-   <h3>T&P Register</h3>
-   <p>Tools, plants and related particulars.</p>
-   <a href="#records">View section →</a>
-  </article>
+<section class="section" id="important-works">
+ <div class="works">
+  <div class="section-head"><span class="bar"></span><div><h2>IMPORTANT ONGOING WORKS AT PORUMAMILLA SD</h2><p>Sub Division work highlights</p></div></div>
+  <div class="slider" id="workSlider">
+   <div class="slide active"><img src="ptr-3.jpeg" alt="160 MVA PTR-3 BHEL at 220 kV SS Porumamilla"><div class="slide-caption">160 MVA PTR-3 BHEL AT 220 kV SS PML</div></div>
+  </div>
+  <div class="slide-controls"><span id="slideCount">1 / 1</span><div class="dots" id="slideDots"><button class="dot active" aria-label="Slide 1"></button></div><span>Auto slide · 5 seconds</span></div>
+  <button class="admin-login" id="adminToggle" type="button">Admin image controls</button>
+  <div class="admin-tools" id="adminTools"><label>Add work photographs (multiple files allowed)<input id="workUploads" type="file" accept="image/*" multiple></label><p class="admin-note">Prototype only: selected images are stored in this browser using local storage where possible. This is not secure admin authentication and does not publish images to other visitors. Shared, permanent admin uploads require backend storage and access control.</p></div>
  </div>
 </section>
-
-<section class="section" id="records">
- <div class="section-heading">
-  <h2>Find a Section</h2>
-  <span>Search the main page</span>
- </div>
- <input id="search" class="search" type="search"
-        placeholder="Search MKP, PML, KSP, maintenance, MIS..."
-        aria-label="Search website sections">
- <div id="no-results" style="display:none;padding:18px;color:#64748b">
-  No matching sections found.
- </div>
- <div class="flash-banner" style="margin-top:16px">
-  <span style="font-size:22px">ℹ️</span>
-  <span><strong>Portal information:</strong> Main page particulars are displayed for reference. Individual dashboards, MIS links and connected operational data will be developed separately.</span>
- </div>
- <div class="notice">
-  <strong>Operational data notice:</strong>
-  The clock displays Indian Standard Time. Electrical readings and equipment status are not yet connected to a live source.
+<section class="section" id="rmi-tracker">
+ <div class="section-head"><span class="bar"></span><div><h2>RMI TRACKER</h2><p>Progress monitoring for RMI works</p></div></div>
+ <div class="rmi-grid">
+  <div class="rmi-summary"><div class="rmi-percent" id="rmiOverall">0%</div><strong>Overall completion</strong><div class="progress"><span id="rmiOverallBar" style="width:0%"></span></div><div class="rmi-counts"><span>Total: <b id="rmiTotal">0</b></span><span>Completed: <b id="rmiDone">0</b></span><span>In progress: <b id="rmiProgress">0</b></span><span>Pending: <b id="rmiPending">0</b></span></div><button class="admin-login" style="background:#0879bd;margin-top:15px" id="rmiAdminToggle">Admin progress entry</button><div class="admin-tools" id="rmiAdminTools" style="color:#18334b;background:#f3f8fc"><label style="color:#18334b">Work description<input id="rmiName" type="text" placeholder="Enter RMI work item"></label><label style="color:#18334b">Progress percentage<input id="rmiValue" type="number" min="0" max="100" value="0"></label><button class="admin-login" style="background:#0879bd" id="rmiAdd">Add / update work</button><p class="admin-note" style="color:#63788b">Prototype browser-only entry. Values are not shared across devices.</p></div></div>
+  <div class="rmi-list"><strong>Work-wise progress</strong><div id="rmiItems" style="margin-top:8px"><p class="doc">No RMI work items entered yet. Admin can add items when the work details are available.</p></div></div>
  </div>
 </section>
+<section class="section" id="quick-access">
+ <div class="section-head"><span class="bar"></span><div><h2>QUICK ACCESS</h2><p>Choose a portal section to continue</p></div></div>
+ <div class="quickgrid">
+  <a class="quick" href="#md-particulars"><span class="qicon">▥</span><span><strong>MD Particulars</strong><small>Maximum demand details</small></span></a>
+  <a class="quick" href="#land-details"><span class="qicon">⌂</span><span><strong>Land Details</strong><small>Substation land particulars</small></span></a>
+  <a class="quick" href="#monthly-mis"><span class="qicon">▤</span><span><strong>Monthly MIS</strong><small>Monthly returns and proformas</small></span></a>
+  <a class="quick" href="#equipment-register"><span class="qicon">ϟ</span><span><strong>Equipment Register</strong><small>Substation equipment records</small></span></a>
+  <a class="quick" href="#maintenance"><span class="qicon">◷</span><span><strong>Maintenance</strong><small>Maintenance records and schedules</small></span></a>
+  <a class="quick" href="#testing-records"><span class="qicon">✓</span><span><strong>Testing Records</strong><small>O&amp;M, MRT and TRE testing</small></span></a>
+  <a class="quick" href="#tripping-reports"><span class="qicon">⚡</span><span><strong>Tripping Reports</strong><small>Feeder and equipment trippings</small></span></a>
+  <a class="quick" href="#tp-register"><span class="qicon">▣</span><span><strong>T&amp;P Register</strong><small>Tools and plant particulars</small></span></a>
+  <a class="quick" href="#contacts"><span class="qicon">☎</span><span><strong>Contacts</strong><small>Subdivision contact information</small></span></a>
+ </div>
+</section>
+<section class="section" id="md-particulars"><div class="section-head"><span class="bar"></span><div><h2>MD PARTICULARS</h2></div></div><div class="placeholder"><strong>MD Particulars section reserved.</strong> We will develop the PTR-wise maximum demand figures, dates, times and six-month trends in the next stage.</div></section>
+<section class="section" id="land-details"><div class="section-head"><span class="bar"></span><div><h2>LAND DETAILS</h2></div></div><div class="placeholder"><strong>Land Details section reserved.</strong> Substation-wise land particulars, survey details and document links will be added next.</div></section>
+<section class="section" id="monthly-mis"><div class="section-head"><span class="bar"></span><div><h2>MONTHLY MIS</h2></div></div><div class="placeholder"><strong>Monthly MIS section reserved.</strong> We will build the monthly returns and upload/view workflow separately.</div></section>
+<section class="section" id="equipment-register"><div class="section-head"><span class="bar"></span><div><h2>EQUIPMENT REGISTER</h2></div></div><div class="placeholder"><strong>Equipment Register section reserved.</strong> Equipment data, filters, import and export functions will be developed next.</div></section>
+<section class="section" id="maintenance"><div class="section-head"><span class="bar"></span><div><h2>MAINTENANCE</h2></div></div><div class="placeholder"><strong>Maintenance section reserved.</strong> Preventive maintenance schedules and completed work records will be added next.</div></section>
+<section class="section" id="testing-records"><div class="section-head"><span class="bar"></span><div><h2>TESTING RECORDS</h2></div></div><div class="placeholder"><strong>Testing Records section reserved.</strong> O&amp;M, MRT and TRE records will be organised here.</div></section>
+<section class="section" id="tripping-reports"><div class="section-head"><span class="bar"></span><div><h2>TRIPPING REPORTS</h2></div></div><div class="placeholder"><strong>Tripping Reports section reserved.</strong> Feeder-wise and equipment-wise tripping records will be added next.</div></section>
+<section class="section" id="tp-register"><div class="section-head"><span class="bar"></span><div><h2>T&amp;P REGISTER</h2></div></div><div class="placeholder"><strong>T&amp;P Register section reserved.</strong> Tools, plant, calibration and availability details will be developed next.</div></section>
+<section class="section" id="contacts"><div class="section-head"><span class="bar"></span><div><h2>CONTACTS</h2></div></div><div class="placeholder"><strong>Contacts section reserved.</strong> Official subdivision and substation contact details will be added after you provide the approved particulars.</div></section>
 </main>
-
-<footer>
- <strong>APTRANSCO · PRMLSD</strong><br>
- Porumamilla Sub Division · Substation Information Portal<br>
- Official logo displayed as supplied.
-</footer>
-
+<footer class="footer"><strong>Designed &amp; Developed by T. Kiran Kumar</strong><strong style="font-size:12px;margin-top:5px">AEE / APTRANSCO</strong><p>Thank you for visiting APTRANSCO Porumamilla Sub Division Portal.</p><small>PRMLSD · POWER · PROTECTION · PERFORMANCE</small></footer>
 <script>
-function updateClock(){
- const now=new Date();
- document.getElementById("time").textContent=
- new Intl.DateTimeFormat("en-GB",{
-  timeZone:"Asia/Kolkata",
-  hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
- }).format(now);
+const pad=n=>String(n).padStart(2,'0');
+function tick(){const d=new Date();document.getElementById('time').textContent=[pad(d.getHours()),pad(d.getMinutes()),pad(d.getSeconds())].join(':');document.getElementById('date').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',weekday:'long',day:'2-digit',month:'short',year:'numeric',timeZoneName:'short'}).format(d)}
+tick();setInterval(tick,1000);
 
- document.getElementById("date").textContent=
- new Intl.DateTimeFormat("en-IN",{
-  timeZone:"Asia/Kolkata",
-  weekday:"long",day:"2-digit",month:"short",year:"numeric"
- }).format(now);
-}
-updateClock();
-setInterval(updateClock,1000);
-
-document.getElementById("search").addEventListener("input",function(){
- const q=this.value.trim().toLowerCase();
- const cards=document.querySelectorAll(".searchable");
- let count=0;
- cards.forEach(card=>{
-  const match=card.textContent.toLowerCase().includes(q);
-  card.style.display=match?"":"none";
-  if(match)count++;
- });
- document.getElementById("no-results").style.display=count?"none":"block";
-});
+// Image carousel: one image every 5 seconds, looping continuously.
+let workSlides=[{src:'ptr-3.jpeg',caption:'160 MVA PTR-3 BHEL AT 220 kV SS PML'}],workIndex=0;
+const slider=document.getElementById('workSlider'),dots=document.getElementById('slideDots');
+function renderSlides(){slider.innerHTML='';dots.innerHTML='';workSlides.forEach((s,i)=>{const el=document.createElement('div');el.className='slide'+(i===workIndex?' active':'');const img=document.createElement('img');img.src=s.src;img.alt=s.caption;const cap=document.createElement('div');cap.className='slide-caption';cap.textContent=s.caption;el.append(img,cap);slider.append(el);const dot=document.createElement('button');dot.className='dot'+(i===workIndex?' active':'');dot.setAttribute('aria-label','Slide '+(i+1));dot.onclick=()=>{workIndex=i;renderSlides()};dots.append(dot)});document.getElementById('slideCount').textContent=(workIndex+1)+' / '+workSlides.length}
+renderSlides();setInterval(()=>{if(workSlides.length>1){workIndex=(workIndex+1)%workSlides.length;renderSlides()}},5000);
+document.getElementById('adminToggle').onclick=()=>document.getElementById('adminTools').classList.toggle('show');
+document.getElementById('workUploads').addEventListener('change',e=>{[...e.target.files].forEach(f=>{const reader=new FileReader();reader.onload=()=>{workSlides.push({src:reader.result,caption:f.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').toUpperCase()});renderSlides()};reader.readAsDataURL(f)});e.target.value=''});
+// Simple editable RMI preview data; not connected to shared server storage.
+let rmiWorks=[];
+function renderRmi(){const total=rmiWorks.length,done=rmiWorks.filter(x=>x.p===100).length,pending=rmiWorks.filter(x=>x.p===0).length,progress=total-done-pending,avg=total?Math.round(rmiWorks.reduce((a,x)=>a+x.p,0)/total):0;document.getElementById('rmiOverall').textContent=avg+'%';document.getElementById('rmiOverallBar').style.width=avg+'%';document.getElementById('rmiTotal').textContent=total;document.getElementById('rmiDone').textContent=done;document.getElementById('rmiProgress').textContent=progress;document.getElementById('rmiPending').textContent=pending;const box=document.getElementById('rmiItems');box.innerHTML='';if(!total){box.innerHTML='<p class="doc">No RMI work items entered yet. Admin can add items when the work details are available.</p>';return}rmiWorks.forEach((x,i)=>{const row=document.createElement('div');row.className='rmi-row';row.innerHTML='<div class="rmi-row-top"><span></span><span>'+x.p+'%</span></div><div class="progress"><span style="width:'+x.p+'%"></span></div><small>'+(x.p===100?'Completed':x.p===0?'Pending':'In progress')+'</small>';row.querySelector('.rmi-row-top span').textContent=x.name;box.append(row)})}
+document.getElementById('rmiAdminToggle').onclick=()=>document.getElementById('rmiAdminTools').classList.toggle('show');
+document.getElementById('rmiAdd').onclick=()=>{const name=document.getElementById('rmiName').value.trim(),p=Number(document.getElementById('rmiValue').value);if(!name||!Number.isFinite(p)||p<0||p>100){alert('Enter a work description and progress from 0 to 100.');return}const old=rmiWorks.find(x=>x.name.toLowerCase()===name.toLowerCase());if(old)old.p=p;else rmiWorks.push({name,p});document.getElementById('rmiName').value='';renderRmi()};renderRmi();
 </script>
-</body>
-</html>
+</body></html>
