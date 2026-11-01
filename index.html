@@ -48,6 +48,7 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 @media(max-width:560px){.eq-toolbar,.eq-formgrid{grid-template-columns:1fr}.eq-panel{padding:12px}}
 
 
+.eq-page-back{display:flex;justify-content:flex-start;margin:0 0 14px}
 /* Section-based equipment register navigation */
 .eq-landing{margin:14px 0 20px}.eq-station-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:16px 0}.eq-station-card{display:flex;align-items:center;gap:14px;text-align:left;border:0;border-radius:16px;padding:18px;min-height:112px;cursor:pointer;box-shadow:0 5px 18px #10243a12;color:#17324d}.eq-station-card img{width:58px;height:58px;object-fit:contain;border-radius:9px;background:#fff;padding:4px}.eq-station-card b{display:block;font-size:15px}.eq-station-card small{display:block;margin-top:6px;opacity:.78}.eq-station-card.mkp{background:#e8f1ff;border-left:6px solid #2767b1}.eq-station-card.pml{background:#e9f6ed;border-left:6px solid #27834b}.eq-station-card.ksp{background:#f2ecfb;border-left:6px solid #7952a6}.eq-navhead{display:flex;align-items:center;gap:14px;margin:18px 0}.eq-navhead h3{margin:0;font-size:18px}.eq-category-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.eq-category-card,.eq-bay-card{border:1px solid #dce4ed;border-radius:13px;padding:17px;background:#fff;text-align:left;cursor:pointer;min-height:88px;box-shadow:0 3px 12px #10243a0a}.eq-category-card strong,.eq-bay-card strong{display:block;color:#17324d}.eq-category-card small,.eq-bay-card small{display:block;margin-top:7px;color:#64748b}.eq-category-card.mkp{border-top:4px solid #2767b1}.eq-category-card.pml{border-top:4px solid #27834b}.eq-category-card.ksp{border-top:4px solid #7952a6}.eq-bay-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.eq-bay-card{min-height:76px}.eq-bay-card:hover,.eq-category-card:hover,.eq-station-card:hover{transform:translateY(-1px);box-shadow:0 7px 18px #10243a18}.eq-count{font-size:12px;color:#64748b}.eq-note{line-height:1.55}.eq-missing{color:#a15b00;font-weight:600}@media(max-width:850px){.eq-station-grid{grid-template-columns:1fr}.eq-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.eq-bay-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.eq-category-grid,.eq-bay-grid{grid-template-columns:1fr}.eq-navhead{align-items:flex-start;flex-direction:column}}
 
@@ -95,7 +96,7 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
   <a class="quick" href="#quick-access"><span class="qicon">▥</span><span><strong>MD Particulars</strong><small>Maximum demand details</small></span></a>
   <a class="quick" href="#quick-access"><span class="qicon">⌂</span><span><strong>Land Details</strong><small>Substation land particulars</small></span></a>
   <a class="quick" href="#quick-access"><span class="qicon">▤</span><span><strong>Monthly MIS</strong><small>Monthly returns and proformas</small></span></a>
-  <a class="quick" href="#equipment-register"><span class="qicon">ϟ</span><span><strong>Equipment Register</strong><small>Substation equipment records</small></span></a>
+  <a class="quick" id="open-equipment-register" href="#equipment-register"><span class="qicon">ϟ</span><span><strong>Equipment Register</strong><small>Substation equipment records</small></span></a>
   <a class="quick" href="#quick-access"><span class="qicon">◷</span><span><strong>Maintenance</strong><small>Maintenance records and schedules</small></span></a>
   <a class="quick" href="#quick-access"><span class="qicon">✓</span><span><strong>Testing Records</strong><small>O&amp;M, MRT and TRE testing</small></span></a>
   <a class="quick" href="#quick-access"><span class="qicon">⚡</span><span><strong>Tripping Reports</strong><small>Feeder and equipment trippings</small></span></a>
@@ -104,7 +105,8 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
  </div>
 </section>
 
-<section class="section" id="equipment-register">
+<section class="section" id="equipment-register" hidden>
+ <div class="eq-page-back"><button type="button" class="eq-btn secondary" id="eqBackHome">← Back to Homepage</button></div>
  <div class="section-head"><span class="bar"></span><div><h2>EQUIPMENT REGISTER</h2><p>Bay-wise equipment particulars · All three substations</p></div></div>
  <div id="eqLanding" class="eq-landing">
   <div class="eq-note"><b>Equipment Register:</b> Select a substation, then an element category and bay. Existing particulars are preloaded from the corrected 476-record workbook. Empty fields are intentionally left blank for verified manual entry.</div>
@@ -242,6 +244,31 @@ $('eqLanding').querySelectorAll('.eq-station-card').forEach(b=>b.addEventListene
 $('eqBackStations').addEventListener('click',()=>{$('eqLanding').querySelector('.eq-station-grid').hidden=false;$('eqCategoryArea').hidden=true;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true});
 $('eqBackCategories').addEventListener('click',()=>{$('eqCategoryArea').hidden=false;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true});
 $('eqBackBays').addEventListener('click',()=>{$('eqBayArea').hidden=false;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true});
+// Open the Equipment Register as a separate in-site view, not on the homepage.
+const eqPage=document.getElementById('equipment-register');
+const homeSections=[...document.querySelectorAll('main > .section:not(#equipment-register)')];
+const topNav=document.querySelector('body > nav');
+const notifications=document.querySelector('.notification-strip');
+function openEquipmentPage(){
+ homeSections.forEach(el=>el.hidden=true);
+ eqPage.hidden=false;
+ if(topNav)topNav.hidden=true;
+ if(notifications)notifications.hidden=true;
+ history.replaceState(null,'','#equipment-register');
+ window.scrollTo({top:0,behavior:'instant'});
+}
+function returnHomePage(){
+ eqPage.hidden=true;
+ homeSections.forEach(el=>el.hidden=false);
+ if(topNav)topNav.hidden=false;
+ if(notifications)notifications.hidden=false;
+ history.replaceState(null,'',location.pathname+location.search);
+ window.scrollTo({top:0,behavior:'instant'});
+}
+document.getElementById('open-equipment-register').addEventListener('click',ev=>{ev.preventDefault();openEquipmentPage()});
+document.getElementById('eqBackHome').addEventListener('click',returnHomePage);
+if(location.hash==='#equipment-register')openEquipmentPage();
+
 // Filter by the selected bay as well as station and voltage/category.
 const oldEqRender=eqRender;
 eqRender=function(){let q=$('eqSearch').value.toLowerCase(),st=$('eqFilterStation').value,bay=$('eqFilterBay').value,phase=$('eqPhaseFilter').value,bn=$('eqFilterBayName')?.value||'';let rows=eqRecords.map((r,i)=>({...r,_i:i})).filter(r=>(!st||r.Substation===st)&&(!bn?(!bay||r['Bay Type']===bay):true)&&(!bn||eqBayRecords(st,bn,eqNavCategory||{type:bay}).includes(r))&&(!phase||r.Phase===phase)&&Object.values(r).join(' ').toLowerCase().includes(q));$('eqTotal').textContent=eqRecords.length;$('eqShown').textContent=rows.length;$('eqMissing').textContent=eqRecords.filter(r=>['Make','Type','Serial No.','MFY','D.O.C.'].some(k=>!r[k])).length;let body=$('eqRows');body.innerHTML='';if(!rows.length){body.innerHTML='<tr><td colspan="11" class="eq-help">No existing records found for this bay. Use the entry form above to add verified particulars.</td></tr>';return}rows.forEach((r,n)=>{let tr=document.createElement('tr');let vals=[n+1,r.Substation+'<br>'+r['Bay Type']+'<br>'+r['Bay Name'],r.Equipment,r.Phase,r.Make,r.Type,r['Serial No.'],r.MFY,r['D.O.C.'],[r.Rating,r['Nameplate Details']].filter(Boolean).join(' · ')];vals.forEach(v=>{let td=document.createElement('td');td.innerHTML=(v===undefined||v===null||v==='')?'<span class="empty">Not entered</span>':String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');tr.append(td)});let action=document.createElement('td');let e=document.createElement('button');e.className='eq-smallbtn';e.textContent='Edit';e.onclick=()=>eqEdit(r._i);let d=document.createElement('button');d.className='eq-smallbtn del';d.textContent='Delete';d.onclick=()=>{if(confirm('Delete this equipment record?')){eqRecords.splice(r._i,1);eqPersist();eqRender()}};action.append(e,d);tr.append(action);body.append(tr)})};
