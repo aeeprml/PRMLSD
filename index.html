@@ -382,4 +382,60 @@ let rmiWorks=[];
 function renderRmi(){const total=rmiWorks.length,done=rmiWorks.filter(x=>x.p===100).length,pending=rmiWorks.filter(x=>x.p===0).length,progress=total-done-pending,avg=total?Math.round(rmiWorks.reduce((a,x)=>a+x.p,0)/total):0;document.getElementById('rmiOverall').textContent=avg+'%';document.getElementById('rmiOverallBar').style.width=avg+'%';document.getElementById('rmiTotal').textContent=total;document.getElementById('rmiDone').textContent=done;document.getElementById('rmiProgress').textContent=progress;document.getElementById('rmiPending').textContent=pending;const box=document.getElementById('rmiItems');box.innerHTML='';if(!total){box.innerHTML='<p class="doc">No RMI work items entered yet. Admin can add items when the work details are available.</p>';return}rmiWorks.forEach((x,i)=>{const row=document.createElement('div');row.className='rmi-row';row.innerHTML='<div class="rmi-row-top"><span></span><span>'+x.p+'%</span></div><div class="progress"><span style="width:'+x.p+'%"></span></div><small>'+(x.p===100?'Completed':x.p===0?'Pending':'In progress')+'</small>';row.querySelector('.rmi-row-top span').textContent=x.name;box.append(row)})}
 renderRmi();
 </script>
+
+<script>
+// Reliable delegated navigation for Equipment Register cards and back controls.
+// Capture the click before any individual button handler so navigation remains consistent.
+document.addEventListener('click', function (event) {
+  const stationCard = event.target.closest && event.target.closest('#eqLanding .eq-station-card');
+  if (stationCard) {
+    event.preventDefault(); event.stopImmediatePropagation();
+    if (typeof eqNavShowStation === 'function') eqNavShowStation(stationCard.dataset.station);
+    return;
+  }
+  const categoryCard = event.target.closest && event.target.closest('#eqCategoryGrid .eq-category-card');
+  if (categoryCard) {
+    event.preventDefault(); event.stopImmediatePropagation();
+    const cards = Array.from(document.querySelectorAll('#eqCategoryGrid .eq-category-card'));
+    const index = cards.indexOf(categoryCard);
+    const categories = (eqNavStructure && eqNavStructure[eqNavStation]) || [];
+    if (categories[index] && typeof eqNavShowCategory === 'function') eqNavShowCategory(categories[index]);
+    return;
+  }
+  const bayCard = event.target.closest && event.target.closest('#eqBayGrid .eq-bay-card');
+  if (bayCard) {
+    event.preventDefault(); event.stopImmediatePropagation();
+    const bayName = bayCard.querySelector('strong')?.textContent || '';
+    if (bayName && typeof eqNavShowBay === 'function') eqNavShowBay(bayName);
+    return;
+  }
+  const backStations = event.target.closest && event.target.closest('#eqBackStations');
+  if (backStations) {
+    event.preventDefault(); event.stopImmediatePropagation();
+    document.querySelector('#eqLanding .eq-station-grid').hidden = false;
+    document.getElementById('eqCategoryArea').hidden = true;
+    document.getElementById('eqBayArea').hidden = true;
+    document.getElementById('eqDetailArea').hidden = true;
+    document.getElementById('eqWorkingPanel').hidden = true;
+    return;
+  }
+  const backCategories = event.target.closest && event.target.closest('#eqBackCategories');
+  if (backCategories) {
+    event.preventDefault(); event.stopImmediatePropagation();
+    document.getElementById('eqCategoryArea').hidden = false;
+    document.getElementById('eqBayArea').hidden = true;
+    document.getElementById('eqDetailArea').hidden = true;
+    document.getElementById('eqWorkingPanel').hidden = true;
+    return;
+  }
+  const backBays = event.target.closest && event.target.closest('#eqBackBays');
+  if (backBays) {
+    event.preventDefault(); event.stopImmediatePropagation();
+    document.getElementById('eqBayArea').hidden = false;
+    document.getElementById('eqDetailArea').hidden = true;
+    document.getElementById('eqWorkingPanel').hidden = true;
+  }
+}, true);
+</script>
+
 </body></html>
