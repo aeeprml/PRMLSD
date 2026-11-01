@@ -20,7 +20,7 @@ nav{background:#06233e;display:flex;justify-content:center;gap:5px;flex-wrap:wra
 .notification-window:hover .notification-track{animation-play-state:paused}
 @keyframes notificationScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28px;scroll-margin-top:20px}.section-head{display:flex;align-items:center;gap:12px;margin:0 0 15px}.section-head .bar{width:6px;height:31px;border-radius:8px;background:linear-gradient(#10b7c9,#0879bd)}.section-head h2{font-size:22px;margin:0;color:var(--navy);letter-spacing:.4px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.station{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:19px;position:relative;overflow:hidden}.station:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(#0b8bc5,#19bdc7)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.station{background:linear-gradient(160deg,#fff,#fbfdff);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:20px 19px 18px;position:relative;overflow:hidden}.station:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#0879bd}.station-title{display:flex;align-items:flex-start;gap:11px;margin-bottom:12px}.station-title>div{min-width:0;flex:1}.station h3{font-size:17px;line-height:1.25;margin:2px 0 0;color:#123b5d}.bolt{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#e5f3ff;color:#0879bd;font-size:23px;flex:none}.doc{display:inline-block;font-size:12px;font-weight:800;color:#073e68;background:#e8f5ff;border:1px solid #b9dff4;border-radius:7px;padding:5px 9px;margin-top:7px}.voltage-tag{white-space:nowrap;background:#eaf1ff;color:#1749b5;border-radius:7px;padding:5px 7px;font-size:10px;font-weight:800}.group-label{font-size:11px;font-weight:800;letter-spacing:.8px;color:#0879bd;margin:13px 0 4px;padding-bottom:5px;border-bottom:1px solid #e5edf4}.detail-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 1px;border-bottom:1px solid #edf2f6;font-size:13px;color:#344b60}.detail-row strong{color:#123b5d;font-size:13px;white-space:nowrap}.total-row{background:#f5f8fc;border-radius:6px;padding:8px 7px;border:0}.station-green:before{background:linear-gradient(#159447,#65c878)}.station-green .bolt{background:#ddfbf2;color:#159477}.station-green .doc{background:#eaf8ee;border-color:#b9e5c4;color:#176b37}.station-green .group-label{color:#168545}.station-purple:before{background:linear-gradient(#8752c7,#c084e8)}.station-purple .bolt{background:#ffeadb;color:#d46b23}.station-purple .doc{background:#f4edff;border-color:#d7c3f4;color:#7040a7}.station-purple .group-label{color:#8752c7}
 .station:nth-child(1):before{background:linear-gradient(#0879bd,#20b8d0)}
 .station:nth-child(1) .bolt{background:#e5f3ff;color:#0879bd}
 .station:nth-child(1) .doc{background:#e8f4ff;border-color:#b8d9f2;color:#07558a}
@@ -30,8 +30,8 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 .station:nth-child(3):before{background:linear-gradient(#8752c7,#c084e8)}
 .station:nth-child(3) .bolt{background:#f3eaff;color:#8752c7}
 .station:nth-child(3) .doc{background:#f4edff;border-color:#d7c3f4;color:#7040a7}
-.station-title{display:flex;align-items:center;gap:12px;margin-bottom:13px}.bolt{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;background:#e6f7fc;color:#0879bd;font-size:27px;flex:none}.station h3{font-size:17px;margin:0;color:#123b5d}.doc{display:inline-block;font-size:13px;font-weight:700;color:#073e68;background:#e8f5ff;border:1px solid #b9dff4;border-radius:7px;padding:5px 9px;margin-top:7px}.specs{display:grid;grid-template-columns:1fr 1fr;gap:9px}.spec{background:#f3f8fc;border-radius:9px;padding:10px}.spec small{display:block;color:#6a8092;font-size:10px;text-transform:uppercase;letter-spacing:.5px}.spec strong{display:block;margin-top:5px;color:#123b5d;font-size:14px}.spec.wide{grid-column:1/-1}
-.quickgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.quick{display:flex;align-items:center;gap:17px;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:15px;padding:24px;min-height:124px;box-shadow:0 5px 15px #0b365010;transition:.18s}.quick:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#9bd9e6}.quick .qicon{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;font-size:21px;color:white;background:linear-gradient(135deg,#0879bd,#18b8c9)}.quick strong{font-size:17px}.quick small{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+
+.quickgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.quick{display:flex;align-items:center;gap:18px;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:16px;padding:27px;min-height:142px;box-shadow:0 5px 15px #0b365010;transition:.18s}.quick:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#9bd9e6}.quick .qicon{width:60px;height:60px;border-radius:12px;display:grid;place-items:center;font-size:21px;color:white;background:linear-gradient(135deg,#0879bd,#18b8c9)}.quick strong{font-size:18px}.quick small{display:block;color:var(--muted);font-size:14px;margin-top:4px}
 .works{background:linear-gradient(120deg,#062b4d,#075e83 65%,#087f8d);border-radius:19px;padding:19px;color:white;box-shadow:var(--shadow)}.works .section-head h2{color:white}.works .section-head .bar{background:#ffcf4b}.works .section-head p{color:#cceaf1}.slider{position:relative;border-radius:13px;overflow:hidden;background:#061c30;min-height:260px}.slide{display:none;position:relative}.slide.active{display:block;animation:fade .55s ease}.slide img{display:block;width:100%;height:clamp(260px,42vw,480px);object-fit:contain;background:#071d31}.slide-caption{position:absolute;left:0;right:0;bottom:0;padding:17px 20px;background:linear-gradient(transparent,rgba(0,17,35,.92));font-weight:bold;font-size:clamp(15px,2vw,21px);letter-spacing:.4px;color:#fff;text-shadow:0 2px 4px #000}.slide-controls{display:flex;align-items:center;justify-content:space-between;padding:11px 3px 0;color:#d9f5f7;font-size:12px}.dots{display:flex;gap:7px}.dot{width:8px;height:8px;border-radius:20px;background:#ffffff60;border:0;padding:0}.dot.active{width:22px;background:#ffd45a}
 .rmi-grid{display:grid;grid-template-columns:1.05fr 2fr;gap:16px}.rmi-summary,.rmi-list{background:white;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:var(--shadow)}.rmi-percent{font-size:45px;font-weight:bold;color:#0879bd}.progress{height:12px;border-radius:20px;background:#e8eff5;overflow:hidden;margin:10px 0}.progress span{height:100%;display:block;background:linear-gradient(90deg,#0c8ac2,#22c4ad);border-radius:20px}.rmi-counts{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.rmi-counts b{color:var(--ink)}.rmi-row{padding:11px 0;border-bottom:1px solid #edf2f6}.rmi-row:last-child{border:0}.rmi-row-top{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:bold}.rmi-row small{color:var(--muted)}.rmi-row .progress{height:8px;margin:7px 0}
 .placeholder{background:#fff;border:1px dashed #b9cbd9;border-radius:14px;padding:22px;color:#60788b;font-size:13px}.placeholder strong{color:#174767}
@@ -39,7 +39,6 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 @keyframes fade{from{opacity:.55;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
 @media(max-width:900px){.tophead{grid-template-columns:1fr 1.5fr;}.clock{grid-column:1/-1;justify-self:center;width:min(100%,260px)}.tagline{border-right:0}.cards{grid-template-columns:1fr 1fr}.quickgrid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.tophead{display:flex;flex-direction:column;gap:12px;padding:14px}.brand img{width:68px;height:68px}.brandcopy strong{font-size:18px}.tagline{border:0;border-top:1px solid #ffffff45;padding:12px 3px 0}.tagline p{font-size:12px}.clock{width:100%}nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}nav a{white-space:nowrap}.cards,.quickgrid,.rmi-grid{grid-template-columns:1fr}.quick{min-height:100px;padding:20px}.specs{grid-template-columns:1fr 1fr}main{padding:19px 4%}.section-head h2{font-size:19px}.slide img{height:260px}.works{padding:14px}}
-
 /* Equipment register */
 .eq-panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;box-shadow:var(--shadow)}
 .eq-toolbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
@@ -82,6 +81,12 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 #equipment-register .eq-searchbar{background:#f7fafc;border:1px solid #e3ebf2;border-radius:12px}
 #equipment-register .eq-note,#equipment-register .eq-warning{display:none!important}
 
+
+/* Keep the Equipment Register clean and bay-focused. */
+#equipment-register .eq-note,#equipment-register .eq-help,#equipment-register .eq-stats{display:none!important}
+#equipment-register .eq-toolbar .eq-field:has(#eqStation),#equipment-register .eq-toolbar .eq-field:has(#eqBayType),#equipment-register .eq-toolbar .eq-field:has(#eqBayName),#equipment-register .eq-toolbar .eq-field:has(#eqEquipment){display:none!important}
+#equipment-register .eq-panel{margin-top:18px}
+
 </style>
 </head>
 <body>
@@ -99,9 +104,30 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 <section class="section" id="substations">
  <div class="section-head"><span class="bar"></span><div><h2>OUR SUBSTATIONS</h2><p>Porumamilla Sub Division · APTRANSCO</p></div></div>
  <div class="cards">
-  <article class="station"><div class="station-title"><span class="bolt">ϟ</span><div><h3>220/132 kV SS Porumamilla</h3><div class="doc">D.O.C.: 31-03-2017</div></div></div><div class="specs"><div class="spec"><small>220 kV Feeders</small><strong>04 Nos.</strong></div><div class="spec"><small>132 kV Feeders</small><strong>10 Nos.</strong></div><div class="spec wide"><small>PTR Capacity</small><strong>2 × 100 + 1 × 160 MVA</strong></div></div></article>
-  <article class="station"><div class="station-title"><span class="bolt">ϟ</span><div><h3>132/33 kV SS Porumamilla</h3><div class="doc">D.O.C.: 22-10-2005</div></div></div><div class="specs"><div class="spec"><small>132 kV Feeders</small><strong>02 Nos.</strong></div><div class="spec"><small>33 kV Feeders</small><strong>06 Nos.</strong></div><div class="spec"><small>PTR Capacity</small><strong>2 × 31.5 MVA</strong></div><div class="spec"><small>Capacitor Bank</small><strong>2 × 7.2 MVAR</strong></div></div></article>
-  <article class="station"><div class="station-title"><span class="bolt">ϟ</span><div><h3>132/33 kV SS Kalasapadu</h3><div class="doc">D.O.C.: 15-07-2019</div></div></div><div class="specs"><div class="spec"><small>132 kV Feeders</small><strong>02 Nos.</strong></div><div class="spec"><small>33 kV Feeders</small><strong>03 Nos.</strong></div><div class="spec"><small>PTR-1</small><strong>10/16 MVA</strong></div><div class="spec"><small>PTR-2</small><strong>31.5 MVA</strong></div><div class="spec wide"><small>Capacitor Bank</small><strong>1 × 7.2 MVAR</strong></div></div></article>
+  <article class="station station-blue">
+   <div class="station-title"><span class="bolt">⚡</span><div><h3>220/132 kV SS Porumamilla</h3><div class="doc">D.O.C. : 31-03-2017</div></div><span class="voltage-tag">220 / 132 kV</span></div>
+   <div class="group-label">FEEDER PARTICULARS</div>
+   <div class="detail-row"><span>220 kV Feeders</span><strong>04 Nos.</strong></div><div class="detail-row"><span>132 kV Feeders</span><strong>10 Nos.</strong></div>
+   <div class="group-label">POWER TRANSFORMERS</div>
+   <div class="detail-row"><span>PTR Capacity</span><strong>2 × 100 MVA</strong></div><div class="detail-row"><span>Additional PTR</span><strong>1 × 160 MVA</strong></div>
+   <div class="group-label">TOTAL TRANSFORMERS</div><div class="detail-row total-row"><span>Total PTRs</span><strong>03 Nos.</strong></div>
+  </article>
+  <article class="station station-green">
+   <div class="station-title"><span class="bolt">⚡</span><div><h3>132/33 kV SS Porumamilla</h3><div class="doc">D.O.C. : 22-10-2005</div></div><span class="voltage-tag">132 / 33 kV</span></div>
+   <div class="group-label">FEEDER PARTICULARS</div>
+   <div class="detail-row"><span>132 kV Feeders</span><strong>02 Nos.</strong></div><div class="detail-row"><span>33 kV Feeders</span><strong>06 Nos.</strong></div>
+   <div class="group-label">POWER TRANSFORMERS</div>
+   <div class="detail-row"><span>PTR Capacity</span><strong>2 × 31.5 MVA</strong></div><div class="detail-row"><span>Total PTRs</span><strong>02 Nos.</strong></div>
+   <div class="group-label">CAPACITOR BANKS</div><div class="detail-row total-row"><span>Rating</span><strong>2 × 7.2 MVAR</strong></div>
+  </article>
+  <article class="station station-purple">
+   <div class="station-title"><span class="bolt">⚡</span><div><h3>132/33 kV SS Kalasapadu</h3><div class="doc">D.O.C. : 15-07-2019</div></div><span class="voltage-tag">132 kV</span></div>
+   <div class="group-label">FEEDER PARTICULARS</div>
+   <div class="detail-row"><span>132 kV Feeders</span><strong>02 Nos.</strong></div><div class="detail-row"><span>33 kV Feeders</span><strong>03 Nos.</strong></div>
+   <div class="group-label">POWER TRANSFORMERS</div>
+   <div class="detail-row"><span>PTR-1</span><strong>10/16 MVA</strong></div><div class="detail-row"><span>PTR-2</span><strong>31.5 MVA</strong></div><div class="detail-row"><span>Total PTRs</span><strong>02 Nos.</strong></div>
+   <div class="group-label">CAPACITOR BANK</div><div class="detail-row total-row"><span>Rating</span><strong>1 × 7.2 MVAR</strong></div>
+  </article>
  </div>
 </section>
 <section class="section" id="important-works">
@@ -158,7 +184,6 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
   <div class="eq-sectionlabel">EQUIPMENT PARTICULARS</div>
   <div class="eq-formgrid" id="eqDynamicFields"></div>
   <div class="eq-actions"><button class="eq-btn" id="eqSave">Save Equipment</button><button class="eq-btn secondary" id="eqCancel">Clear Form</button><button class="eq-btn secondary" id="eqExport">Export Excel</button><label class="eq-btn secondary" for="eqImportFile">Import Excel / CSV</label><input class="eq-hidden" id="eqImportFile" type="file" accept=".xlsx,.xls,.csv"></div>
-  <div class="eq-help">Import columns: Substation, Bay Type, Bay Name, Equipment, Phase, Make, Type, Serial No., MFY, D.O.C., Rating, Nameplate Details. Blank source fields are retained as blank. Import preview and duplicate checking are applied before records are added.</div>
   <div class="eq-list-head"><div><strong id="eqBayRecordCount">Equipment in this bay</strong><small id="eqShownLabel">Select a bay to view its equipment.</small></div><button type="button" class="eq-btn secondary" id="eqAddEquipment">+ Add Equipment</button></div>
   <div class="eq-searchbar">
    <div class="eq-field eq-search-main"><label for="eqSearch">SEARCH WITHIN THIS BAY</label><input id="eqSearch" placeholder="Search equipment, make, type or serial number"></div>
@@ -169,11 +194,11 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
   <div class="eq-tablewrap"><table class="eq-table"><thead><tr><th>Sl. No.</th><th>Substation / Bay</th><th>Equipment</th><th>Phase</th><th>Make</th><th>Type</th><th>Manufacturer Sl. No.</th><th>MFY</th><th>D.O.C.</th><th>Rating / Nameplate</th><th>Action</th></tr></thead><tbody id="eqRows"><tr><td colspan="11" class="eq-help">Loading the preloaded equipment register…</td></tr></tbody></table></div>
  </div>
 </section>
-
 </main>
 <footer class="footer"><strong>Designed &amp; Developed by T. Kiran Kumar</strong><strong style="font-size:12px;margin-top:5px">AEE / APTRANSCO</strong><p>Thank you for visiting APTRANSCO Porumamilla Sub Division Portal.</p><small>PRMLSD · POWER · PROTECTION · PERFORMANCE</small></footer>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
+
 
 // Equipment register: bay templates and browser-local working preview.
 const eqTemplates={
@@ -213,38 +238,25 @@ $('eqExport').addEventListener('click',()=>{if(!window.XLSX){alert('Excel export
 $('eqImportFile').addEventListener('change',async ev=>{let file=ev.target.files[0];if(!file)return;if(!window.XLSX){alert('Excel import library could not load. Check internet connection and try again.');ev.target.value='';return}try{let data=await file.arrayBuffer(),wb=XLSX.read(data,{type:'array'}),ws=wb.Sheets[wb.SheetNames[0]],incoming=XLSX.utils.sheet_to_json(ws,{defval:''});if(!incoming.length){alert('No data rows found in the first worksheet.');return}let preview=incoming.slice(0,5).map(r=>Object.keys(r).slice(0,5).map(k=>k+': '+r[k]).join(' | ')).join('\n');if(!confirm('Found '+incoming.length+' rows. First rows preview:\n'+preview+'\n\nImport these records? Duplicate records (same substation, bay, equipment, phase and serial number) will be skipped.'))return;let added=0,skipped=0;incoming.forEach(row=>{let r={};Object.keys(row).forEach(k=>{let key=String(k).trim();r[key]=row[k]===null?'':String(row[k]).trim()});let required=['Equipment'];if(required.some(k=>!r[k])){skipped++;return}r.Substation=r.Substation||eqNavStation;r['Bay Type']=r['Bay Type']||eqNavCategory?.type||'';r['Bay Name']=r['Bay Name']||eqNavBay;if(r.Substation!==eqNavStation||r['Bay Name']!==eqNavBay){skipped++;return}let duplicate=eqRecords.some(x=>x.Substation===r.Substation&&x['Bay Name']===r['Bay Name']&&x.Equipment===r.Equipment&&x.Phase===(r.Phase||'Common')&&(x['Serial No.']||'')===(r['Serial No.']||''));if(duplicate){skipped++;return}r.Phase=r.Phase||'Common';eqRecords.push(r);added++});eqPersist();eqRender();alert('Import completed. Added: '+added+' | Skipped / duplicate / incomplete: '+skipped)}catch(err){alert('Unable to read this file. Verify the Excel/CSV format.')}finally{ev.target.value=''}});
 eqOptions();eqRender();
 
-const pad=n=>String(n).padStart(2,'0');
-function tick(){const d=new Date();document.getElementById('time').textContent=[pad(d.getHours()),pad(d.getMinutes()),pad(d.getSeconds())].join(':');document.getElementById('date').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',weekday:'long',day:'2-digit',month:'short',year:'numeric',timeZoneName:'short'}).format(d)}
-tick();setInterval(tick,1000);
-
-// Image carousel: one image every 5 seconds, looping continuously.
-let workSlides=[{src:'ptr-3.jpeg',caption:'160 MVA PTR-3 BHEL AT 220 kV SS PML'}],workIndex=0;
-const slider=document.getElementById('workSlider'),dots=document.getElementById('slideDots');
-function renderSlides(){slider.innerHTML='';dots.innerHTML='';workSlides.forEach((s,i)=>{const el=document.createElement('div');el.className='slide'+(i===workIndex?' active':'');const img=document.createElement('img');img.src=s.src;img.alt=s.caption;const cap=document.createElement('div');cap.className='slide-caption';cap.textContent=s.caption;el.append(img,cap);slider.append(el);const dot=document.createElement('button');dot.className='dot'+(i===workIndex?' active':'');dot.setAttribute('aria-label','Slide '+(i+1));dot.onclick=()=>{workIndex=i;renderSlides()};dots.append(dot)});document.getElementById('slideCount').textContent=(workIndex+1)+' / '+workSlides.length}
-renderSlides();setInterval(()=>{if(workSlides.length>1){workIndex=(workIndex+1)%workSlides.length;renderSlides()}},5000);
-// Simple editable RMI preview data; not connected to shared server storage.
-let rmiWorks=[];
-function renderRmi(){const total=rmiWorks.length,done=rmiWorks.filter(x=>x.p===100).length,pending=rmiWorks.filter(x=>x.p===0).length,progress=total-done-pending,avg=total?Math.round(rmiWorks.reduce((a,x)=>a+x.p,0)/total):0;document.getElementById('rmiOverall').textContent=avg+'%';document.getElementById('rmiOverallBar').style.width=avg+'%';document.getElementById('rmiTotal').textContent=total;document.getElementById('rmiDone').textContent=done;document.getElementById('rmiProgress').textContent=progress;document.getElementById('rmiPending').textContent=pending;const box=document.getElementById('rmiItems');box.innerHTML='';if(!total){box.innerHTML='<p class="doc">No RMI work items entered yet. Admin can add items when the work details are available.</p>';return}rmiWorks.forEach((x,i)=>{const row=document.createElement('div');row.className='rmi-row';row.innerHTML='<div class="rmi-row-top"><span></span><span>'+x.p+'%</span></div><div class="progress"><span style="width:'+x.p+'%"></span></div><small>'+(x.p===100?'Completed':x.p===0?'Pending':'In progress')+'</small>';row.querySelector('.rmi-row-top span').textContent=x.name;box.append(row)})}
-renderRmi();
 
 // Section-first navigation for the three substations.
 const eqNavStructure={
  '220/132 kV SS Porumamilla':[
-  {name:'220 kV Elements',type:'220 kV Feeder Bay',bays:['220 kV Ecoren-1 Feeder','220 kV Ecoren-2 Feeder','220 kV Jammalamadugu-1 Feeder','220 kV Jammalamadugu-2 Feeder','220 kV Bus PT-1','220 kV Bus PT-2','220 kV Bus Coupler','220 kV Bus Bar Section']},
+  {name:'220 kV Elements',type:'220 kV Feeder Bay',bays:['220 kV Ecoren-1 Feeder Feeder','220 kV Ecoren-2 Feeder Feeder','220 kV Jammalamadugu-1 Feeder Feeder','220 kV Jammalamadugu-2 Feeder Feeder','220 kV Bus PT-1','220 kV Bus PT-2','220 kV Bus Coupler','220 kV Bus Bar Section']},
   {name:'Power Transformers',type:'220 kV PTR Bay',bays:['100 MVA PTR-1 BBL','100 MVA PTR-2 BBL','160 MVA PTR-3 BHEL']},
-  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Badvel-1 Feeder','132 kV Badvel-2 Feeder','132 kV Inox-1 Feeder','132 kV Inox-2 Feeder','132 kV Porumamilla-1 Feeder','132 kV Porumamilla-2 Feeder','132 kV Kalasapadu-1 Feeder','132 kV Kalasapadu-2 Feeder','132 kV B.Mattam-1 Feeder','132 kV B.Mattam-2 Feeder','132 kV Bus PT']},
+  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Badvel-1 Feeder Feeder','132 kV Badvel-2 Feeder Feeder','132 kV Inox-1 Feeder Feeder','132 kV Inox-2 Feeder Feeder','132 kV Porumamilla-1 Feeder Feeder','132 kV Porumamilla-2 Feeder Feeder','132 kV Kalasapadu-1 Feeder Feeder','132 kV Kalasapadu-2 Feeder Feeder','132 kV B.Mattam-1 Feeder Feeder','132 kV B.Mattam-2 Feeder Feeder','132 kV Bus PT']},
   {name:'Auxiliary Equipment',type:'Auxiliary Equipment',bays:['Station Transformer','Battery System','DG Set']}
  ],
  '132/33 kV SS Porumamilla':[
-  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder','132 kV Porumamilla-2 Feeder','132 kV Bus PT']},
+  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder Feeder','132 kV Porumamilla-2 Feeder Feeder','132 kV Bus PT']},
   {name:'Power Transformers',type:'132 kV PTR Bay',bays:['20/31.5 MVA PTR-1','18.9/31.5 MVA PTR-2']},
-  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Amagampalli Feeder','33 kV Kalavakatta Feeder','33 kV Narasapuram Feeder','33 kV Porumamilla Rural Feeder','33 kV Porumamilla Town Feeder','33 kV Capacitor Bank-1','33 kV Capacitor Bank-2','33 kV Bus PT']},
+  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Amagampalli Feeder Feeder','33 kV Kalavakatta Feeder Feeder','33 kV Narasapuram Feeder Feeder','33 kV Porumamilla Rural Feeder Feeder','33 kV Porumamilla Town Feeder Feeder','33 kV Capacitor Bank-1','33 kV Capacitor Bank-2','33 kV Bus PT']},
   {name:'Auxiliary Equipment',type:'Auxiliary Equipment',bays:['Station Transformer','Battery System','DG Set']}
  ],
  '132/33 kV SS Kalasapadu':[
-  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder','132 kV Porumamilla-2 Feeder','132 kV Bus PT']},
+  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder Feeder','132 kV Porumamilla-2 Feeder Feeder','132 kV Bus PT']},
   {name:'Power Transformers',type:'132 kV PTR Bay',bays:['10/16 MVA PTR-1','31.5 MVA PTR-2']},
-  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Kalasapadu Feeder','33 kV Ramapuram Feeder','33 kV Varikuntla Feeder','33 kV Spare Feeder','33 kV Capacitor Bank-1','33 kV Bus PT']},
+  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Kalasapadu Feeder','33 kV Ramapuram Feeder Feeder','33 kV Varikuntla Feeder Feeder','33 kV Spare Feeder Feeder','33 kV Capacitor Bank-1','33 kV Bus PT']},
   {name:'Auxiliary Equipment',type:'Auxiliary Equipment',bays:['Station Transformer','Battery System','DG Set']}
  ]
 };
@@ -294,8 +306,8 @@ function eqBayRecords(st,bay,cat){
  const short=bay.replace(/^\d+ kV /i,'').replace(/ Feeder$/i,'');
  return all.filter(r=>r['Bay Type']===cat.type && (eqNorm(r['Bay Name']).includes(eqNorm(short)) || eqNorm(r['Bay Name']).includes(norm.replace(/ feeder$/,''))));
 }
-function eqNavShowStation(st){eqNavStation=st;eqNavCategory=null;eqNavBay='';$('eqLanding').querySelector('.eq-station-grid').hidden=true;$('eqCategoryArea').hidden=false;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedStation').textContent=st;let grid=$('eqCategoryGrid');grid.innerHTML='';let color=st.includes('220/132')?'mkp':st.includes('Kalasapadu')?'ksp':'pml';(eqNavStructure[st]||[]).forEach(cat=>{let count=cat.bays.reduce((n,b)=>n+eqBayRecords(st,b,cat).length,0);let btn=document.createElement('button');btn.className='eq-category-card '+color;btn.innerHTML='<strong>'+cat.name+'</strong><small>'+cat.bays.length+' access points · '+count+' existing records</small>';btn.onclick=()=>eqNavShowCategory(cat);grid.append(btn)});$('eqStation').value=st;}
-function eqNavShowCategory(cat){eqNavCategory=cat;$('eqCategoryArea').hidden=true;$('eqBayArea').hidden=false;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedCategory').textContent=eqNavStation+' · '+cat.name;let grid=$('eqBayGrid');grid.innerHTML='';eqGetCategoryBays(eqNavStation,cat).forEach(b=>{let n=eqBayRecords(eqNavStation,b,cat).length;let btn=document.createElement('button');btn.className='eq-bay-card';btn.innerHTML='<strong></strong><small></small>';btn.querySelector('strong').textContent=b;btn.querySelector('small').textContent=n+' equipment records';btn.onclick=()=>eqNavShowBay(b);grid.append(btn)});}
+function eqNavShowStation(st){eqNavStation=st;eqNavCategory=null;eqNavBay='';$('eqLanding').querySelector('.eq-station-grid').hidden=true;$('eqCategoryArea').hidden=false;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedStation').textContent=st;let grid=$('eqCategoryGrid');grid.innerHTML='';let color=st.includes('220/132')?'mkp':st.includes('Kalasapadu')?'ksp':'pml';(eqNavStructure[st]||[]).forEach(cat=>{let btn=document.createElement('button');btn.className='eq-category-card '+color;btn.innerHTML='<strong>'+cat.name+'</strong><small>Select to view bays</small>';btn.onclick=()=>eqNavShowCategory(cat);grid.append(btn)});$('eqStation').value=st;}
+function eqNavShowCategory(cat){eqNavCategory=cat;$('eqCategoryArea').hidden=true;$('eqBayArea').hidden=false;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedCategory').textContent=eqNavStation+' · '+cat.name;let grid=$('eqBayGrid');grid.innerHTML='';eqGetCategoryBays(eqNavStation,cat).forEach(b=>{let btn=document.createElement('button');btn.className='eq-bay-card';btn.innerHTML='<strong></strong><small></small>';btn.querySelector('strong').textContent=b;btn.querySelector('small').textContent=n+' equipment records';btn.onclick=()=>eqNavShowBay(b);grid.append(btn)});}
 function eqNavShowBay(bay){eqNavBay=bay;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=false;$('eqWorkingPanel').hidden=false;$('eqSelectedBay').textContent=eqNavStation+' · '+bay;$('eqFilterStation').value=eqNavStation;$('eqFilterBay').value=eqNavCategory.type;$('eqFilterBayName').innerHTML='<option value="">Selected bay</option>';let o=document.createElement('option');o.value=bay;o.textContent=bay;$('eqFilterBayName').append(o);$('eqFilterBayName').value=bay;$('eqSearch').value='';eqRender();$('eqBayName').value=bay;let formType=bay.includes('Bus PT')?'Bus PT':bay.includes('Bus Coupler')?'Bus Coupler Bay':bay.includes('Capacitor Bank')?'33 kV Capacitor Bank':bay==='Station Transformer'?'Station Transformer':bay==='Battery System'||bay==='DG Set'||bay==='Other Auxiliary Equipment'?'Auxiliary Equipment':(/MVA PTR|PTR-/i.test(bay))?(eqNavStation.includes('220/132')?'220 kV PTR Bay':'132 kV PTR Bay'):eqNavCategory.type;$('eqBayType').value=formType;eqOptions();$('eqBayName').value=bay;}
 $('eqLanding').querySelectorAll('.eq-station-card').forEach(b=>b.addEventListener('click',()=>eqNavShowStation(b.dataset.station)));
 $('eqBackStations').addEventListener('click',()=>{$('eqLanding').querySelector('.eq-station-grid').hidden=false;$('eqCategoryArea').hidden=true;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true});
@@ -353,5 +365,21 @@ $('eqSearch').addEventListener('input',eqRender);
 $('eqPhaseFilter').addEventListener('change',eqRender);
 
 
+
+</script>
+<script>
+const pad=n=>String(n).padStart(2,'0');
+function tick(){const d=new Date();document.getElementById('time').textContent=[pad(d.getHours()),pad(d.getMinutes()),pad(d.getSeconds())].join(':');document.getElementById('date').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',weekday:'long',day:'2-digit',month:'short',year:'numeric',timeZoneName:'short'}).format(d)}
+tick();setInterval(tick,1000);
+
+// Image carousel: one image every 5 seconds, looping continuously.
+let workSlides=[{src:'ptr-3.jpeg',caption:'160 MVA PTR-3 BHEL AT 220 kV SS PML'}],workIndex=0;
+const slider=document.getElementById('workSlider'),dots=document.getElementById('slideDots');
+function renderSlides(){slider.innerHTML='';dots.innerHTML='';workSlides.forEach((s,i)=>{const el=document.createElement('div');el.className='slide'+(i===workIndex?' active':'');const img=document.createElement('img');img.src=s.src;img.alt=s.caption;const cap=document.createElement('div');cap.className='slide-caption';cap.textContent=s.caption;el.append(img,cap);slider.append(el);const dot=document.createElement('button');dot.className='dot'+(i===workIndex?' active':'');dot.setAttribute('aria-label','Slide '+(i+1));dot.onclick=()=>{workIndex=i;renderSlides()};dots.append(dot)});document.getElementById('slideCount').textContent=(workIndex+1)+' / '+workSlides.length}
+renderSlides();setInterval(()=>{if(workSlides.length>1){workIndex=(workIndex+1)%workSlides.length;renderSlides()}},5000);
+// Simple editable RMI preview data; not connected to shared server storage.
+let rmiWorks=[];
+function renderRmi(){const total=rmiWorks.length,done=rmiWorks.filter(x=>x.p===100).length,pending=rmiWorks.filter(x=>x.p===0).length,progress=total-done-pending,avg=total?Math.round(rmiWorks.reduce((a,x)=>a+x.p,0)/total):0;document.getElementById('rmiOverall').textContent=avg+'%';document.getElementById('rmiOverallBar').style.width=avg+'%';document.getElementById('rmiTotal').textContent=total;document.getElementById('rmiDone').textContent=done;document.getElementById('rmiProgress').textContent=progress;document.getElementById('rmiPending').textContent=pending;const box=document.getElementById('rmiItems');box.innerHTML='';if(!total){box.innerHTML='<p class="doc">No RMI work items entered yet. Admin can add items when the work details are available.</p>';return}rmiWorks.forEach((x,i)=>{const row=document.createElement('div');row.className='rmi-row';row.innerHTML='<div class="rmi-row-top"><span></span><span>'+x.p+'%</span></div><div class="progress"><span style="width:'+x.p+'%"></span></div><small>'+(x.p===100?'Completed':x.p===0?'Pending':'In progress')+'</small>';row.querySelector('.rmi-row-top span').textContent=x.name;box.append(row)})}
+renderRmi();
 </script>
 </body></html>
