@@ -672,10 +672,17 @@ renderRmi();
  const $=id=>document.getElementById(id);
  const seed=Array.isArray(eqSeedRecords)?eqSeedRecords:[];
  // Merge missing source rows into browser data without overwriting any already-edited source row.
- const byId=new Set(eqRecords.map(r=>r['Record ID']).filter(Boolean));
- let restored=0;
- seed.forEach(src=>{const id=src['Record ID'];if(id&&!byId.has(id)){eqRecords.push({...src});byId.add(id);restored++;}});
- if(restored)eqPersist();
+ // One-time source-data refresh: replace stale imported SRC records with the
+ // current authoritative workbook seed, while retaining user-created USR records.
+ const SOURCE_REFRESH_KEY='PRMLSD_SOURCE_REFRESH_20261101_V2';
+ if(localStorage.getItem(SOURCE_REFRESH_KEY)!=='done'){
+   try{localStorage.setItem('PRMLSD_EQUIPMENT_BACKUP_BEFORE_REFRESH_20261101',JSON.stringify(eqRecords));}catch(e){}
+   const userRows=eqRecords.filter(r=>!String(r['Record ID']||'').startsWith('SRC-'));
+   const sourceRows=seed.map(r=>({...r}));
+   eqRecords=[...sourceRows,...userRows];
+   eqPersist();
+   localStorage.setItem(SOURCE_REFRESH_KEY,'done');
+ }
  const stationNames={
   '220/132 kV SS Porumamilla':'220/132 kV SS Porumamilla',
   '132/33 kV SS Porumamilla':'132/33 kV SS Porumamilla',
@@ -781,14 +788,16 @@ renderRmi();
    ['Relay 1',['Relay1','Relay1Type','Relay1Detail']],
    ['Relay 2',['Relay2','Relay2Type','Relay2Detail']],
    ['Relay 3',['Relay3','Relay3Type','Relay3Detail']],
-   ['Energy Meter',['EnergyMeter1','EnergyMeter2']],
+   ['Energy Meter Make / Particulars',['EnergyMeter1','EnergyMeter2']],
    ['Energy Meter Serial No.',['EnergyMeterSerial1','EnergyMeterSerial2']],
-   ['CT Ratio',['CTRatio']],['PT Ratio',['PTRatio']],['MF',['MF']]
+   ['CT Ratio',['EnergyMeterCTRatio1','EnergyMeterCTRatio2']],
+   ['PT Ratio',['EnergyMeterPTRatio1','EnergyMeterPTRatio2']],
+   ['MF',['EnergyMeterMF1','EnergyMeterMF2']]
   ];
-  const labels={CRPanel1:'C&R Panel – 1',CRPanel2:'C&R Panel – 2',Relay1:'Select relay',Relay1Type:'Relay type',Relay1Detail:'Additional detail',Relay2:'Select relay',Relay2Type:'Relay type',Relay2Detail:'Additional detail',Relay3:'Select relay',Relay3Type:'Relay type',Relay3Detail:'Additional detail',EnergyMeter1:'Energy Meter – 1',EnergyMeter2:'Energy Meter – 2',EnergyMeterSerial1:'Serial No. – 1',EnergyMeterSerial2:'Serial No. – 2',CTRatio:'CT Ratio',PTRatio:'PT Ratio',MF:'MF'};
+  const labels={CRPanel1:'C&R Panel – 1',CRPanel2:'C&R Panel – 2',Relay1:'Select relay',Relay1Type:'Relay type',Relay1Detail:'Additional detail',Relay2:'Select relay',Relay2Type:'Relay type',Relay2Detail:'Additional detail',Relay3:'Select relay',Relay3Type:'Relay type',Relay3Detail:'Additional detail',EnergyMeter1:'Energy Meter – 1',EnergyMeter2:'Energy Meter – 2',EnergyMeterSerial1:'Serial No. – 1',EnergyMeterSerial2:'Serial No. – 2',EnergyMeterCTRatio1:'CT Ratio – 1',EnergyMeterCTRatio2:'CT Ratio – 2',EnergyMeterPTRatio1:'PT Ratio – 1',EnergyMeterPTRatio2:'PT Ratio – 2',EnergyMeterMF1:'MF – 1',EnergyMeterMF2:'MF – 2'};
   const relayOpts=['Main-I','Main-II','BCPU','Distance','OL & EL','Differential','HV BCPU','LV BCPU','Unbalance','OV/UV'];let mode='view';
   function crKey(){return [eqNavStation,eqNavBay].join('||');}
-  function drawCR(){const host=$('eqCRTable');host.innerHTML='';const data=eqRelayConfigs[crKey()]||{};groups.forEach(([title,keys])=>{const row=document.createElement('div');row.className='eq-cr-sketch-row';const lab=document.createElement('strong');lab.textContent=title;row.append(lab);keys.forEach(k=>{const wrap=document.createElement('div');wrap.className='eq-cr-cell';let el;if(/^Relay[123]$/.test(k)){el=document.createElement('select');el.innerHTML='<option value="">Select relay</option>'+relayOpts.map(x=>'<option>'+x+'</option>').join('');}else{el=document.createElement('input');el.placeholder=labels[k]||'';}el.dataset.crkey=k;el.value=data[k]||'';el.disabled=mode!=='edit';wrap.append(el);row.append(wrap);});while(row.children.length<4){const blank=document.createElement('div');row.append(blank);}host.append(row);});}
+  function drawCR(){const host=$('eqCRTable');host.innerHTML='';const data=eqRelayConfigs[crKey()]||{};if(data.EnergyMeterCTRatio1==null&&data.CTRatio)data.EnergyMeterCTRatio1=data.CTRatio;if(data.EnergyMeterPTRatio1==null&&data.PTRatio)data.EnergyMeterPTRatio1=data.PTRatio;if(data.EnergyMeterMF1==null&&data.MF)data.EnergyMeterMF1=data.MF;groups.forEach(([title,keys])=>{const row=document.createElement('div');row.className='eq-cr-sketch-row';const lab=document.createElement('strong');lab.textContent=title;row.append(lab);keys.forEach(k=>{const wrap=document.createElement('div');wrap.className='eq-cr-cell';let el;if(/^Relay[123]$/.test(k)){el=document.createElement('select');el.innerHTML='<option value="">Select relay</option>'+relayOpts.map(x=>'<option>'+x+'</option>').join('');}else{el=document.createElement('input');el.placeholder=labels[k]||'';}el.dataset.crkey=k;el.value=data[k]||'';el.disabled=mode!=='edit';wrap.append(el);row.append(wrap);});while(row.children.length<4){const blank=document.createElement('div');row.append(blank);}host.append(row);});}
   $('eqCRView').onclick=()=>{mode='view';drawCR();};$('eqCREdit').onclick=()=>{mode='edit';drawCR();};$('eqCRSave').onclick=()=>{const d={...(eqRelayConfigs[crKey()]||{})};document.querySelectorAll('#eqCRTable [data-crkey]').forEach(el=>d[el.dataset.crkey]=el.value.trim());eqRelayConfigs[crKey()]=d;localStorage.setItem(eqRelayConfigKey,JSON.stringify(eqRelayConfigs));mode='view';drawCR();};
   const css=document.createElement('style');css.textContent=`.eq-cr-sketch{display:grid;gap:8px;padding:12px}.eq-cr-sketch-row{display:grid;grid-template-columns:180px repeat(3,minmax(150px,1fr));gap:10px;align-items:center}.eq-cr-sketch-row strong{color:#244f75}.eq-cr-cell input,.eq-cr-cell select{width:100%;min-height:42px;border:1px solid #c8d9e8;border-radius:9px;padding:8px 12px;font:inherit}.eq-cr-cell input:disabled,.eq-cr-cell select:disabled{background:#f3f7fa}.eq-table{table-layout:fixed;width:100%}.eq-table th:last-child,.eq-table td:last-child{width:112px;text-align:center;white-space:nowrap}.eq-action-cell{display:flex;justify-content:center;align-items:center;gap:6px}.eq-table th{vertical-align:middle}.eq-table td{vertical-align:top}@media(max-width:900px){.eq-cr-sketch-row{grid-template-columns:140px repeat(2,minmax(120px,1fr))}}@media(max-width:600px){.eq-cr-sketch-row{grid-template-columns:1fr}.eq-cr-sketch-row strong{padding-top:8px}}`;
   document.head.append(css);drawCR();const cp=$('eqCRPanelParticulars');if(cp)cp.hidden=/Bus PT/i.test(eqNavBay)||/Auxiliary Equipment|Station Transformer|Battery System|DG Set/i.test((eqNavCategory?.type||'')+' '+eqNavBay);
