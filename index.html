@@ -458,6 +458,95 @@ const eqRenderFieldsBase=eqRenderFields;
 eqRenderFields=function(){eqRenderFieldsBase();const wrap=document.createElement('div');wrap.className='eq-field';wrap.id='eqExtraNameWrap';wrap.hidden=$('eqEquipment').value!==eqExtraChoice;const label=document.createElement('label');label.textContent='ADDITIONAL EQUIPMENT NAME';const input=document.createElement('input');input.id='eqExtraName';input.placeholder='Enter equipment name';wrap.append(label,input);$('eqDynamicFields').prepend(wrap);};
 $('eqRemoveBay').addEventListener('click',()=>{if(!eqNavStation||!eqNavCategory)return;const list=eqGetCategoryBays(eqNavStation,eqNavCategory);const name=prompt('Enter the exact bay name to remove:\n'+list.join('\n'));if(name===null)return;const bay=list.find(x=>x.toLowerCase()===name.trim().toLowerCase());if(!bay){alert('Bay not found.');return;}if(!confirm('Remove '+bay+' and all its equipment records?'))return;const source=({'220/132 kV SS Porumamilla':'220/132 kV SS Porumamilla','132/33 kV SS Porumamilla':'132/33 kV SS Porumamilla','132/33 kV SS Kalasapadu':'132/33 kV SS Kalasapadu'})[eqNavStation]||eqNavStation;eqRecords=eqRecords.filter(r=>!(r.Substation===source&&r['Bay Name']===bay));eqPersist();const key=eqCategoryKey(eqNavStation,eqNavCategory);eqRemovedBays[key]=[...(eqRemovedBays[key]||[]),bay];localStorage.setItem(EQ_REMOVED_BAYS_KEY,JSON.stringify(eqRemovedBays));eqCustomBays[key]=(eqCustomBays[key]||[]).filter(x=>x!==bay);localStorage.setItem(EQ_CUSTOM_BAYS_KEY,JSON.stringify(eqCustomBays));delete eqRelayConfigs[[eqNavStation,bay].join('||')];localStorage.setItem(eqRelayConfigKey,JSON.stringify(eqRelayConfigs));eqNavShowCategory(eqNavCategory);});
 
+/* Final consolidated corrections */
+(function(){
+ const $=id=>document.getElementById(id);
+ // Bus PT bay records are always the one isolator plus R/Y/B PTs belonging to that exact voltage and bay.
+ const stationSource={'220/132 kV SS Porumamilla':'220/132 kV SS Porumamilla','132/33 kV SS Porumamilla':'132/33 kV SS Porumamilla','132/33 kV SS Kalasapadu':'132/33 kV SS Kalasapadu'};
+ const priorBayRecords=eqBayRecords;
+ eqBayRecords=function(st,bay,cat){
+   if(/Bus PT/i.test(bay)){
+     const voltage=(bay.match(/(220|132|33)\s*kV/i)||[])[1];
+     const source=stationSource[st]||st;
+     const all=eqRecords.map((r,i)=>({...r,_i:i})).filter(r=>r.Substation===source||r.Substation===st);
+     let target;
+     if(voltage==='220'){
+       const n=(bay.match(/Bus PT-(\d)/i)||[])[1];
+       target=all.filter(r=>r['Bay Type']==='Bus PT' && /220\s*kV/i.test(r['Bay Name']||'') && (n ? new RegExp('Bus[- ]'+n+'\\b','i').test(r['Bay Name']||'') : true));
+     } else target=all.filter(r=>r['Bay Type']==='Bus PT' && new RegExp('^'+voltage+'\\s*KV\\s*BUS\\s*PT$','i').test((r['Bay Name']||'').trim()));
+     const iso=target.find(r=>/isolator/i.test(r.Equipment||''));
+     const pts=['R','Y','B'].map(p=>target.find(r=>r.Phase===p && /PT/i.test(r.Equipment||'')));
+     return [iso,...pts].filter(Boolean);
+   }
+   if(st==='220/132 kV SS Porumamilla' && /Jammalamadugu-[12]/i.test(bay)){
+     const n=(bay.match(/Jammalamadugu-([12])/i)||[])[1];
+     const source=eqRecords.map((r,i)=>({...r,_i:i})).filter(r=>r.Substation==='220/132 kV SS Porumamilla' && /Thalamanchipatnam/i.test((r['Bay Name']||'')+' '+(r['Source Equipment Name']||'')) && new RegExp('(?:-|\\s)'+n+'(?:\\D|$)').test((r['Bay Name']||'')+' '+(r['Source Equipment Name']||'')));
+     if(source.length)return source;
+   }
+   return priorBayRecords(st,bay,cat).map(r=>({...r,_i:eqRecords.indexOf(r)}));
+ };
+ // Rebuild bay-scoped edit handling around the actual underlying array index.
+ eqEdit=function(i){
+   const r=eqRecords[i]; if(!r)return;
+   eqEditing=i;
+   $('eqStation').value=eqNavStation;
+   $('eqBayType').value=r['Bay Type']||eqNavCategory.type;
+   eqOptions();
+   $('eqBayName').value=eqNavBay;
+   if(!Array.from($('eqEquipment').options).some(o=>o.value===r.Equipment)){
+     const opt=document.createElement('option');opt.value=r.Equipment;opt.textContent=r.Equipment;$('eqEquipment').append(opt);
+   }
+   $('eqEquipment').value=r.Equipment;
+   eqRenderFields();
+   if($('eqPhase'))$('eqPhase').value=r.Phase||'Common';
+   document.querySelectorAll('#eqDynamicFields input').forEach(el=>{el.value=r[el.dataset.field]??'';});
+   if($('eqExtraNameWrap'))$('eqExtraNameWrap').hidden=true;
+   $('eqSave').textContent='Update Equipment';eqShowEntryForm(true);
+   $('eqDynamicFields').scrollIntoView({behavior:'smooth',block:'center'});
+ };
+ // Ensure save updates the selected record and retains identity; no duplicate is created.
+ const priorSave=eqSave;
+ eqSave=function(){
+   if(eqEditing<0){priorSave();return;}
+   const old=eqRecords[eqEditing];if(!old)return;
+   let equipment=$('eqEquipment').value;
+   if(equipment===eqExtraChoice){equipment=$('eqExtraName')?.value.trim();if(!equipment){alert('Enter the additional equipment name.');return;}}
+   const updated={...old,Substation:eqNavStation,'Bay Type':$('eqBayType').value,'Bay Name':eqNavBay,Equipment:equipment,Phase:$('eqPhase')?.value||'Common'};
+   document.querySelectorAll('#eqDynamicFields input').forEach(el=>{if(el.dataset.field)updated[el.dataset.field]=el.value.trim();});
+   eqRecords[eqEditing]=updated;eqEditing=-1;eqPersist();eqRender();eqShowEntryForm(false);$('eqSave').textContent='Save Equipment';
+ };
+ $('eqSave').removeEventListener('click',priorSave);$('eqSave').addEventListener('click',eqSave);
+ // Additional equipment is selected from a bay-specific dropdown of possible equipment names.
+ const oldFields=eqRenderFields;
+ eqRenderFields=function(){oldFields();const wrap=$('eqExtraNameWrap');if(wrap){const input=wrap.querySelector('input');if(input){const select=document.createElement('select');select.id='eqExtraName';select.innerHTML='<option value="">Select equipment</option>';
+   const names=[...new Set((eqTemplates[$('eqBayType').value]||[]).map(x=>x[0]))];
+   names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;select.append(o);});
+   const custom=document.createElement('option');custom.value='Other';custom.textContent='Other (enter name)';select.append(custom);input.replaceWith(select);
+   const customInput=document.createElement('input');customInput.id='eqExtraCustomName';customInput.placeholder='Enter equipment name';customInput.hidden=true;wrap.append(customInput);
+   select.addEventListener('change',()=>customInput.hidden=select.value!=='Other');
+ }}
+ // Remove quantity/set reference field from the Add Equipment form.
+ document.querySelectorAll('#eqDynamicFields .eq-field').forEach(f=>{if(/QUANTITY \/ SET REFERENCE/i.test(f.textContent))f.remove();});
+ };
+ // Add equipment custom name handling in save.
+ const saveWithDropdown=eqSave;
+ eqSave=function(){if($('eqEquipment').value===eqExtraChoice){const s=$('eqExtraName');let val=s?.value||'';if(val==='Other')val=$('eqExtraCustomName')?.value||'';if(!val.trim()){alert('Select or enter the additional equipment name.');return;}if(s)s.value=val.trim();}saveWithDropdown();};
+ $('eqSave').removeEventListener('click',priorSave);$('eqSave').addEventListener('click',eqSave);
+ // Hide old embedded relay form. Add C&R Panel Particulars below the equipment list.
+ if($('eqRelayConfig'))$('eqRelayConfig').hidden=true;
+ const panel=document.createElement('section');panel.id='eqCRPanelParticulars';panel.className='eq-relay-config';
+ panel.innerHTML='<div class="eq-list-head"><strong>C&amp;R PANEL PARTICULARS</strong><div><button type="button" class="eq-btn secondary" id="eqCRView">View</button> <button type="button" class="eq-btn secondary" id="eqCREdit">Edit</button> <button type="button" class="eq-btn" id="eqCRSave">Save</button></div></div><div class="eq-formgrid" id="eqCRTable"></div>';
+ $('eqWorkingPanel').append(panel);
+ const fields=[['C&R Panel Make','CRPanel'],['SEL Relay','Relay'],['Relay Type','RelayType'],['Energy Meter Make / Particulars','EnergyMeter'],['Energy Meter Serial Number','EnergyMeterSerial'],['CT Ratio','CTRatio'],['PT Ratio','PTRatio'],['MF','MF']];
+ let crMode='view';
+ function renderCR(){const data=eqRelayConfigs[eqRelayKey()]||{};const host=$('eqCRTable');host.innerHTML='';fields.forEach(([label,key])=>{const div=document.createElement('div');div.className='eq-field';const lab=document.createElement('label');lab.textContent=label;const input=document.createElement('input');input.dataset.crkey=key;input.value=data[key]||'';input.readOnly=crMode!=='edit';div.append(lab,input);host.append(div);});}
+ $('eqCRView').onclick=()=>{crMode='view';renderCR();};$('eqCREdit').onclick=()=>{crMode='edit';renderCR();};$('eqCRSave').onclick=()=>{const data={...(eqRelayConfigs[eqRelayKey()]||{})};document.querySelectorAll('#eqCRTable input').forEach(i=>data[i.dataset.crkey]=i.value.trim());eqRelayConfigs[eqRelayKey()]=data;localStorage.setItem(eqRelayConfigKey,JSON.stringify(eqRelayConfigs));crMode='view';renderCR();};
+ const oldShowBay=eqNavShowBay;
+ eqNavShowBay=function(bay){oldShowBay(bay);renderCR();};
+ // Add PTR capacity/make to the visible bay names already specified in the station structure.
+ // Keep phase filter values as-is; Common remains necessary for CB and isolators.
+})();
+
 </script>
 <script>
 const pad=n=>String(n).padStart(2,'0');
