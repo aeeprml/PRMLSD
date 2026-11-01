@@ -242,21 +242,21 @@ eqOptions();eqRender();
 // Section-first navigation for the three substations.
 const eqNavStructure={
  '220/132 kV SS Porumamilla':[
-  {name:'220 kV Elements',type:'220 kV Feeder Bay',bays:['220 kV Ecoren-1 Feeder Feeder','220 kV Ecoren-2 Feeder Feeder','220 kV Jammalamadugu-1 Feeder Feeder','220 kV Jammalamadugu-2 Feeder Feeder','220 kV Bus PT-1','220 kV Bus PT-2','220 kV Bus Coupler','220 kV Bus Bar Section']},
+  {name:'220 kV Elements',type:'220 kV Feeder Bay',bays:['220 kV Ecoren-1 Feeder','220 kV Ecoren-2 Feeder','220 kV Jammalamadugu-1 Feeder','220 kV Jammalamadugu-2 Feeder','220 kV Bus PT-1','220 kV Bus PT-2','220 kV Bus Coupler','220 kV Bus Bar Section']},
   {name:'Power Transformers',type:'220 kV PTR Bay',bays:['100 MVA PTR-1 BBL','100 MVA PTR-2 BBL','160 MVA PTR-3 BHEL']},
-  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Badvel-1 Feeder Feeder','132 kV Badvel-2 Feeder Feeder','132 kV Inox-1 Feeder Feeder','132 kV Inox-2 Feeder Feeder','132 kV Porumamilla-1 Feeder Feeder','132 kV Porumamilla-2 Feeder Feeder','132 kV Kalasapadu-1 Feeder Feeder','132 kV Kalasapadu-2 Feeder Feeder','132 kV B.Mattam-1 Feeder Feeder','132 kV B.Mattam-2 Feeder Feeder','132 kV Bus PT']},
+  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Badvel-1 Feeder','132 kV Badvel-2 Feeder','132 kV Inox-1 Feeder','132 kV Inox-2 Feeder','132 kV Porumamilla-1 Feeder','132 kV Porumamilla-2 Feeder','132 kV Kalasapadu-1 Feeder','132 kV Kalasapadu-2 Feeder','132 kV B.Mattam-1 Feeder','132 kV B.Mattam-2 Feeder','132 kV Bus PT']},
   {name:'Auxiliary Equipment',type:'Auxiliary Equipment',bays:['Station Transformer','Battery System','DG Set']}
  ],
  '132/33 kV SS Porumamilla':[
-  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder Feeder','132 kV Porumamilla-2 Feeder Feeder','132 kV Bus PT']},
+  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder','132 kV Porumamilla-2 Feeder','132 kV Bus PT']},
   {name:'Power Transformers',type:'132 kV PTR Bay',bays:['20/31.5 MVA PTR-1','18.9/31.5 MVA PTR-2']},
-  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Amagampalli Feeder Feeder','33 kV Kalavakatta Feeder Feeder','33 kV Narasapuram Feeder Feeder','33 kV Porumamilla Rural Feeder Feeder','33 kV Porumamilla Town Feeder Feeder','33 kV Capacitor Bank-1','33 kV Capacitor Bank-2','33 kV Bus PT']},
+  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Amagampalli Feeder','33 kV Kalavakatta Feeder','33 kV Narasapuram Feeder','33 kV Porumamilla Rural Feeder','33 kV Porumamilla Town Feeder','33 kV Capacitor Bank-1','33 kV Capacitor Bank-2','33 kV Bus PT']},
   {name:'Auxiliary Equipment',type:'Auxiliary Equipment',bays:['Station Transformer','Battery System','DG Set']}
  ],
  '132/33 kV SS Kalasapadu':[
-  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder Feeder','132 kV Porumamilla-2 Feeder Feeder','132 kV Bus PT']},
+  {name:'132 kV Elements',type:'132 kV Feeder Bay',bays:['132 kV Porumamilla-1 Feeder','132 kV Porumamilla-2 Feeder','132 kV Bus PT']},
   {name:'Power Transformers',type:'132 kV PTR Bay',bays:['10/16 MVA PTR-1','31.5 MVA PTR-2']},
-  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Kalasapadu Feeder','33 kV Ramapuram Feeder Feeder','33 kV Varikuntla Feeder Feeder','33 kV Spare Feeder Feeder','33 kV Capacitor Bank-1','33 kV Bus PT']},
+  {name:'33 kV Elements',type:'33 kV Feeder Bay',bays:['33 kV Kalasapadu Feeder','33 kV Ramapuram Feeder','33 kV Varikuntla Feeder','33 kV Spare Feeder','33 kV Capacitor Bank-1','33 kV Bus PT']},
   {name:'Auxiliary Equipment',type:'Auxiliary Equipment',bays:['Station Transformer','Battery System','DG Set']}
  ]
 };
@@ -306,9 +306,12 @@ function eqBayRecords(st,bay,cat){
  const short=bay.replace(/^\d+ kV /i,'').replace(/ Feeder$/i,'');
  return all.filter(r=>r['Bay Type']===cat.type && (eqNorm(r['Bay Name']).includes(eqNorm(short)) || eqNorm(r['Bay Name']).includes(norm.replace(/ feeder$/,''))));
 }
-function eqNavShowStation(st){eqNavStation=st;eqNavCategory=null;eqNavBay='';$('eqLanding').querySelector('.eq-station-grid').hidden=true;$('eqCategoryArea').hidden=false;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedStation').textContent=st;let grid=$('eqCategoryGrid');grid.innerHTML='';let color=st.includes('220/132')?'mkp':st.includes('Kalasapadu')?'ksp':'pml';(eqNavStructure[st]||[]).forEach(cat=>{let btn=document.createElement('button');btn.className='eq-category-card '+color;btn.innerHTML='<strong>'+cat.name+'</strong><small>Select to view bays</small>';btn.onclick=()=>eqNavShowCategory(cat);grid.append(btn)});$('eqStation').value=st;}
-function eqNavShowCategory(cat){eqNavCategory=cat;$('eqCategoryArea').hidden=true;$('eqBayArea').hidden=false;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedCategory').textContent=eqNavStation+' · '+cat.name;let grid=$('eqBayGrid');grid.innerHTML='';eqGetCategoryBays(eqNavStation,cat).forEach(b=>{let btn=document.createElement('button');btn.className='eq-bay-card';btn.innerHTML='<strong></strong><small></small>';btn.querySelector('strong').textContent=b;const count=eqBayRecords(eqNavStation,b,cat).length;btn.querySelector('small').textContent=count+' equipment record'+(count===1?'':'s');btn.onclick=()=>eqNavShowBay(b);grid.append(btn)});}
+function eqNavShowStation(st){eqNavStation=st;eqNavCategory=null;eqNavBay='';$('eqLanding').querySelector('.eq-station-grid').hidden=true;$('eqCategoryArea').hidden=false;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedStation').textContent=st;let grid=$('eqCategoryGrid');grid.innerHTML='';let color=st.includes('220/132')?'mkp':st.includes('Kalasapadu')?'ksp':'pml';(eqNavStructure[st]||[]).forEach((cat,index)=>{let btn=document.createElement('button');btn.type='button';btn.className='eq-category-card '+color;btn.dataset.categoryIndex=String(index);let strong=document.createElement('strong');strong.textContent=cat.name;let small=document.createElement('small');small.textContent='Select to view bays';btn.append(strong,small);grid.append(btn)});$('eqStation').value=st;}
+function eqNavShowCategory(cat){eqNavCategory=cat;$('eqCategoryArea').hidden=true;$('eqBayArea').hidden=false;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true;$('eqSelectedCategory').textContent=eqNavStation+' · '+cat.name;let grid=$('eqBayGrid');grid.innerHTML='';eqGetCategoryBays(eqNavStation,cat).forEach((b,index)=>{let btn=document.createElement('button');btn.type='button';btn.className='eq-bay-card';btn.dataset.bayIndex=String(index);let strong=document.createElement('strong');strong.textContent=b;let small=document.createElement('small');const count=eqBayRecords(eqNavStation,b,cat).length;small.textContent=count+' equipment record'+(count===1?'':'s');btn.append(strong,small);grid.append(btn)});}
 function eqNavShowBay(bay){eqNavBay=bay;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=false;$('eqWorkingPanel').hidden=false;$('eqSelectedBay').textContent=eqNavStation+' · '+bay;$('eqFilterStation').value=eqNavStation;$('eqFilterBay').value=eqNavCategory.type;$('eqFilterBayName').innerHTML='<option value="">Selected bay</option>';let o=document.createElement('option');o.value=bay;o.textContent=bay;$('eqFilterBayName').append(o);$('eqFilterBayName').value=bay;$('eqSearch').value='';eqRender();$('eqBayName').value=bay;let formType=bay.includes('Bus PT')?'Bus PT':bay.includes('Bus Coupler')?'Bus Coupler Bay':bay.includes('Capacitor Bank')?'33 kV Capacitor Bank':bay==='Station Transformer'?'Station Transformer':bay==='Battery System'||bay==='DG Set'||bay==='Other Auxiliary Equipment'?'Auxiliary Equipment':(/MVA PTR|PTR-/i.test(bay))?(eqNavStation.includes('220/132')?'220 kV PTR Bay':'132 kV PTR Bay'):eqNavCategory.type;$('eqBayType').value=formType;eqOptions();$('eqBayName').value=bay;}
+// Single, scoped click handlers for category and bay cards.
+$('eqCategoryGrid').addEventListener('click',event=>{const card=event.target.closest('.eq-category-card');if(!card||!$('eqCategoryGrid').contains(card))return;const index=Number(card.dataset.categoryIndex);const categories=eqNavStructure[eqNavStation]||[];if(Number.isInteger(index)&&categories[index])eqNavShowCategory(categories[index]);});
+$('eqBayGrid').addEventListener('click',event=>{const card=event.target.closest('.eq-bay-card');if(!card||!$('eqBayGrid').contains(card))return;const index=Number(card.dataset.bayIndex);const bays=eqNavCategory?eqGetCategoryBays(eqNavStation,eqNavCategory):[];if(Number.isInteger(index)&&bays[index])eqNavShowBay(bays[index]);});
 $('eqLanding').querySelectorAll('.eq-station-card').forEach(b=>b.addEventListener('click',()=>eqNavShowStation(b.dataset.station)));
 $('eqBackStations').addEventListener('click',()=>{$('eqLanding').querySelector('.eq-station-grid').hidden=false;$('eqCategoryArea').hidden=true;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true});
 $('eqBackCategories').addEventListener('click',()=>{$('eqCategoryArea').hidden=false;$('eqBayArea').hidden=true;$('eqDetailArea').hidden=true;$('eqWorkingPanel').hidden=true});
@@ -383,59 +386,6 @@ function renderRmi(){const total=rmiWorks.length,done=rmiWorks.filter(x=>x.p===1
 renderRmi();
 </script>
 
-<script>
-// Reliable delegated navigation for Equipment Register cards and back controls.
-// Capture the click before any individual button handler so navigation remains consistent.
-document.addEventListener('click', function (event) {
-  const stationCard = event.target.closest && event.target.closest('#eqLanding .eq-station-card');
-  if (stationCard) {
-    event.preventDefault(); event.stopImmediatePropagation();
-    if (typeof eqNavShowStation === 'function') eqNavShowStation(stationCard.dataset.station);
-    return;
-  }
-  const categoryCard = event.target.closest && event.target.closest('#eqCategoryGrid .eq-category-card');
-  if (categoryCard) {
-    event.preventDefault(); event.stopImmediatePropagation();
-    const cards = Array.from(document.querySelectorAll('#eqCategoryGrid .eq-category-card'));
-    const index = cards.indexOf(categoryCard);
-    const categories = (eqNavStructure && eqNavStructure[eqNavStation]) || [];
-    if (categories[index] && typeof eqNavShowCategory === 'function') eqNavShowCategory(categories[index]);
-    return;
-  }
-  const bayCard = event.target.closest && event.target.closest('#eqBayGrid .eq-bay-card');
-  if (bayCard) {
-    event.preventDefault(); event.stopImmediatePropagation();
-    const bayName = bayCard.querySelector('strong')?.textContent || '';
-    if (bayName && typeof eqNavShowBay === 'function') eqNavShowBay(bayName);
-    return;
-  }
-  const backStations = event.target.closest && event.target.closest('#eqBackStations');
-  if (backStations) {
-    event.preventDefault(); event.stopImmediatePropagation();
-    document.querySelector('#eqLanding .eq-station-grid').hidden = false;
-    document.getElementById('eqCategoryArea').hidden = true;
-    document.getElementById('eqBayArea').hidden = true;
-    document.getElementById('eqDetailArea').hidden = true;
-    document.getElementById('eqWorkingPanel').hidden = true;
-    return;
-  }
-  const backCategories = event.target.closest && event.target.closest('#eqBackCategories');
-  if (backCategories) {
-    event.preventDefault(); event.stopImmediatePropagation();
-    document.getElementById('eqCategoryArea').hidden = false;
-    document.getElementById('eqBayArea').hidden = true;
-    document.getElementById('eqDetailArea').hidden = true;
-    document.getElementById('eqWorkingPanel').hidden = true;
-    return;
-  }
-  const backBays = event.target.closest && event.target.closest('#eqBackBays');
-  if (backBays) {
-    event.preventDefault(); event.stopImmediatePropagation();
-    document.getElementById('eqBayArea').hidden = false;
-    document.getElementById('eqDetailArea').hidden = true;
-    document.getElementById('eqWorkingPanel').hidden = true;
-  }
-}, true);
-</script>
+
 
 </body></html>
