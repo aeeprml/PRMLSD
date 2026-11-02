@@ -236,15 +236,15 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 <section class="section" id="quick-access">
  <div class="section-head"><span class="bar"></span><div><h2>QUICK ACCESS</h2><p>Choose a portal section to continue</p></div></div>
  <div class="quickgrid">
-  <a class="quick" href="#quick-access"><span class="qicon">▥</span><span><strong>MD Particulars</strong><small>Maximum demand details</small></span></a>
-  <a class="quick" href="#quick-access"><span class="qicon">⌂</span><span><strong>Land Details</strong><small>Substation land particulars</small></span></a>
-  <a class="quick" href="#quick-access"><span class="qicon">▤</span><span><strong>Monthly MIS</strong><small>Monthly returns and proformas</small></span></a>
+  <a class="quick" href="#md-page" data-quick-target="md-page"><span class="qicon">▥</span><span><strong>MD Particulars</strong><small>Maximum demand details</small></span></a>
+  <a class="quick" href="#quick-module-land" data-quick-target="quick-module-land"><span class="qicon">⌂</span><span><strong>Land Details</strong><small>Substation land particulars</small></span></a>
+  <a class="quick" href="#monthly-mis-page" data-quick-target="monthly-mis-page"><span class="qicon">▤</span><span><strong>Monthly MIS</strong><small>Monthly returns and proformas</small></span></a>
   <a class="quick" id="open-equipment-register" href="#equipment-register"><span class="qicon">ϟ</span><span><strong>Equipment Register</strong><small>Substation equipment records</small></span></a>
-  <a class="quick" href="#quick-access"><span class="qicon">◷</span><span><strong>Maintenance</strong><small>Maintenance records and schedules</small></span></a>
-  <a class="quick" href="#quick-access"><span class="qicon">✓</span><span><strong>Testing Records</strong><small>O&amp;M, MRT and TRE testing</small></span></a>
-  <a class="quick" href="#quick-access"><span class="qicon">⚡</span><span><strong>Tripping Reports</strong><small>Feeder and equipment trippings</small></span></a>
-  <a class="quick" href="#quick-access"><span class="qicon">▣</span><span><strong>T&amp;P Register</strong><small>Tools and plant particulars</small></span></a>
-  <a class="quick" id="quick-contacts" href="#quick-contacts"><span class="qicon">☎</span><span><strong>Contacts</strong><small>Subdivision contact information</small></span></a>
+  <a class="quick" href="#maintenance-page" data-quick-target="maintenance-page"><span class="qicon">◷</span><span><strong>Maintenance</strong><small>Maintenance records and schedules</small></span></a>
+  <a class="quick" href="#quick-module-testing" data-quick-target="quick-module-testing"><span class="qicon">✓</span><span><strong>Testing Records</strong><small>O&amp;M, MRT and TRE testing</small></span></a>
+  <a class="quick" href="#monthly-mis-page" data-quick-target="monthly-mis-page" data-mis-form="TRIPPING"><span class="qicon">⚡</span><span><strong>Tripping Reports</strong><small>Feeder and equipment trippings</small></span></a>
+  <a class="quick" href="#quick-module-tp" data-quick-target="quick-module-tp"><span class="qicon">▣</span><span><strong>T&amp;P Register</strong><small>Tools and plant particulars</small></span></a>
+  <a class="quick" id="quick-contacts" href="#quick-module-contacts" data-quick-target="quick-module-contacts"><span class="qicon">☎</span><span><strong>Contacts</strong><small>Subdivision contact information</small></span></a>
  </div>
 </section>
 </main>
@@ -1308,4 +1308,21 @@ init();})();</script><style>[hidden]{display:none!important}</style><style>
 .mis-original-table input[type=number]::-webkit-inner-spin-button,
 .mis-original-table input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .mis-original-table input[type=number]{-moz-appearance:textfield;appearance:textfield}
-</style></body></html>
+</style><script id="prmlsd-quick-navigation-fix">(()=>{
+const $=id=>document.getElementById(id);
+const homeSections=[...document.querySelectorAll('main > .section:not(#equipment-register)')];
+const equipment=$('equipment-register');
+const pages=[...document.querySelectorAll('.p2page')];
+const nav=document.querySelector('body > nav');
+const notice=document.querySelector('.notification-strip');
+const footer=document.querySelector('footer.footer');
+let placeholder=$('quick-module-placeholder');
+if(!placeholder){placeholder=document.createElement('section');placeholder.id='quick-module-placeholder';placeholder.className='section p2page';placeholder.hidden=true;placeholder.innerHTML='<div class="p2head"><button class="p2btn alt" type="button" data-quick-home>← Back to Homepage</button><div><h2 id="quick-placeholder-title">Module</h2><p id="quick-placeholder-subtitle">Portal section</p></div></div><div class="p2panel"><h3 id="quick-placeholder-message">This module is not yet configured.</h3><p id="quick-placeholder-detail">Its dedicated register is not present in the current website package. No data has been changed.</p></div>';document.body.appendChild(placeholder)}
+const home=()=>{homeSections.forEach(x=>x.hidden=false);if(equipment)equipment.hidden=true;pages.forEach(x=>x.hidden=true);placeholder.hidden=true;if(nav)nav.hidden=false;if(notice)notice.hidden=false;if(footer)footer.hidden=false;history.replaceState(null,'',location.pathname+location.search);window.scrollTo({top:0,behavior:'instant'});};
+const open=(id,label)=>{homeSections.forEach(x=>x.hidden=true);if(equipment)equipment.hidden=id!=='equipment-register';pages.forEach(x=>x.hidden=x.id!==id);placeholder.hidden=!id.startsWith('quick-module-');if(placeholder.hidden===false){$('quick-placeholder-title').textContent=label;$('quick-placeholder-subtitle').textContent='PRMLSD portal';$('quick-placeholder-message').textContent=label+' page is not yet available.';$('quick-placeholder-detail').textContent='The current website package does not contain this module’s dedicated register. It needs to be developed before data entry can be enabled.';}if(nav)nav.hidden=true;if(notice)notice.hidden=true;if(footer)footer.hidden=true;history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'});};
+document.querySelectorAll('[data-quick-target]').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();const id=a.dataset.quickTarget;const label=a.querySelector('strong')?.textContent||'Portal module';if(id==='monthly-mis-page'&&a.dataset.misForm){open(id,label);const form=$('misForm');if(form){form.value=a.dataset.misForm;form.dispatchEvent(new Event('change',{bubbles:true}));}}else open(id,label);}));
+document.querySelectorAll('[data-p2home]').forEach(b=>{b.addEventListener('click',ev=>{ev.preventDefault();home();});});
+const back=placeholder.querySelector('[data-quick-home]');if(back)back.addEventListener('click',home);
+const eqBack=$('eqBackHome');if(eqBack){eqBack.addEventListener('click',ev=>{ev.preventDefault();home();});}
+if(location.hash==='#md-page'||location.hash==='#monthly-mis-page'||location.hash==='#maintenance-page'||location.hash==='#rmi-details-page'){open(location.hash.slice(1),'Portal section');}
+})();</script></body></html>
