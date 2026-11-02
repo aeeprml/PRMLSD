@@ -1108,6 +1108,7 @@ const activityTemplates={
  'Feeder Bay':['Inspect circuit breaker, isolator and earth switch','Check operating mechanism, lubrication and interlocks','Inspect CTs, LAs, insulators, jumpers and clamps','Check structures, terminal connections and earthing','Verify control/protection indications and trip/close circuits'],
  'Feeder':['Inspect feeder bay circuit breaker and isolator','Inspect CTs, LAs, insulators and jumpers','Check clamps, connectors and hot spots','Inspect structures and earthing connections','Check protection indications and operating mechanism'],
  'Capacitor Bank':['Inspect capacitor units, fuses and discharge coils','Check reactor and bus connections','Inspect breaker, isolator and earth switch','Check protection, alarm and tripping circuits','Inspect earthing, ventilation and abnormal heating'],
+ 'Auxiliary Equipment':['Inspect equipment condition, cleanliness and accessibility','Check connections, fasteners, earthing and physical condition','Check indications, alarms, controls and operating condition','Record defects, service due dates and corrective action'],
  'Other':['Inspect equipment condition and cleanliness','Check connections, fasteners and earthing','Check indications, alarms and control circuits','Record abnormal observations and corrective action']
 };
 const imageSvg={
@@ -1131,9 +1132,9 @@ const normalizePtrBayName=(name)=>{
  return v;
 };
 const auxiliaryInventory={
- MKP:[['Battery Set-1','Monthly'],['Battery Set-2','Monthly'],['Battery Charger-1',''],['Battery Charger-2',''],['DG Set-1','Monthly']],
- PML:[['Battery Set-1','Monthly'],['Battery Charger-1',''],['DG Set-1','Monthly']],
- KSP:[['Battery Set-1','Monthly'],['Battery Charger-1',''],['DG Set-1','Monthly']]
+ MKP:[['Battery Set-1','Monthly'],['Battery Set-2','Monthly'],['Battery Charger-1','Monthly'],['Battery Charger-2','Monthly'],['DG Set-1','Monthly'],['Air Conditioning System (ACS)','Monthly'],['Fire Extinguishers','Monthly']],
+ PML:[['Battery Set-1','Monthly'],['Battery Charger-1','Monthly'],['DG Set-1','Monthly'],['Air Conditioning System (ACS)','Monthly'],['Fire Extinguishers','Monthly']],
+ KSP:[['Battery Set-1','Monthly'],['Battery Charger-1','Monthly'],['DG Set-1','Monthly'],['Air Conditioning System (ACS)','Monthly'],['Fire Extinguishers','Monthly']]
 };
 let masterItems=[];
 const masterMap=new Map();
@@ -1145,6 +1146,16 @@ Object.entries(auxiliaryInventory).forEach(([st,items])=>items.forEach(([eq,peri
  if(!masterItems.some(m=>m.id===id)){
   masterItems.push({id,st,eq,category:'Auxiliary Equipment',periods:period?[period]:[],activities:[...(activityTemplates.Other||[])],active:true,auxiliary:true});
  }
+}));
+// Station-specific auxiliary and capacitor-bank categories confirmed for the three stations.
+const stationSpecialEquipment={
+ MKP:[['Air Conditioning System (ACS)','Auxiliary Equipment','Monthly'],['Fire Extinguishers','Auxiliary Equipment','Monthly']],
+ PML:[['33 kV, 7.2 MVAR Capacitor Bank','Capacitor Bank',''],['Air Conditioning System (ACS)','Auxiliary Equipment','Monthly'],['Fire Extinguishers','Auxiliary Equipment','Monthly']],
+ KSP:[['33 kV, 7.2 MVAR Capacitor Bank','Capacitor Bank',''],['Air Conditioning System (ACS)','Auxiliary Equipment','Monthly'],['Fire Extinguishers','Auxiliary Equipment','Monthly']]
+};
+Object.entries(stationSpecialEquipment).forEach(([st,items])=>items.forEach(([eq,category,period])=>{
+ const id=st+'|'+eq.toLowerCase();
+ if(!masterItems.some(m=>m.id===id)) masterItems.push({id,st,eq,category,periods:period?[period]:[],activities:[...(activityTemplates[category]||activityTemplates.Other)],active:true,auxiliary:category==='Auxiliary Equipment'});
 }));
 
 try{let saved=JSON.parse(localStorage.getItem(masterStore)||'null');if(Array.isArray(saved)){saved.forEach(s=>{let i=masterItems.findIndex(m=>m.id===s.id);if(i>=0)masterItems[i]={...masterItems[i],...s};else masterItems.push(s)})}}catch(e){}
@@ -1168,17 +1179,17 @@ function renderMaster(){
   {key:'PTR Bay',title:'PTR BAYS',cls:'ptr',desc:'Each transformer bay treated as one combined PTR Bay'},
   {key:'Feeder Bay',title:'FEEDER BAYS',cls:'feeder',desc:'HV / 132 kV / 33 kV feeder bay maintenance'},
   {key:'Feeder',title:'FEEDERS',cls:'feeder',desc:'Feeder-level preventive maintenance'},
-  {key:'Capacitor Bank',title:'CAPACITOR BANKS',cls:'cap',desc:'Capacitor bank and associated equipment'},
-  {key:'Auxiliary Equipment',title:'AUXILIARY EQUIPMENT',cls:'aux',desc:'Battery sets, battery chargers and DG set'},
+  {key:'Capacitor Bank',title:'CAPACITOR BANKS',cls:'cap',desc:'33 kV · 7.2 MVAR capacitor bank'},
+  {key:'Auxiliary Equipment',title:'AUXILIARY EQUIPMENT',cls:'aux',desc:'Battery sets, monthly chargers, DG set, ACS and fire extinguishers'},
   {key:'Other',title:'OTHER EQUIPMENT',cls:'other',desc:'Other station equipment'}
- ];
+ ].filter(g=>g.key!=='Capacitor Bank'||st==='PML'||st==='KSP');
  $('mtMasterCards').innerHTML='<div class="mt-poster-intro mt-master-intro mt-full"><strong>'+escapeMt(names[st])+' · PREVENTIVE MAINTENANCE OVERVIEW</strong><span>Poster-style summary by equipment group. Select a panel to view or manage its equipment list. PTR HV/LV components are presented together as one PTR Bay.</span></div>'+groups.map(g=>{
   let items=list.filter(m=>m.category===g.key);
   if(g.key==='PTR Bay'){
    const seen=new Set();items=items.filter(m=>{let n=normalizePtrBayName(m.eq);if(seen.has(n))return false;seen.add(n);return true});
   }
   let namesList=[...new Set(items.map(m=>g.key==='PTR Bay'?normalizePtrBayName(m.eq):m.eq))];
-  return `<div class="mt-poster-wrap"><div class="mt-poster ${g.cls}" data-poster="${g.key}"><div><h3>${g.title}</h3><p>${g.desc}</p></div><div class="mt-poster-count">${namesList.length}</div><div class="mt-poster-foot">${namesList.length?'Equipment groups · tap to manage':'No equipment listed'}</div></div><div class="mt-poster-detail" data-poster-detail="${g.key}"><b>${g.title}</b><ul>${namesList.map(n=>{let m=items.find(x=>(g.key==='PTR Bay'?normalizePtrBayName(x.eq):x.eq)===n);let sourceSub=({MKP:'220/132 kV SS Porumamilla',PML:'132/33 kV SS Porumamilla',KSP:'132/33 kV SS Kalasapadu'})[st];let er=(g.key==='Auxiliary Equipment'&&typeof eqRecords!=='undefined')?eqRecords.find(r=>r.Substation===sourceSub&&((/battery/i.test(n)&&/battery/i.test(r.Equipment)&&new RegExp(n.match(/Set-\d+/i)?.[0]||'Battery','i').test(r.Equipment))||(/charger/i.test(n)&&/charger/i.test(r.Equipment)&&new RegExp(n.match(/Charger-\d+/i)?.[0]||'Charger','i').test(r.Equipment))||(/DG/i.test(n)&&/diesel generator/i.test(r.Equipment)))):null;let info=er?[er.Make,er.Rating,er.Type].filter(Boolean).join(' · '):'';return `<li>${escapeMt(n)}${info?' — '+escapeMt(info):''}</li>`}).join('')||'<li>No equipment</li>'}</ul><div class="mt-card-actions">${items.map(m=>`<button class="p2btn alt" data-medit="${escapeMt(m.id)}">Edit ${escapeMt(g.key==='PTR Bay'?normalizePtrBayName(m.eq):m.eq)}</button>`).join('')}</div></div></div>`;
+  return `<div class="mt-poster-wrap"><div class="mt-poster ${g.cls}" data-poster="${g.key}"><div><h3>${g.title}</h3><p>${g.desc}</p>${g.key==='Capacitor Bank'?'<p class="mt-poster-rating"><strong>33 kV · 7.2 MVAR</strong></p>':''}</div><div class="mt-poster-count">${namesList.length}</div><div class="mt-poster-foot">${namesList.length?'Equipment groups · tap to manage':'No equipment listed'}</div></div><div class="mt-poster-detail" data-poster-detail="${g.key}"><b>${g.title}</b><ul>${namesList.map(n=>{let m=items.find(x=>(g.key==='PTR Bay'?normalizePtrBayName(x.eq):x.eq)===n);let sourceSub=({MKP:'220/132 kV SS Porumamilla',PML:'132/33 kV SS Porumamilla',KSP:'132/33 kV SS Kalasapadu'})[st];let er=(g.key==='Auxiliary Equipment'&&typeof eqRecords!=='undefined')?eqRecords.find(r=>r.Substation===sourceSub&&((/battery/i.test(n)&&/battery/i.test(r.Equipment)&&new RegExp(n.match(/Set-\d+/i)?.[0]||'Battery','i').test(r.Equipment))||(/charger/i.test(n)&&/charger/i.test(r.Equipment)&&new RegExp(n.match(/Charger-\d+/i)?.[0]||'Charger','i').test(r.Equipment))||(/DG/i.test(n)&&/diesel generator/i.test(r.Equipment)))):null;let info=er?[er.Make,er.Rating,er.Type].filter(Boolean).join(' · '):'';return `<li>${escapeMt(n)}${info?' — '+escapeMt(info):''}</li>`}).join('')||'<li>No equipment</li>'}</ul><div class="mt-card-actions">${items.map(m=>`<button class="p2btn alt" data-medit="${escapeMt(m.id)}">Edit ${escapeMt(g.key==='PTR Bay'?normalizePtrBayName(m.eq):m.eq)}</button>`).join('')}</div></div></div>`;
  }).join('');
  $('mtMasterCards').querySelectorAll('[data-poster]').forEach(el=>el.onclick=()=>{let d=el.parentElement?.querySelector('.mt-poster-detail');d?.classList.toggle('open')});
  $('mtMasterCards').querySelectorAll('[data-medit]').forEach(b=>b.onclick=e=>{e.stopPropagation();openMasterForm(b.dataset.medit)});
@@ -1244,11 +1255,34 @@ function exportExcel(rows,headers,filename){
 function exportPdf(rows,headers,title){
  let w=window.open('','_blank');if(!w){alert('Please allow pop-ups to print the PDF report.');return}
  let table='<table><thead><tr>'+headers.map(v=>'<th>'+escapeMt(v)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+escapeMt(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
- w.document.write('<html><head><title>'+escapeMt(title)+'</title><style>body{font:11px Arial;padding:22px;color:#111}h2{text-align:center;margin:0 0 5px}p{text-align:center;margin:0 0 18px;color:#444}table{width:100%;border-collapse:collapse}th,td{border:1px solid #777;padding:6px;text-align:left;vertical-align:top}th{background:#e9eef5}tr{break-inside:avoid}@page{size:A4 landscape;margin:12mm}</style></head><body><h2>APTRANSCO – PORUMAMILLA SUB DIVISION</h2><p>'+escapeMt(title)+'</p>'+table+'</body></html>');
+ w.document.write('<html><head><title>'+escapeMt(title)+'</title><style>body{font:11px Arial;padding:22px;color:#111}h2{text-align:center;margin:0 0 5px}p{text-align:center;margin:0 0 18px;color:#444}table{width:100%;border-collapse:collapse}th,td{border:1px solid #777;padding:6px;text-align:left;vertical-align:top}th{background:#126b91;color:#fff}tbody tr:nth-child(even){background:#eaf4f8}tbody tr:nth-child(odd){background:#fff}td:first-child{font-weight:600;color:#174a70}tr{break-inside:avoid}@page{size:A4 landscape;margin:12mm}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><h2>APTRANSCO – PORUMAMILLA SUB DIVISION</h2><p>'+escapeMt(title)+'</p>'+table+'</body></html>');
  w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 function masterExportRows(all=false){return mtRowsForExport(all,true).map((m,i)=>[i+1,names[m.st],m.eq,m.category,m.periods.join(', '),m.activities.join('; ')])}
 function actualExportRows(all=false){return mt.filter(x=>x.actual&&(all||x.st===$('mtActualStation').value)).map((x,i)=>({...x,status:'Completed'})).map((x,i)=>[i+1,names[x.st],x.eq,x.period,mtFmt(x.last),mtFmt(x.due),mtFmt(x.actual),x.work||'',x.status,x.generated?'Next occurrence':'Imported occurrence'])}
+function exportMasterPdf(all=false){
+ const selected=all?['MKP','PML','KSP']:[$('mtMasterStation').value];
+ const palette={'Power Transformer':'#dcecff','PTR Bay':'#dff5ee','Feeder Bay':'#fff0dc','Feeder':'#eee5ff','Capacitor Bank':'#dff5f8','Auxiliary Equipment':'#fff2d6','Other':'#e9eef2'};
+ let sections='';
+ selected.forEach(st=>{
+  let items=masterItems.filter(m=>m.st===st&&m.active!==false);
+  const cats=[...new Set(items.map(m=>m.category))];
+  sections+=`<h2 class="station">${escapeMt(names[st])}</h2>`;
+  cats.forEach(cat=>{
+   let group=items.filter(m=>m.category===cat);
+   sections+=`<h3 style="background:${palette[cat]||'#e9eef2'}">${escapeMt(cat)}</h3>`;
+   group.forEach(m=>{
+    sections+=`<h4>${escapeMt(m.eq)}${cat==='Capacitor Bank'?' · 33 kV · 7.2 MVAR':''}</h4>`;
+    const periods=m.periods||[];
+    if(!periods.length){sections+='<p class="unassigned">Periodicity not configured</p>';return}
+    periods.forEach(period=>{sections+=`<div class="period">${escapeMt(period)} Maintenance</div><ul>${(m.activities||[]).map(a=>`<li>${escapeMt(a)}</li>`).join('')}</ul>`});
+   });
+  });
+ });
+ let w=window.open('','_blank');if(!w){alert('Please allow pop-ups to print the PDF report.');return}
+ w.document.write(`<html><head><title>Preventive Maintenance Master</title><style>body{font:11pt Arial,sans-serif;color:#19334a;padding:18px}header{text-align:center;border-bottom:4px solid #087f9d;padding-bottom:12px;margin-bottom:18px}header h1{font-size:18pt;color:#075078;margin:0 0 5px}header p{margin:0;color:#52718a}.station{background:#123f70;color:#fff;padding:10px 12px;margin:22px 0 12px;break-after:avoid}h3{padding:8px 10px;border-left:5px solid #087f9d;margin:16px 0 8px;break-after:avoid}h4{color:#174e76;margin:12px 0 5px}.period{background:#eaf3fa;color:#14517a;padding:6px 9px;font-weight:bold;border-radius:4px;margin-top:6px}ul{margin:6px 0 12px;padding-left:25px}li{padding:2px 0}.unassigned{color:#777;font-style:italic} @page{size:A4 portrait;margin:14mm}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><header><h1>APTRANSCO – PORUMAMILLA SUB DIVISION</h1><p>PREVENTIVE MAINTENANCE MASTER · ${all?'ALL SUBSTATIONS':escapeMt(names[selected[0]])}</p><p>Exported: ${new Date().toLocaleDateString('en-IN')}</p></header>${sections}</body></html>`);
+ w.document.close();w.focus();setTimeout(()=>w.print(),400);
+}
 function showMaintenanceTab(which){['Master','Schedule','Actual'].forEach(k=>{$('mt'+k+'Pane').hidden=k!==which;$('mtTab'+k).classList.toggle('active',k===which)});if(which==='Master')renderMaster();if(which==='Schedule')renderActual();if(which==='Actual')renderActualHistory()}
 $('mtTabMaster').onclick=()=>showMaintenanceTab('Master');$('mtTabSchedule').onclick=()=>showMaintenanceTab('Schedule');$('mtTabActual').onclick=()=>showMaintenanceTab('Actual');
 $('mtMasterStation').onchange=renderMaster;$('mtMasterSearch').oninput=renderMaster;$('mtMasterAdd').onclick=()=>openMasterForm();
@@ -1269,9 +1303,9 @@ $('mtCancelActual').onclick=()=>{$('mtExecutionForm').hidden=true;mtSelectedId=n
 $('mtSaveActual').onclick=saveActual;
 $('mtInitCreate').onclick=()=>{let m=masterItems.find(x=>x.id===$('mtInitEquipment').value),period=$('mtInitPeriod').value,due=$('mtInitDue').value;if(!m||!due){alert('Select equipment and initial due date.');return}if(mt.some(x=>x.st===m.st&&x.eq===m.eq&&x.period===period)){alert('A schedule for this equipment and periodicity already exists.');return}mt.push({id:'manual-'+Date.now(),st:m.st,stName:names[m.st],eq:m.eq,period,last:'',due,actual:'',work:'',checkedActivities:[],generated:false});persistMt();renderActual();$('mtInitDue').value='';alert('Initial schedule created.')};
 $('mtMasterExcel').onclick=()=>exportExcel(masterExportRows(),['S. No.','Substation','Equipment','Category','Periodicity','Standard Activities'],'Preventive_Maintenance_Master_'+$('mtMasterStation').value+'.xls');
-$('mtMasterPdf').onclick=()=>exportPdf(masterExportRows(),['S. No.','Substation','Equipment','Category','Periodicity','Standard Activities'],'Preventive Maintenance Master – '+$('mtMasterStation').value);
+$('mtMasterPdf').onclick=()=>exportMasterPdf(false);
 $('mtMasterAllExcel').onclick=()=>exportExcel(masterExportRows(true),['S. No.','Substation','Equipment','Category','Periodicity','Standard Activities'],'Preventive_Maintenance_Master_All_Stations.xls');
-$('mtMasterAllPdf').onclick=()=>exportPdf(masterExportRows(true),['S. No.','Substation','Equipment','Category','Periodicity','Standard Activities'],'Preventive Maintenance Master – All Stations');
+$('mtMasterAllPdf').onclick=()=>exportMasterPdf(true);
 $('mtActualExcel').onclick=()=>exportExcel(actualExportRows(),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual_Maintenance_'+$('mtActualStation').value+'.xls');
 $('mtActualPdf').onclick=()=>exportPdf(actualExportRows(),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual Maintenance Register – '+$('mtActualStation').value);
 $('mtActualAllExcel')?.addEventListener('click',()=>exportExcel(actualExportRows(true),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual_Maintenance_All_Stations.xls'));
