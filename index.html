@@ -1026,8 +1026,8 @@ $('eqRemoveBay').addEventListener('click',()=>{if(!eqNavStation||!eqNavCategory)
 .mt-toolbar input,.mt-toolbar select,.mt-editor input,.mt-editor select,.mt-editor textarea{border:1px solid #cbd5e1;border-radius:8px;padding:10px;background:#fff;color:#172033;min-height:40px;font:inherit}
 .mt-master-intro{background:#eef4fb;border-left:4px solid #2d68a5;padding:12px 14px;border-radius:8px;margin:10px 0 16px;display:flex;flex-direction:column;gap:4px}
 .mt-master-intro span{font-size:13px;color:#526174}
-.mt-master-grid,.mt-record-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px;margin:14px 0}
-.mt-master-card,.mt-record-card{border:1px solid #d9e1eb;background:#fff;border-radius:13px;padding:14px;box-shadow:0 2px 7px rgba(20,40,70,.05);min-width:0}
+.mt-master-grid,.mt-record-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,390px),1fr));gap:16px;margin:14px 0;align-items:stretch}
+.mt-master-card,.mt-record-card{border:1px solid #d9e1eb;background:#fff;border-radius:13px;padding:16px;box-shadow:0 2px 7px rgba(20,40,70,.05);min-width:0;overflow-wrap:anywhere}
 .mt-card-head{display:flex;gap:12px;align-items:center}
 .mt-thumb{width:62px;height:62px;object-fit:contain;flex:0 0 62px;border-radius:10px;background:#f1f5f9;padding:5px}
 .mt-card-title{font-weight:800;color:#172b46;line-height:1.3}
@@ -1085,7 +1085,15 @@ const activityTemplates={
  'Capacitor Bank':['Inspect capacitor units, fuses and discharge coils','Check reactor and bus connections','Inspect breaker, isolator and earth switch','Check protection, alarm and tripping circuits','Inspect earthing, ventilation and abnormal heating'],
  'Other':['Inspect equipment condition and cleanliness','Check connections, fasteners and earthing','Check indications, alarms and control circuits','Record abnormal observations and corrective action']
 };
-const imageFor=cat=>({'Power Transformer':'equipment_images/transformer.svg','PTR Bay':'equipment_images/breaker.svg','Feeder Bay':'equipment_images/breaker.svg','Feeder':'equipment_images/feeder.svg','Capacitor Bank':'equipment_images/capacitor.svg','Other':'equipment_images/other.svg'}[cat]||'equipment_images/other.svg');
+const imageSvg={
+ 'Power Transformer':'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect x=%2220%22 y=%2230%22 width=%2260%22 height=%2255%22 rx=%228%22 fill=%22%23e6a23c%22 stroke=%22%23865d20%22 stroke-width=%224%22/%3E%3Cpath d=%22M30 30V14h40v16M38 14V5m24 9V5M30 48h40M30 62h40%22 stroke=%22%23865d20%22 stroke-width=%224%22 fill=%22none%22/%3E%3C/svg%3E',
+ 'PTR Bay':'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M15 80V20m70 60V20M15 35h70M15 65h70%22 stroke=%22%234b7095%22 stroke-width=%225%22 fill=%22none%22/%3E%3Crect x=%2240%22 y=%2240%22 width=%2220%22 height=%2220%22 fill=%22%2319a6b8%22 stroke=%22%230b5270%22 stroke-width=%224%22/%3E%3C/svg%3E',
+ 'Feeder Bay':'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M15 80V20m70 60V20M15 35h70M15 65h70%22 stroke=%22%234b7095%22 stroke-width=%225%22 fill=%22none%22/%3E%3Crect x=%2240%22 y=%2240%22 width=%2220%22 height=%2220%22 fill=%22%2319a6b8%22 stroke=%22%230b5270%22 stroke-width=%224%22/%3E%3C/svg%3E',
+ 'Feeder':'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M50 8L28 90M50 8l22 82M35 34h30M29 58h42M22 82h56M50 8v82%22 stroke=%22%234b7095%22 stroke-width=%224%22 fill=%22none%22/%3E%3C/svg%3E',
+ 'Capacitor Bank':'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M15 25h70M15 75h70M25 25v50m25-50v50m25-50v50%22 stroke=%22%234b7095%22 stroke-width=%224%22 fill=%22none%22/%3E%3Crect x=%2217%22 y=%2240%22 width=%2216%22 height=%2220%22 rx=%223%22 fill=%22%2395c8df%22 stroke=%22%23265f7b%22 stroke-width=%223%22/%3E%3Crect x=%2242%22 y=%2240%22 width=%2216%22 height=%2220%22 rx=%223%22 fill=%22%2395c8df%22 stroke=%22%23265f7b%22 stroke-width=%223%22/%3E%3Crect x=%2267%22 y=%2240%22 width=%2216%22 height=%2220%22 rx=%223%22 fill=%22%2395c8df%22 stroke=%22%23265f7b%22 stroke-width=%223%22/%3E%3C/svg%3E',
+ 'Other':'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2232%22 fill=%22%23dce8f2%22 stroke=%22%234b7095%22 stroke-width=%224%22/%3E%3Cpath d=%22M50 28v44M28 50h44%22 stroke=%22%234b7095%22 stroke-width=%226%22/%3E%3C/svg%3E'
+};
+const imageFor=cat=>imageSvg[cat]||imageSvg.Other;
 let masterItems=[];
 const masterMap=new Map();
 seededMaintenance.forEach(x=>{let k=x.st+'|'+x.eq.toLowerCase();if(!masterMap.has(k)){let category=classifyEquipment(x.eq);masterMap.set(k,{id:k,st:x.st,eq:x.eq,category,periods:[],activities:[...(activityTemplates[category]||activityTemplates.Other)],active:true})}let m=masterMap.get(k);if(!m.periods.includes(x.period))m.periods.push(x.period)});
@@ -1325,4 +1333,12 @@ document.querySelectorAll('[data-p2home]').forEach(b=>{b.addEventListener('click
 const back=placeholder.querySelector('[data-quick-home]');if(back)back.addEventListener('click',home);
 const eqBack=$('eqBackHome');if(eqBack){eqBack.addEventListener('click',ev=>{ev.preventDefault();home();});}
 if(location.hash==='#md-page'||location.hash==='#monthly-mis-page'||location.hash==='#maintenance-page'||location.hash==='#rmi-details-page'){open(location.hash.slice(1),'Portal section');}
-})();</script></body></html>
+})();</script><style id="f50-layout-fix">
+@media(min-width:1500px){.mt-master-grid,.mt-record-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:1000px) and (max-width:1499px){.mt-master-grid,.mt-record-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:999px){.mt-master-grid,.mt-record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.mt-master-grid,.mt-record-grid{grid-template-columns:1fr}.mt-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.mt-toolbar label{min-width:100%;}}
+.mt-master-card ul{padding-left:20px;margin:9px 0 12px}.mt-master-card li{line-height:1.35;margin:3px 0}.mt-record-meta{min-width:0}.mt-record-meta strong{overflow-wrap:anywhere}
+</style>
+<script id="f50-india-clock">(()=>{const timeEl=document.getElementById('time'),dateEl=document.getElementById('date');if(!timeEl||!dateEl)return;const tick=()=>{const now=new Date();try{timeEl.textContent=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);dateEl.textContent=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',weekday:'long',day:'2-digit',month:'short',year:'numeric'}).format(now)+' · IST';}catch(e){timeEl.textContent=now.toLocaleTimeString('en-IN');dateEl.textContent=now.toLocaleDateString('en-IN');}};tick();setInterval(tick,1000);})();</script>
+</body></html>
