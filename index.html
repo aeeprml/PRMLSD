@@ -948,7 +948,7 @@ renderRmi();
 </section>
 <section class="section p2page" id="maintenance-page" hidden>
 <div class="p2head"><button class="p2btn alt" data-p2home>← Home</button><div><h2>PREVENTIVE & ACTUAL MAINTENANCE</h2><p>Master schedule, due-date generation and actual maintenance execution</p></div></div>
-<div class="mt-tabs"><button class="mt-tab active" id="mtTabMaster">Preventive Maintenance Master</button><button class="mt-tab" id="mtTabActual">Actual Maintenance Register</button></div>
+<div class="mt-tabs"><button class="mt-tab active" id="mtTabMaster">1. Preventive Maintenance Master</button><button class="mt-tab" id="mtTabSchedule">2. Maintenance Schedule</button><button class="mt-tab" id="mtTabActual">3. Actual Maintenance Register</button></div>
 <div id="mtMasterPane">
  <div class="mt-toolbar"><label>Substation<select id="mtMasterStation"><option value="MKP">MKP – 220 kV SS Porumamilla</option><option value="PML">PML – 132 kV SS Porumamilla</option><option value="KSP">KSP – 132 kV SS Kalasapadu</option></select></label><input id="mtMasterSearch" placeholder="Search equipment / activity"><button class="p2btn" id="mtMasterAdd">+ Add Equipment</button><button class="p2btn alt" id="mtMasterExcel">Export Excel</button><button class="p2btn alt" id="mtMasterPdf">Export PDF</button><button class="p2btn alt" id="mtMasterAllExcel">All Stations Excel</button><button class="p2btn alt" id="mtMasterAllPdf">All Stations PDF</button></div>
  <div class="mt-master-intro"><strong>Master contents only – no maintenance dates are stored here.</strong><span>Equipment, standard activities and periodicity are maintained here. Scheduling dates are managed separately. Checklist examples are editable templates and must be checked against applicable APTRANSCO instructions and OEM manuals.</span></div>
@@ -965,13 +965,20 @@ renderRmi();
  </div>
  <div id="mtMasterCards" class="mt-master-grid"></div>
 </div>
-<div id="mtActualPane" hidden>
- <div class="mt-toolbar"><label>Substation<select id="mtStation"><option value="MKP">MKP – 220 kV SS Porumamilla</option><option value="PML">PML – 132 kV SS Porumamilla</option><option value="KSP">KSP – 132 kV SS Kalasapadu</option></select></label><label>Periodicity<select id="mtPeriodFilter"><option value="All">All periodicities</option><option>Monthly</option><option>Quarterly</option><option>Half-yearly</option><option>Yearly</option></select></label><label>Status<select id="mtStatusFilter"><option value="All">All statuses</option><option>Pending</option><option>Completed</option><option>Upcoming</option></select></label><input id="mtSearch" placeholder="Search equipment / activity"><button class="p2btn alt" id="mtActualExcel">Export Excel</button><button class="p2btn alt" id="mtActualPdf">Export PDF</button><button class="p2btn alt" id="mtActualAllExcel">All Stations Excel</button><button class="p2btn alt" id="mtActualAllPdf">All Stations PDF</button></div>
+<div id="mtSchedulePane" hidden>
+ <div class="mt-toolbar"><label>Substation<select id="mtStation"><option value="MKP">MKP – 220 kV SS Porumamilla</option><option value="PML">PML – 132 kV SS Porumamilla</option><option value="KSP">KSP – 132 kV SS Kalasapadu</option></select></label><label>Periodicity<select id="mtPeriodFilter"><option value="All">All periodicities</option><option>Monthly</option><option>Quarterly</option><option>Half-yearly</option><option>Yearly</option></select></label><label>Status<select id="mtStatusFilter"><option value="All">All statuses</option><option>Pending</option><option>Completed</option><option>Upcoming</option></select></label><input id="mtSearch" placeholder="Search equipment / activity"><button class="p2btn alt" id="mtScheduleExcel">Export Excel</button><button class="p2btn alt" id="mtSchedulePdf">Export PDF</button><button class="p2btn alt" id="mtScheduleAllExcel">All Stations Excel</button><button class="p2btn alt" id="mtScheduleAllPdf">All Stations PDF</button></div>
  <div class="mt-summary" id="mtSummary"><div class="mt-stat total"><strong id="mtTotal">0</strong><span>Total scheduled occurrences</span></div><div class="mt-stat pending"><strong id="mtPending">0</strong><span>Pending</span></div><div class="mt-stat completed"><strong id="mtCompleted">0</strong><span>Completed</span></div><div class="mt-stat upcoming"><strong id="mtUpcoming">0</strong><span>Upcoming</span></div></div>
  <div class="mt-progress-panel"><div class="mt-progress-head"><strong>Completed %</strong><strong id="mtCompletedPct">0%</strong></div><div class="mt-progress-track"><span id="mtCompletedBar" style="width:0%"></span></div></div>
  <div class="mt-master-intro"><strong>Scheduled works are generated from the Master.</strong><span>Enter only the actual completion date, tick activities performed and record work details. Overdue occurrences carry forward without duplication.</span></div>
  <details class="mt-schedule-setup"><summary>Scheduling Engine – set an initial due date for new equipment</summary><div class="mt-toolbar"><label>Master equipment<select id="mtInitEquipment"></select></label><label>Periodicity<select id="mtInitPeriod"><option>Monthly</option><option>Quarterly</option><option>Half-yearly</option><option>Yearly</option></select></label><label>Initial due date<input type="date" id="mtInitDue"></label><button class="p2btn" id="mtInitCreate">Create Schedule</button></div><small>Use only when an equipment/periodicity has no existing schedule date in the imported register.</small></details>
  <div id="mtRecordList" class="mt-record-grid"></div>
+
+ </div>
+</div>
+<div id="mtActualPane" hidden>
+ <div class="mt-toolbar"><label>Substation<select id="mtActualStation"><option value="MKP">MKP – 220 kV SS Porumamilla</option><option value="PML">PML – 132 kV SS Porumamilla</option><option value="KSP">KSP – 132 kV SS Kalasapadu</option></select></label><input id="mtActualSearch" placeholder="Search completed equipment / work"><button class="p2btn alt" id="mtActualExcel">Export Excel</button><button class="p2btn alt" id="mtActualPdf">Export PDF</button><button class="p2btn alt" id="mtActualAllExcel">All Stations Excel</button><button class="p2btn alt" id="mtActualAllPdf">All Stations PDF</button></div>
+ <div class="mt-master-intro"><strong>Actual maintenance history</strong><span>Only entries with an actual completion date are listed here. Select a scheduled work in Maintenance Schedule to record or edit its actual execution.</span></div>
+ <div id="mtActualHistoryList" class="mt-record-grid"></div>
  <div id="mtExecutionForm" class="mt-editor" hidden>
   <div class="mt-form-head"><h3 id="mtExecutionTitle">Record Actual Maintenance</h3><span class="mt-source-tag">Scheduled occurrence</span></div>
   <div id="mtExecutionMeta" class="mt-exec-meta"></div>
@@ -979,7 +986,7 @@ renderRmi();
   <h4>Maintenance activity checklist</h4><div id="mtChecklist" class="mt-checklist"></div>
   <label>Details of work done<textarea id="mtWork" rows="4" placeholder="Enter work actually carried out"></textarea></label>
   <div class="mt-form-actions"><button class="p2btn" id="mtSaveActual">Save Actual Maintenance</button><button class="p2btn alt" id="mtCancelActual">Cancel</button></div>
- </div>
+</div>
 </div>
 </section>
 <section class="section p2page" id="md-page" hidden><div class="p2head"><button class="p2btn alt" data-p2home>← Home</button><div><h2>MD PARTICULARS</h2><p>Monthly maximum/minimum demand and historical MD so far reached</p></div></div><div class="p2bar md-simple-toolbar"><label>Substation<select id="mdStation"><option value="MKP">MKP – 220 kV SS Porumamilla</option><option value="PML">PML – 132 kV SS Porumamilla</option><option value="KSP">KSP – 132 kV SS Kalasapadu</option></select></label><button class="p2btn" id="mdAdd">+ Add</button><button class="p2btn alt" id="mdExport">Export</button></div><div class="p2panel"><div class="p2tablewrap"><table class="p2table"><thead><tr><th>Capacity</th><th>Monthly Max</th><th>Max Date</th><th>Max Time</th><th>Monthly Min</th><th>Min Date</th><th>Min Time</th><th>MD so far reached</th><th>MD Date</th><th>MD Time</th><th>Unit</th></tr></thead><tbody id="mdBody"></tbody></table></div></div><div id="mdTrendDashboard" class="mdTrendDashboard"><div class="mdTrendIntro"><h3>PTR-WISE MAXIMUM DEMAND TRENDS</h3><p>Hover over each monthly point to view MD (MVA), percentage loading, date and time.</p></div><div class="mdTrendGrid" id="mdTrendGrid"></div></div>
@@ -1134,8 +1141,14 @@ function renderActual(){
  let pct=counts.All?100-(counts.Pending/counts.All*100):0;$('mtCompletedPct').textContent=pct.toFixed(1)+'%';$('mtCompletedBar').style.width=pct+'%';
  let filtered=rows.filter(x=>(period==='All'||x.period===period)&&(status==='All'||mtStatus(x)===status)&&(!q||(x.eq+' '+x.period+' '+x.work).toLowerCase().includes(q)));
  $('mtRecordList').innerHTML=filtered.length?filtered.map(x=>{let s=mtStatus(x),m=masterFor(x.st,x.eq);return `<article class="mt-record-card"><div class="mt-record-head"><div class="mt-card-head"><img class="mt-thumb" src="${imageFor(m?.category||classifyEquipment(x.eq))}" alt=""><div><div class="mt-card-title">${escapeMt(x.eq)}</div><div class="mt-card-sub">${escapeMt(x.period)} maintenance</div></div></div><span class="mt-status ${s.toLowerCase()}">${s}</span></div><div class="mt-record-meta"><div><span>Previous maintenance</span><strong>${mtFmt(x.last)}</strong></div><div><span>Scheduled due date</span><strong>${mtFmt(x.due)}</strong></div><div><span>Actual date done</span><strong>${mtFmt(x.actual)}</strong></div><div><span>Next due after completion</span><strong>${x.actual?mtFmt(addPeriod(x.actual,x.period)):'—'}</strong></div></div>${x.generated?'':(x.actual?'':'')}${x.due&&x.due<mtToday()&&!x.actual?'<span class="mt-carry">Overdue – carried forward; original due date retained</span>':''}${x.work?`<p class="mt-card-sub">${escapeMt(x.work)}</p>`:''}<div class="mt-card-actions"><button class="p2btn ${x.actual?'alt':''}" data-mtentry="${escapeMt(x.id)}">${x.actual?'View / Edit Actual Entry':'Record Actual Maintenance'}</button></div></article>`}).join(''):'<div class="mt-empty">No scheduled maintenance records match these filters.</div>';
- $('mtRecordList').querySelectorAll('[data-mtentry]').forEach(b=>b.onclick=()=>openExecution(b.dataset.mtentry));
+ $('mtRecordList').querySelectorAll('[data-mtentry]').forEach(b=>b.onclick=()=>{showMaintenanceTab('Actual');openExecution(b.dataset.mtentry)});
  populateInitEquipment();
+}
+function renderActualHistory(){
+ let st=$('mtActualStation').value,q=($('mtActualSearch').value||'').trim().toLowerCase();
+ let rows=mt.filter(x=>x.st===st&&x.actual&&(!q||(x.eq+' '+x.period+' '+x.work).toLowerCase().includes(q)));
+ $('mtActualHistoryList').innerHTML=rows.length?rows.map(x=>{let m=masterFor(x.st,x.eq);return `<article class="mt-record-card"><div class="mt-record-head"><div class="mt-card-head"><img class="mt-thumb" src="${imageFor(m?.category||classifyEquipment(x.eq))}" alt=""><div><div class="mt-card-title">${escapeMt(x.eq)}</div><div class="mt-card-sub">${escapeMt(x.period)} maintenance</div></div></div><span class="mt-status completed">Completed</span></div><div class="mt-record-meta"><div><span>Scheduled due date</span><strong>${mtFmt(x.due)}</strong></div><div><span>Actual date done</span><strong>${mtFmt(x.actual)}</strong></div></div>${x.work?`<p class="mt-card-sub">${escapeMt(x.work)}</p>`:''}<div class="mt-card-actions"><button class="p2btn alt" data-mteditactual="${escapeMt(x.id)}">View / Edit Entry</button></div></article>`}).join(''):'<div class="mt-empty">No completed maintenance entries found for this substation.</div>';
+ $('mtActualHistoryList').querySelectorAll('[data-mteditactual]').forEach(b=>b.onclick=()=>openExecution(b.dataset.mteditactual));
 }
 function openExecution(id){
  let x=mt.find(r=>r.id===id);if(!x)return;mtSelectedId=id;
@@ -1153,7 +1166,7 @@ function saveActual(){
  x.actual=actual;x.checkedActivities=checked;x.work=$('mtWork').value.trim();
  let nextId=x.id+'-next',next=mt.find(r=>r.id===nextId),nextDue=addPeriod(actual,x.period);
  if(nextDue){if(next){next.last=actual;next.due=nextDue;next.actual='';next.work='';next.checkedActivities=[]}else mt.push({id:nextId,st:x.st,stName:x.stName,eq:x.eq,period:x.period,last:actual,due:nextDue,actual:'',work:'',checkedActivities:[],generated:true,parentId:x.id})}
- persistMt();$('mtExecutionForm').hidden=true;renderActual();
+ persistMt();$('mtExecutionForm').hidden=true;renderActual();renderActualHistory();
  alert(nextDue?'Maintenance entry saved. Next due date calculated: '+mtFmt(nextDue):'Maintenance entry saved.');
 }
 function mtRowsForExport(all=false,master=false){
@@ -1173,9 +1186,9 @@ function exportPdf(rows,headers,title){
  w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 function masterExportRows(all=false){return mtRowsForExport(all,true).map((m,i)=>[i+1,names[m.st],m.eq,m.category,m.periods.join(', '),m.activities.join('; ')])}
-function actualExportRows(all=false){return mtRowsForExport(all,false).map((x,i)=>[i+1,names[x.st],x.eq,x.period,mtFmt(x.last),mtFmt(x.due),mtFmt(x.actual),x.work||'',x.status,x.generated?'Next occurrence':'Imported occurrence'])}
-$('mtTabMaster').onclick=()=>{$('mtMasterPane').hidden=false;$('mtActualPane').hidden=true;$('mtTabMaster').classList.add('active');$('mtTabActual').classList.remove('active');renderMaster()};
-$('mtTabActual').onclick=()=>{$('mtMasterPane').hidden=true;$('mtActualPane').hidden=false;$('mtTabActual').classList.add('active');$('mtTabMaster').classList.remove('active');renderActual()};
+function actualExportRows(all=false){return mt.filter(x=>x.actual&&(all||x.st===$('mtActualStation').value)).map((x,i)=>({...x,status:'Completed'})).map((x,i)=>[i+1,names[x.st],x.eq,x.period,mtFmt(x.last),mtFmt(x.due),mtFmt(x.actual),x.work||'',x.status,x.generated?'Next occurrence':'Imported occurrence'])}
+function showMaintenanceTab(which){['Master','Schedule','Actual'].forEach(k=>{$('mt'+k+'Pane').hidden=k!==which;$('mtTab'+k).classList.toggle('active',k===which)});if(which==='Master')renderMaster();if(which==='Schedule')renderActual();if(which==='Actual')renderActualHistory()}
+$('mtTabMaster').onclick=()=>showMaintenanceTab('Master');$('mtTabSchedule').onclick=()=>showMaintenanceTab('Schedule');$('mtTabActual').onclick=()=>showMaintenanceTab('Actual');
 $('mtMasterStation').onchange=renderMaster;$('mtMasterSearch').oninput=renderMaster;$('mtMasterAdd').onclick=()=>openMasterForm();
 $('mtMCancel').onclick=()=>{$('mtMasterForm').hidden=true;mtEditingMaster=null};
 $('mtMSave').onclick=()=>{
@@ -1185,7 +1198,11 @@ $('mtMSave').onclick=()=>{
  else{let id=st+'|'+eq.toLowerCase();if(masterItems.some(x=>x.id===id)){alert('This equipment is already in the selected substation Master.');return}masterItems.push({id,st,eq,category,periods,activities,active:true})}
  saveMaster();$('mtMasterForm').hidden=true;mtEditingMaster=null;renderMaster();alert('Master item saved. For a new equipment item, set its initial due date in the Scheduling Engine below the Actual Register.');
 };
-$('mtStation').onchange=renderActual;$('mtPeriodFilter').onchange=renderActual;$('mtStatusFilter').onchange=renderActual;$('mtSearch').oninput=renderActual;
+$('mtStation').onchange=renderActual;$('mtPeriodFilter').onchange=renderActual;$('mtStatusFilter').onchange=renderActual;$('mtSearch').oninput=renderActual;$('mtActualStation').onchange=renderActualHistory;$('mtActualSearch').oninput=renderActualHistory;
+$('mtScheduleExcel').onclick=()=>exportExcel(mtRowsForExport(false,false).map((x,i)=>[i+1,names[x.st],x.eq,x.period,mtFmt(x.last),mtFmt(x.due),mtFmt(x.actual),x.work||'',mtStatus(x),x.generated?'Next occurrence':'Imported occurrence']),['S. No.','Substation','Equipment','Periodicity','Last Done','Due Date','Actual Date','Work Details','Status','Occurrence'],'Maintenance_Schedule_'+$('mtStation').value+'.xls');
+$('mtSchedulePdf').onclick=()=>exportPdf(mtRowsForExport(false,false).map((x,i)=>[i+1,names[x.st],x.eq,x.period,mtFmt(x.last),mtFmt(x.due),mtFmt(x.actual),x.work||'',mtStatus(x),x.generated?'Next occurrence':'Imported occurrence']),['S. No.','Substation','Equipment','Periodicity','Last Done','Due Date','Actual Date','Work Details','Status','Occurrence'],'Maintenance Schedule – '+$('mtStation').value);
+$('mtScheduleAllExcel').onclick=()=>exportExcel(mtRowsForExport(true,false).map((x,i)=>[i+1,names[x.st],x.eq,x.period,mtFmt(x.last),mtFmt(x.due),mtFmt(x.actual),x.work||'',mtStatus(x),x.generated?'Next occurrence':'Imported occurrence']),['S. No.','Substation','Equipment','Periodicity','Last Done','Due Date','Actual Date','Work Details','Status','Occurrence'],'Maintenance_Schedule_All_Stations.xls');
+$('mtScheduleAllPdf').onclick=()=>exportPdf(mtRowsForExport(true,false).map((x,i)=>[i+1,names[x.st],x.eq,x.period,mtFmt(x.last),mtFmt(x.due),mtFmt(x.actual),x.work||'',mtStatus(x),x.generated?'Next occurrence':'Imported occurrence']),['S. No.','Substation','Equipment','Periodicity','Last Done','Due Date','Actual Date','Work Details','Status','Occurrence'],'Maintenance Schedule – All Stations');
 $('mtCancelActual').onclick=()=>{$('mtExecutionForm').hidden=true;mtSelectedId=null};
 $('mtSaveActual').onclick=saveActual;
 $('mtInitCreate').onclick=()=>{let m=masterItems.find(x=>x.id===$('mtInitEquipment').value),period=$('mtInitPeriod').value,due=$('mtInitDue').value;if(!m||!due){alert('Select equipment and initial due date.');return}if(mt.some(x=>x.st===m.st&&x.eq===m.eq&&x.period===period)){alert('A schedule for this equipment and periodicity already exists.');return}mt.push({id:'manual-'+Date.now(),st:m.st,stName:names[m.st],eq:m.eq,period,last:'',due,actual:'',work:'',checkedActivities:[],generated:false});persistMt();renderActual();$('mtInitDue').value='';alert('Initial schedule created.')};
@@ -1193,11 +1210,11 @@ $('mtMasterExcel').onclick=()=>exportExcel(masterExportRows(),['S. No.','Substat
 $('mtMasterPdf').onclick=()=>exportPdf(masterExportRows(),['S. No.','Substation','Equipment','Category','Periodicity','Standard Activities'],'Preventive Maintenance Master – '+$('mtMasterStation').value);
 $('mtMasterAllExcel').onclick=()=>exportExcel(masterExportRows(true),['S. No.','Substation','Equipment','Category','Periodicity','Standard Activities'],'Preventive_Maintenance_Master_All_Stations.xls');
 $('mtMasterAllPdf').onclick=()=>exportPdf(masterExportRows(true),['S. No.','Substation','Equipment','Category','Periodicity','Standard Activities'],'Preventive Maintenance Master – All Stations');
-$('mtActualExcel').onclick=()=>exportExcel(actualExportRows(),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual_Maintenance_'+$('mtStation').value+'.xls');
-$('mtActualPdf').onclick=()=>exportPdf(actualExportRows(),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual Maintenance Register – '+$('mtStation').value);
+$('mtActualExcel').onclick=()=>exportExcel(actualExportRows(),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual_Maintenance_'+$('mtActualStation').value+'.xls');
+$('mtActualPdf').onclick=()=>exportPdf(actualExportRows(),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual Maintenance Register – '+$('mtActualStation').value);
 $('mtActualAllExcel')?.addEventListener('click',()=>exportExcel(actualExportRows(true),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual_Maintenance_All_Stations.xls'));
 $('mtActualAllPdf')?.addEventListener('click',()=>exportPdf(actualExportRows(true),['S. No.','Substation','Equipment','Periodicity','Last Done','Original Due Date','Actual Date Done','Work Details','Status','Occurrence'],'Actual Maintenance Register – All Stations'));
-renderMaster();renderActual();
+renderMaster();renderActual();renderActualHistory();
 const defaults={
 MKP:[
 {type:'PTR',name:'100 MVA PTR-1',cap:'100',unit:'MVA'},
