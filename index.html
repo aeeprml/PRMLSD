@@ -175,6 +175,56 @@ main{max-width:1400px;margin:auto;padding:25px 3.2% 38px}.section{margin:0 0 28p
 @media(max-width:700px){.mdFeederHead{flex-direction:column}.mdSourceTag{white-space:normal}}
 </style>
 
+
+/* Maintenance module redesign */
+.mt-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+.mt-tab{border:1px solid #cbd5e1;background:#fff;color:#263449;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer}
+.mt-tab.active{background:#173e75;color:#fff;border-color:#173e75}
+.mt-toolbar{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:12px 0 16px}
+.mt-toolbar label,.mt-editor label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:13px;min-width:170px;flex:1}
+.mt-toolbar input,.mt-toolbar select,.mt-editor input,.mt-editor select,.mt-editor textarea{border:1px solid #cbd5e1;border-radius:8px;padding:10px;background:#fff;color:#172033;min-height:40px;font:inherit}
+.mt-master-intro{background:#eef4fb;border-left:4px solid #2d68a5;padding:12px 14px;border-radius:8px;margin:10px 0 16px;display:flex;flex-direction:column;gap:4px}
+.mt-master-intro span{font-size:13px;color:#526174}
+.mt-master-grid,.mt-record-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px;margin:14px 0}
+.mt-master-card,.mt-record-card{border:1px solid #d9e1eb;background:#fff;border-radius:13px;padding:14px;box-shadow:0 2px 7px rgba(20,40,70,.05);min-width:0}
+.mt-card-head{display:flex;gap:12px;align-items:center}
+.mt-thumb{width:62px;height:62px;object-fit:contain;flex:0 0 62px;border-radius:10px;background:#f1f5f9;padding:5px}
+.mt-card-title{font-weight:800;color:#172b46;line-height:1.3}
+.mt-card-sub{font-size:12px;color:#64748b;margin-top:3px}
+.mt-chips{display:flex;gap:6px;flex-wrap:wrap;margin:11px 0}
+.mt-chip{font-size:11px;font-weight:700;border-radius:20px;padding:5px 9px;background:#e9f0f8;color:#284d77}
+.mt-card-actions,.mt-form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.mt-editor{border:1px solid #cbd5e1;border-radius:12px;padding:16px;margin:14px 0;background:#f8fafc}
+.mt-editor h3{margin:0 0 14px}
+.mt-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mt-full{grid-column:1/-1}
+.mt-period-checks{display:flex;gap:12px;flex-wrap:wrap;padding:9px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+.mt-period-checks label{display:flex;flex-direction:row;align-items:center;min-width:0;flex:0 0 auto;font-weight:500}
+.mt-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.mt-stat{border-radius:12px;padding:14px;background:#f1f5f9;display:flex;flex-direction:column;gap:4px;border:1px solid #e2e8f0}
+.mt-stat strong{font-size:25px;color:#1e293b}
+.mt-stat span{font-size:12px;color:#526174}
+.mt-stat.pending{background:#fff1f0}.mt-stat.pending strong{color:#b42318}
+.mt-stat.completed{background:#ecfdf3}.mt-stat.completed strong{color:#16834a}
+.mt-stat.upcoming{background:#eff6ff}.mt-stat.upcoming strong{color:#2563eb}
+.mt-progress-panel{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;margin:10px 0 16px}
+.mt-progress-head{display:flex;justify-content:space-between;margin-bottom:8px}
+.mt-progress-track{height:9px;background:#e8edf3;border-radius:20px;overflow:hidden}
+.mt-progress-track span{display:block;height:100%;background:#16834a;border-radius:20px}
+.mt-record-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.mt-status{font-size:11px;font-weight:800;padding:5px 9px;border-radius:20px;white-space:nowrap}
+.mt-status.pending{background:#fee4e2;color:#b42318}.mt-status.completed{background:#dcfae6;color:#067647}.mt-status.upcoming{background:#dbeafe;color:#1d4ed8}
+.mt-record-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0;font-size:12px}
+.mt-record-meta span{color:#64748b}.mt-record-meta strong{display:block;color:#263449;font-size:13px;margin-top:2px}
+.mt-carry{font-size:11px;color:#9a6700;background:#fff7e6;border-radius:6px;padding:5px 8px;display:inline-block;margin-top:7px}
+.mt-form-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mt-exec-meta{background:#edf3f9;border-radius:9px;padding:11px;margin:8px 0 14px;font-size:13px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mt-exec-meta span{color:#64748b}.mt-checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0 14px}
+.mt-checkitem{display:flex;gap:8px;align-items:flex-start;padding:9px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;font-size:13px}
+.mt-source-tag{font-size:11px;background:#e8eff8;color:#31577f;padding:5px 9px;border-radius:20px;white-space:nowrap}
+.mt-empty{grid-column:1/-1;padding:25px;text-align:center;color:#64748b;border:1px dashed #cbd5e1;border-radius:10px}
+@media(max-width:650px){.mt-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.mt-form-grid,.mt-checklist,.mt-exec-meta{grid-template-columns:1fr}.mt-toolbar label{min-width:100%;}.mt-toolbar button{flex:1}.mt-master-grid,.mt-record-grid{grid-template-columns:1fr}.mt-full{grid-column:auto}}
+@media print{body *{visibility:hidden!important}#maintenance-page,#maintenance-page *{visibility:visible!important}#maintenance-page{position:absolute;left:0;top:0;width:100%;padding:0!important}#maintenance-page .mt-tabs,#maintenance-page .mt-toolbar button,#maintenance-page .mt-card-actions,#maintenance-page .mt-form-actions,#maintenance-page [data-p2home],#maintenance-page #mtExecutionForm{display:none!important}.mt-master-card,.mt-record-card{break-inside:avoid;box-shadow:none}.mt-master-grid,.mt-record-grid{display:block}.mt-master-card,.mt-record-card{margin:7px 0;border:1px solid #aaa} }
 </head>
 <body>
 <header class="tophead" id="home">
@@ -1121,14 +1171,11 @@ const imageSvg={
 };
 const imageFor=cat=>imageSvg[cat]||imageSvg.Other;
 const normalizePtrBayName=(name)=>{
- let v=String(name||'').replace(/\s+/g,' ').trim();
- let m=v.match(/(?:Power Transformer[- ]*)?(?:PTR[- ]*)?(I{1,3}|IV|1|2|3)\s*(?:HV\s*Bay|LV\s*Bay|HV\s*Breaker|LV\s*Breaker|Bay)?/i);
- if(/PTR/i.test(v)||/Power Transformer/i.test(v)){
-   let n=(m&&m[1]||'').toUpperCase();
-   if(n==='1')n='I';if(n==='2')n='II';if(n==='3')n='III';
-   if(!n){let z=v.match(/Transformer[- ]*(I{1,3}|IV|1|2|3)/i);if(z)n=z[1].toUpperCase()}
-   if(n)return 'PTR-'+n+' Bay';
- }
+ let v=String(name||'').replace(/\\s+/g,' ').trim();
+ let m=v.match(/PTR\\s*[- ]*(I{1,3}|IV|1|2|3)\\b/i)
+   ||v.match(/Power Transformer\\s*[- ]*(I{1,3}|IV|1|2|3)\\b/i)
+   ||v.match(/(?:HV|LV)\\s*[- ]*(I{1,3}|IV|1|2|3)\\b/i);
+ if(m){let n=m[1].toUpperCase();if(n==='1')n='I';if(n==='2')n='II';if(n==='3')n='III';return 'PTR-'+n+' Bay'}
  return v;
 };
 const auxiliaryInventory={
@@ -1144,7 +1191,7 @@ masterItems=[...masterMap.values()];
 Object.entries(auxiliaryInventory).forEach(([st,items])=>items.forEach(([eq,period])=>{
  let id=st+'|'+eq.toLowerCase();
  if(!masterItems.some(m=>m.id===id)){
-  masterItems.push({id,st,eq,category:'Auxiliary Equipment',periods:period?[period]:[],activities:[...(activityTemplates.Other||[])],active:true,auxiliary:true});
+  masterItems.push({id,st,eq,category:'Auxiliary Equipment',periods:period?period.split(','):[],activities:[...(activityTemplates.Other||[])],active:true,auxiliary:true});
  }
 }));
 // Station-specific auxiliary and capacitor-bank categories confirmed for the three stations.
@@ -1155,7 +1202,7 @@ const stationSpecialEquipment={
 };
 Object.entries(stationSpecialEquipment).forEach(([st,items])=>items.forEach(([eq,category,period])=>{
  const id=st+'|'+eq.toLowerCase();
- if(!masterItems.some(m=>m.id===id)) masterItems.push({id,st,eq,category,periods:period?[period]:[],activities:[...(activityTemplates[category]||activityTemplates.Other)],active:true,auxiliary:category==='Auxiliary Equipment'});
+ if(!masterItems.some(m=>m.id===id)) masterItems.push({id,st,eq,category,periods:period?period.split(','):[],activities:[...(activityTemplates[category]||activityTemplates.Other)],active:true,auxiliary:category==='Auxiliary Equipment'});
 }));
 
 try{let saved=JSON.parse(localStorage.getItem(masterStore)||'null');if(Array.isArray(saved)){saved.forEach(s=>{let i=masterItems.findIndex(m=>m.id===s.id);if(i>=0)masterItems[i]={...masterItems[i],...s};else masterItems.push(s)})}}catch(e){}
@@ -1171,31 +1218,46 @@ const generatedIds=new Set(mt.map(x=>x.id));
 mt.filter(x=>x.actual&&addPeriod(x.actual,x.period)).forEach(x=>{let id=x.id+'-next';if(!generatedIds.has(id)){mt.push({id,st:x.st,stName:x.stName,eq:x.eq,period:x.period,last:x.actual,due:addPeriod(x.actual,x.period),actual:'',work:'',checkedActivities:[],generated:true,parentId:x.id});generatedIds.add(id)}});
 const persistMt=()=>{try{localStorage.setItem(store.mt,JSON.stringify(mt))}catch(e){}};
 const masterFor=(st,eq)=>masterItems.find(m=>m.st===st&&m.eq.toLowerCase()===String(eq).toLowerCase());
+const mtActivitiesFor=(m,period)=>((m.activitiesByPeriod&&Array.isArray(m.activitiesByPeriod[period]))?m.activitiesByPeriod[period]:(m.activities||activityTemplates[m.category]||activityTemplates.Other));
+let mtMasterEditState=null;
 function renderMaster(){
- let st=$('mtMasterStation').value,q=($('mtMasterSearch').value||'').trim().toLowerCase();
- let list=masterItems.filter(m=>m.st===st&&m.active!==false&&(!q||(m.eq+' '+m.category+' '+m.activities.join(' ')).toLowerCase().includes(q)));
+ const st=$('mtMasterStation').value,q=($('mtMasterSearch').value||'').trim().toLowerCase();
+ const stationItems=masterItems.filter(m=>m.st===st&&m.active!==false);
  const groups=[
-  {key:'Power Transformer',title:'POWER TRANSFORMERS',cls:'transformer',desc:'Main transformer body maintenance'},
-  {key:'PTR Bay',title:'PTR BAYS',cls:'ptr',desc:'Each transformer bay treated as one combined PTR Bay'},
-  {key:'Feeder Bay',title:'FEEDER BAYS',cls:'feeder',desc:'HV / 132 kV / 33 kV feeder bay maintenance'},
-  {key:'Feeder',title:'FEEDERS',cls:'feeder',desc:'Feeder-level preventive maintenance'},
-  {key:'Capacitor Bank',title:'CAPACITOR BANKS',cls:'cap',desc:'33 kV · 7.2 MVAR capacitor bank'},
-  {key:'Auxiliary Equipment',title:'AUXILIARY EQUIPMENT',cls:'aux',desc:'Battery sets, monthly chargers, DG set, ACS and fire extinguishers'},
-  {key:'Other',title:'OTHER EQUIPMENT',cls:'other',desc:'Other station equipment'}
- ].filter(g=>g.key!=='Capacitor Bank'||st==='PML'||st==='KSP');
- $('mtMasterCards').innerHTML='<div class="mt-poster-intro mt-master-intro mt-full"><strong>'+escapeMt(names[st])+' · PREVENTIVE MAINTENANCE OVERVIEW</strong><span>Poster-style summary by equipment group. Select a panel to view or manage its equipment list. PTR HV/LV components are presented together as one PTR Bay.</span></div>'+groups.map(g=>{
-  let items=list.filter(m=>m.category===g.key);
-  if(g.key==='PTR Bay'){
-   const seen=new Set();items=items.filter(m=>{let n=normalizePtrBayName(m.eq);if(seen.has(n))return false;seen.add(n);return true});
-  }
-  let namesList=[...new Set(items.map(m=>g.key==='PTR Bay'?normalizePtrBayName(m.eq):m.eq))];
-  return `<div class="mt-poster-wrap"><div class="mt-poster ${g.cls}" data-poster="${g.key}"><div><h3>${g.title}</h3><p>${g.desc}</p>${g.key==='Capacitor Bank'?'<p class="mt-poster-rating"><strong>33 kV · 7.2 MVAR</strong></p>':''}</div><div class="mt-poster-count">${namesList.length}</div><div class="mt-poster-foot">${namesList.length?'Equipment groups · tap to manage':'No equipment listed'}</div></div><div class="mt-poster-detail" data-poster-detail="${g.key}"><b>${g.title}</b><ul>${namesList.map(n=>{let m=items.find(x=>(g.key==='PTR Bay'?normalizePtrBayName(x.eq):x.eq)===n);let sourceSub=({MKP:'220/132 kV SS Porumamilla',PML:'132/33 kV SS Porumamilla',KSP:'132/33 kV SS Kalasapadu'})[st];let er=(g.key==='Auxiliary Equipment'&&typeof eqRecords!=='undefined')?eqRecords.find(r=>r.Substation===sourceSub&&((/battery/i.test(n)&&/battery/i.test(r.Equipment)&&new RegExp(n.match(/Set-\d+/i)?.[0]||'Battery','i').test(r.Equipment))||(/charger/i.test(n)&&/charger/i.test(r.Equipment)&&new RegExp(n.match(/Charger-\d+/i)?.[0]||'Charger','i').test(r.Equipment))||(/DG/i.test(n)&&/diesel generator/i.test(r.Equipment)))):null;let info=er?[er.Make,er.Rating,er.Type].filter(Boolean).join(' · '):'';return `<li>${escapeMt(n)}${info?' — '+escapeMt(info):''}</li>`}).join('')||'<li>No equipment</li>'}</ul><div class="mt-card-actions">${items.map(m=>`<button class="p2btn alt" data-medit="${escapeMt(m.id)}">Edit ${escapeMt(g.key==='PTR Bay'?normalizePtrBayName(m.eq):m.eq)}</button>`).join('')}</div></div></div>`;
+  {key:'Power Transformer',title:'POWER TRANSFORMERS',cls:'transformer',desc:'Monthly · Quarterly · Yearly'},
+  {key:'PTR Bay',title:'PTR BAY',cls:'ptr',desc:'Quarterly · Yearly'},
+  {key:'Feeder Bay',title:'FEEDERS',cls:'feeder',desc:'Quarterly · Yearly'},
+  {key:'Feeder',title:'FEEDERS',cls:'feeder',desc:'Quarterly · Yearly'},
+  {key:'Capacitor Bank',title:'CAPACITOR BANK',cls:'cap',desc:'Quarterly · Yearly'},
+  {key:'Auxiliary Equipment',title:'AUXILIARY EQUIPMENT',cls:'aux',desc:'Monthly'},
+  {key:'Other',title:'OTHER EQUIPMENT',cls:'other',desc:'As configured'}
+ ];
+ const categoryFor=m=>m.category==='Feeder'?'Feeder Bay':m.category;
+ const visibleGroups=groups.map(g=>({...g,items:stationItems.filter(m=>categoryFor(m)===g.key)})).filter(g=>g.items.length&&(!q||g.items.some(m=>(m.eq+' '+m.category+' '+(m.periods||[]).join(' ')+' '+(m.activities||[]).join(' ')+' '+Object.values(m.activitiesByPeriod||{}).flat().join(' ')).toLowerCase().includes(q)))&&(g.key!=='Capacitor Bank'||st!=='MKP'));
+ const descriptions={MKP:{'Power Transformer':'100 MVA PTR-1 & PTR-2 · 160 MVA PTR-3','PTR Bay':'Combined HV/LV bay','Feeder Bay':'220 kV and 132 kV feeders','Auxiliary Equipment':'Battery Sets 1 & 2 · Chargers 1 & 2 · DG · ACS · Fire Extinguishers'},PML:{'Power Transformer':'2 × 31.5 MVA','PTR Bay':'Combined HV/LV bay','Feeder Bay':'132 kV feeders · 33 kV feeders (6)','Capacitor Bank':'2 × 7.2 MVAR · 33 kV','Auxiliary Equipment':'Battery Set-1 · Charger-1 · DG · ACS · Fire Extinguishers'},KSP:{'Power Transformer':'PTR-1 10/16 MVA · PTR-2 31.5 MVA','PTR Bay':'Combined HV/LV bay','Feeder Bay':'132 kV and 33 kV feeders','Capacitor Bank':'1 × 7.2 MVAR · 33 kV','Auxiliary Equipment':'Battery Set-1 · Charger-1 · DG · ACS · Fire Extinguishers'}};
+ const html=visibleGroups.map(g=>{
+  const periods=[...new Set(g.items.flatMap(m=>m.periods||[]))];
+  const displayItems=g.key==='PTR Bay'?(()=>{const byName=new Map();g.items.forEach(item=>{const key=normalizePtrBayName(item.eq);if(!byName.has(key))byName.set(key,{...item,eq:key,_linkedItems:[item],periods:[...(item.periods||[])]});else{const v=byName.get(key);v._linkedItems.push(item);(item.periods||[]).forEach(p=>{if(!v.periods.includes(p))v.periods.push(p)})}});return [...byName.values()]})():g.items;
+  const equipmentHtml=displayItems.map(m=>{
+   const shownEq=g.key==='PTR Bay'?normalizePtrBayName(m.eq):m.eq;
+   const ps=(m.periods||[]).filter(Boolean);
+   const pHtml=ps.map(p=>{
+    const editKey=escapeMt(m.id+'::'+p),editing=mtMasterEditState&&mtMasterEditState.id===m.id&&mtMasterEditState.period===p;
+    const acts=mtActivitiesFor(m,p);
+    return `<div class="mt-period-editor"><div class="mt-period-line"><span class="mt-period-pill">${escapeMt(p)}</span><button class="p2btn alt mt-period-edit" data-period-edit="${editKey}">${editing?'Editing':'Edit activities'}</button></div>${editing?`<textarea class="mt-period-textarea" data-period-text="${editKey}" rows="5">${escapeMt(acts.join('\n'))}</textarea><div class="mt-period-actions"><button class="p2btn" data-period-save="${editKey}">Save ${escapeMt(p)}</button><button class="p2btn alt" data-period-cancel>Cancel</button></div>`:''}</div>`;
+   }).join('');
+   return `<article class="mt-master-equipment"><div class="mt-master-eq-title"><strong>${escapeMt(shownEq)}</strong><button class="p2btn alt" data-medit="${escapeMt(m.id)}">Edit equipment</button></div><div class="mt-master-periods">${pHtml||'<span class="mt-period-pill">Periodicity not configured</span>'}</div></article>`;
+  }).join('');
+  return `<section class="mt-poster-wrap"><button type="button" class="mt-poster ${g.cls}" data-poster="${escapeMt(g.key)}"><span><h3>${g.title}</h3><p>${escapeMt(descriptions[st]?.[g.key]||g.desc)}</p></span><span class="mt-poster-foot">${periods.map(p=>`<i>${escapeMt(p)}</i>`).join(' ')}</span><span class="mt-poster-open">VIEW DETAILS　＋</span></button><div class="mt-poster-detail" data-poster-detail="${escapeMt(g.key)}"><div class="mt-detail-heading"><strong>${g.title} · ${escapeMt(names[st])}</strong><span>${g.items.length} equipment record${g.items.length===1?'':'s'}</span></div>${equipmentHtml}</div></section>`;
  }).join('');
- $('mtMasterCards').querySelectorAll('[data-poster]').forEach(el=>el.onclick=()=>{let d=el.parentElement?.querySelector('.mt-poster-detail');d?.classList.toggle('open')});
+ $('mtMasterCards').innerHTML='<div class="mt-poster-intro mt-master-intro mt-full"><strong>'+escapeMt(names[st])+' · PREVENTIVE MAINTENANCE MASTER</strong><span>Select an equipment category to view its equipment and periodicity. Edit and save activities independently for each periodicity. No maintenance dates are stored in this Master.</span></div><div class="mt-poster-grid">'+(html||'<div class="mt-empty mt-full">No applicable equipment categories are configured for this station.</div>')+'</div>';
+ $('mtMasterCards').querySelectorAll('[data-poster]').forEach(el=>el.onclick=()=>{const d=el.parentElement.querySelector('.mt-poster-detail');d.classList.toggle('open');el.querySelector('.mt-poster-open').textContent=d.classList.contains('open')?'HIDE DETAILS　−':'VIEW DETAILS　＋'});
  $('mtMasterCards').querySelectorAll('[data-medit]').forEach(b=>b.onclick=e=>{e.stopPropagation();openMasterForm(b.dataset.medit)});
+ $('mtMasterCards').querySelectorAll('[data-period-edit]').forEach(b=>b.onclick=e=>{e.stopPropagation();const [id,period]=b.dataset.periodEdit.split('::');mtMasterEditState={id,period};renderMaster();const d=$('mtMasterCards').querySelector(`[data-poster-detail].open`);d?.scrollIntoView({block:'nearest',behavior:'smooth'})});
+ $('mtMasterCards').querySelectorAll('[data-period-save]').forEach(b=>b.onclick=e=>{e.stopPropagation();const [id,period]=b.dataset.periodSave.split('::'),m=masterItems.find(x=>x.id===id),ta=[...$('mtMasterCards').querySelectorAll('[data-period-text]')].find(el=>el.dataset.periodText===b.dataset.periodSave);if(!m||!ta)return;const activities=ta.value.split('\n').map(x=>x.trim()).filter(Boolean);if(!activities.length){alert('Enter at least one maintenance activity.');return}(m._linkedItems||[m]).forEach(linked=>{linked.activitiesByPeriod=linked.activitiesByPeriod||{};linked.activitiesByPeriod[period]=[...activities]});saveMaster();mtMasterEditState=null;renderMaster();alert(period+' activities saved. Existing maintenance history is unchanged.')});
+ $('mtMasterCards').querySelectorAll('[data-period-cancel]').forEach(b=>b.onclick=()=>{mtMasterEditState=null;renderMaster()});
  populateInitEquipment();
-}
-function openMasterForm(id=''){
+}function openMasterForm(id=''){
  mtEditingMaster=id||null;let m=id?masterItems.find(x=>x.id===id):null;
  $('mtMasterFormTitle').textContent=m?'Edit Master Equipment':'Add Equipment to Master';
  $('mtMStation').value=m?.st||$('mtMasterStation').value;$('mtMEquip').value=m?.eq||'';$('mtMCategory').value=m?.category||'Other';$('mtMActivities').value=(m?.activities||activityTemplates[m?.category||'Other']).join('\n');
@@ -1210,7 +1272,7 @@ function renderActual(){
  $('mtTotal').textContent=counts.All;$('mtPending').textContent=counts.Pending;$('mtOverdue').textContent=counts.Overdue;$('mtCompleted').textContent=counts.Completed;$('mtUpcoming').textContent=counts.Upcoming;
  let pct=counts.All?counts.Completed/counts.All*100:0;$('mtCompletedPct').textContent=pct.toFixed(1)+'%';$('mtCompletedBar').style.width=pct+'%';
  let filtered=rows.filter(x=>(period==='All'||x.period===period)&&(status==='All'||mtStatus(x)===status)&&(!q||(x.eq+' '+x.period+' '+x.work).toLowerCase().includes(q)));
- $('mtRecordList').innerHTML=filtered.length?filtered.map(x=>{let s=mtStatus(x),m=masterFor(x.st,x.eq);return `<article class="mt-record-card"><div class="mt-record-head"><div class="mt-card-head"><img class="mt-thumb" src="${imageFor(m?.category||classifyEquipment(x.eq))}" alt=""><div><div class="mt-card-title">${escapeMt(normalizePtrBayName(x.eq))}</div><div class="mt-card-sub">${escapeMt(x.period)} maintenance</div></div></div><span class="mt-status ${s.toLowerCase()}">${s}</span></div><div class="mt-record-meta"><div><span>Previous maintenance</span><strong>${mtFmt(x.last)}</strong></div><div><span>Scheduled due date</span><strong>${mtFmt(x.due)}</strong></div><div><span>Actual date done</span><strong>${mtFmt(x.actual)}</strong></div><div><span>Next due after completion</span><strong>${x.actual?mtFmt(addPeriod(x.actual,x.period)):'—'}</strong></div></div>${x.generated?'':(x.actual?'':'')}${x.due&&x.due<mtToday()&&!x.actual?'<span class="mt-carry">Overdue – carried forward; original due date retained</span>':''}${x.work?`<p class="mt-card-sub">${escapeMt(x.work)}</p>`:''}<div class="mt-card-actions"><button class="p2btn ${x.actual?'alt':''}" data-mtentry="${escapeMt(x.id)}">${x.actual?'View / Edit Actual Entry':'Record Actual Maintenance'}</button></div></article>`}).join(''):'<div class="mt-empty">No scheduled maintenance records match these filters.</div>';
+ $('mtRecordList').innerHTML=filtered.length?filtered.map(x=>{let s=mtStatus(x),m=masterFor(x.st,x.eq);return `<article class="mt-record-card"><div class="mt-record-head"><div class="mt-card-head"><img class="mt-thumb" src="${imageFor(m?.category||classifyEquipment(x.eq))}" alt=""><div><div class="mt-card-title">${escapeMt(normalizePtrBayName(x.eq))}</div><div class="mt-card-sub">${escapeMt(x.period)} maintenance</div></div></div><span class="mt-status ${s.toLowerCase()}">${s}</span></div><div class="mt-record-meta"><div><span>Previous maintenance</span><strong>${mtFmt(x.last)}</strong></div><div><span>Scheduled due date</span><strong>${mtFmt(x.due)}</strong></div><div><span>Actual date done</span><strong>${mtFmt(x.actual)}</strong></div><div><span>Next due after completion</span><strong>${x.actual?mtFmt(addPeriod(x.actual,x.period)):'—'}</strong></div></div>${x.generated?'':(x.actual?'':'')}${x.due&&x.due<mtToday()&&!x.actual?'<span class="mt-carry">Overdue – carried forward; original due date retained</span>':''}${x.work?`<p class="mt-card-sub">${escapeMt(x.work)}</p>`:''}</article>`}).join(''):'<div class="mt-empty">No scheduled maintenance records match these filters.</div>';
  $('mtRecordList').querySelectorAll('[data-mtentry]').forEach(b=>b.onclick=()=>{showMaintenanceTab('Actual');openExecution(b.dataset.mtentry)});
  populateInitEquipment();
 }
@@ -1225,7 +1287,7 @@ function renderActualHistory(){
 }
 function openExecution(id){
  let x=mt.find(r=>r.id===id);if(!x)return;mtSelectedId=id;
- let m=masterFor(x.st,x.eq),acts=m?.activities||activityTemplates[classifyEquipment(x.eq)]||activityTemplates.Other;
+ let m=masterFor(x.st,x.eq),acts=m?mtActivitiesFor(m,x.period):(activityTemplates[classifyEquipment(x.eq)]||activityTemplates.Other);
  $('mtExecutionTitle').textContent=x.actual?'View / Edit Actual Maintenance':'Record Actual Maintenance';
  $('mtExecutionMeta').innerHTML=`<div><span>Substation</span><b>${escapeMt(names[x.st])}</b></div><div><span>Equipment</span><b>${escapeMt(x.eq)}</b></div><div><span>Periodicity</span><b>${escapeMt(x.period)}</b></div><div><span>Original scheduled due date</span><b>${mtFmt(x.due)}</b></div>`;
  $('mtActualDate').value=x.actual||'';$('mtWork').value=x.work||'';
@@ -1275,7 +1337,7 @@ function exportMasterPdf(all=false){
     sections+=`<h4>${escapeMt(m.eq)}${cat==='Capacitor Bank'?' · 33 kV · 7.2 MVAR':''}</h4>`;
     const periods=m.periods||[];
     if(!periods.length){sections+='<p class="unassigned">Periodicity not configured</p>';return}
-    periods.forEach(period=>{sections+=`<div class="period">${escapeMt(period)} Maintenance</div><ul>${(m.activities||[]).map(a=>`<li>${escapeMt(a)}</li>`).join('')}</ul>`});
+    periods.forEach(period=>{sections+=`<div class="period">${escapeMt(period)} Maintenance</div><ul>${mtActivitiesFor(m,period).map(a=>`<li>${escapeMt(a)}</li>`).join('')}</ul>`});
    });
   });
  });
@@ -1290,8 +1352,8 @@ $('mtMCancel').onclick=()=>{$('mtMasterForm').hidden=true;mtEditingMaster=null};
 $('mtMSave').onclick=()=>{
  let st=$('mtMStation').value,eq=$('mtMEquip').value.trim(),category=$('mtMCategory').value,periods=[...document.querySelectorAll('#mtMasterForm .mt-period-checks input:checked')].map(c=>c.value),activities=$('mtMActivities').value.split('\n').map(x=>x.trim()).filter(Boolean);
  if(!eq||!periods.length||!activities.length){alert('Enter equipment name, select at least one periodicity and enter maintenance activities.');return}
- if(mtEditingMaster){let m=masterItems.find(x=>x.id===mtEditingMaster);if(m){let oldEq=m.eq,oldSt=m.st;mt.forEach(r=>{if(r.st===oldSt&&r.eq===oldEq){r.eq=eq;r.st=st;r.stName=names[st]}});m.id=st+'|'+eq.toLowerCase();m.st=st;m.eq=eq;m.category=category;m.periods=periods;m.activities=activities;m.active=true;persistMt()}}
- else{let id=st+'|'+eq.toLowerCase();if(masterItems.some(x=>x.id===id)){alert('This equipment is already in the selected substation Master.');return}masterItems.push({id,st,eq,category,periods,activities,active:true})}
+ if(mtEditingMaster){let m=masterItems.find(x=>x.id===mtEditingMaster);if(m){const newId=st+'|'+eq.toLowerCase();if(newId!==m.id&&masterItems.some(x=>x.id===newId)){alert('This equipment is already in the selected substation Master.');return}m.id=newId;m.st=st;m.eq=eq;m.category=category;m.periods=periods;m.activities=activities;m.activitiesByPeriod=m.activitiesByPeriod||{};periods.forEach(p=>{if(!Array.isArray(m.activitiesByPeriod[p]))m.activitiesByPeriod[p]=[...activities]});m.active=true;saveMaster()}}
+ else{let id=st+'|'+eq.toLowerCase();if(masterItems.some(x=>x.id===id)){alert('This equipment is already in the selected substation Master.');return}let activitiesByPeriod={};periods.forEach(p=>activitiesByPeriod[p]=[...activities]);masterItems.push({id,st,eq,category,periods,activities,activitiesByPeriod,active:true})}
  saveMaster();$('mtMasterForm').hidden=true;mtEditingMaster=null;renderMaster();alert('Master item saved. For a new equipment item, set its initial due date in the Scheduling Engine below the Actual Register.');
 };
 $('mtStation').onchange=renderActual;$('mtPeriodFilter').onchange=renderActual;$('mtStatusFilter').onchange=renderActual;$('mtSearch').oninput=renderActual;$('mtActualStation').onchange=()=>{actualHistoryFilter='Completed';renderActualHistory()};$('mtActualSearch').oninput=renderActualHistory;
